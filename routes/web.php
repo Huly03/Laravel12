@@ -7,7 +7,16 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ApiController;
 
+
+
+// Route để hiển thị form upload ảnh
+Route::get('/upload', [ApiController::class, 'showForm']); 
+
+// Route xử lý ảnh upload và trả kết quả
+Route::post('/upload', [ApiController::class, 'uploadImage'])->name('uploadImage');(env) PS D:\api_base_public-main\CNN> 
+Route::post('/result', [ApiController::class, 'detectStyle'])->name('upload.detect');  // Xử lý ảnh và trả kết quả
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
