@@ -9,14 +9,16 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ApiController;
 
+// Giao diện upload và chatbot
+Route::get('/upload', [ApiController::class, 'showForm']);
 
+// Gửi ảnh -> nhận kết quả từ Flask
+Route::post('/upload', [ApiController::class, 'uploadImage'])->name('uploadImage');
 
-// Route để hiển thị form upload ảnh
-Route::get('/upload', [ApiController::class, 'showForm']); 
-
-// Route xử lý ảnh upload và trả kết quả
-Route::post('/upload', [ApiController::class, 'uploadImage'])->name('uploadImage');(env) PS D:\api_base_public-main\CNN> 
-Route::post('/result', [ApiController::class, 'detectStyle'])->name('upload.detect');  // Xử lý ảnh và trả kết quả
+// Gửi câu hỏi cho chatbot
+Route::post('/chatbot', [ApiController::class, 'chatWithBot'])->name('chatWithBot');
+// routes/web.php
+Route::post('/search', [ApiController::class, 'searchQuery'])->name('searchQuery');
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
