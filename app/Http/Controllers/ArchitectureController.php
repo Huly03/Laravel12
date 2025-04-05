@@ -6,16 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Architecture;  // Đảm bảo bạn có mô hình Architecture
 use Illuminate\Support\Facades\Storage;
 
-class AdminController extends Controller
+class ArchitectureController extends Controller
 {
-    public function index()
+    // Hiển thị form tạo mới
+    public function create()
     {
-        // Lấy tất cả các phong cách kiến trúc từ bảng architectures
-        $architectures = Architecture::all();  // Lấy tất cả bản ghi
-
-        // Trả về view dashboard của admin và truyền dữ liệu phong cách kiến trúc
-        return view('admin.dashboard', compact('architectures'));
+        return view('architecture');
     }
+
     // Xử lý lưu dữ liệu vào cơ sở dữ liệu
     public function store(Request $request)
     {
@@ -42,5 +40,32 @@ class AdminController extends Controller
 
         return redirect()->route('architecture')->with('success', 'Phong cách kiến trúc đã được thêm thành công!');
     }
-
+    public function show($id)
+    {
+        // Tìm phong cách kiến trúc theo ID
+        $architecture = Architecture::findOrFail($id);
+    
+        // Đảm bảo đường dẫn tệp là chính xác
+        $textFilePath = $architecture->text_file; // text_files/Bb26PKnhO0uJNVhxiPbiJVKINuDJlXXTtFOk9SeO.txt
+    
+        // Kiểm tra xem tệp có tồn tại không
+        if (!Storage::disk('public')->exists($textFilePath)) {
+            dd('Tệp không tồn tại: ' . $textFilePath);
+        }
+    
+        // Đọc nội dung tệp .txt từ disk 'public'
+        try {
+            $textContent = Storage::disk('public')->get($textFilePath); // Đảm bảo chỉ sử dụng 'text_files/...'
+        } catch (\Exception $e) {
+            dd($e->getMessage());  // Nếu có lỗi, hiển thị thông báo lỗi
+        }
+    
+        // Trả về view chi tiết phong cách kiến trúc
+        return view('architecture.show', compact('architecture', 'textContent'));
+    }
+    
+    
+    
+    
+    
 }

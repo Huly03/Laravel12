@@ -11,52 +11,42 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    // Hiển thị form đăng nhập
     public function showLoginForm()
     {
-        return view('login_reg.login'); // Trả về view đăng nhập
+        return view('login_reg.login');
     }
 
+    // Xử lý đăng nhập
     public function login(Request $request)
-{
-    // Kiểm tra request là POST
-    if ($request->isMethod('post')) {
-        $request->validate([
-            'Username' => 'required|string',
-            'Password' => 'required|string',
-        ]);
+    {
+        if ($request->isMethod('post')) {
+            // Validate dữ liệu nhập vào
+            $request->validate([
+                'Username' => 'required|string',
+                'Password' => 'required|string',
+            ]);
 
-        $username = $request->input('Username');
-        $password = $request->input('Password');
+            $username = $request->input('Username');
+            $password = $request->input('Password');
 
-        // Kiểm tra nếu người dùng nhập đúng admin và admin123
-        if ($username === 'admin' && $password === 'admin123') {
-            // Tạo session cho admin
-            Session::put('cc_Username', 'admin');
-            return redirect()->route('admin.dashboard')->with('message', 'Đăng nhập admin thành công!');
-        }
+            // Truy vấn bảng accounts để lấy thông tin người dùng
+            $user = DB::table('accounts')->where('username', $username)->first(); 
 
-        // Kiểm tra thông tin người dùng trong database nếu không phải admin
-        $user = DB::table('users')->where('username', $username)->first();  // Thay 'Username' thành 'username'
+            if ($user && Hash::check($password, $user->password)) {  // So sánh mật khẩu đã mã hóa
+                Session::put('cc_Username', $user->username);
 
-        if ($user && Hash::check($password, $user->password)) {  // Thay 'Password' thành 'password'
-            // Sử dụng session hoặc Auth để lưu trạng thái đăng nhập
-            Session::put('cc_Username', $user->username);
+                // Kiểm tra quyền người dùng dựa trên username
+                if ($user->username == 'admin') {  // Kiểm tra nếu tài khoản là admin
+                    return redirect()->route('admin.dashboard')->with('message', 'Đăng nhập admin thành công!');
+                }
 
-            // Kiểm tra nếu người dùng là admin
-            if ($user->role == 'admin') {
-                return redirect()->route('admin.dashboard')->with('message', 'Đăng nhập admin thành công!');
+                return redirect()->route('user.dashboard')->with('message', 'Đăng nhập người dùng thành công!');
             }
 
-            // Đối với người dùng bình thường, chuyển hướng đến trang user
-            return redirect()->route('user.dashboard')->with('message', 'Đăng nhập người dùng thành công!');
+            return back()->withErrors(['error' => 'Tên đăng nhập hoặc mật khẩu không chính xác']);
         }
 
-        return back()->withErrors(['error' => 'Tên đăng nhập hoặc mật khẩu không chính xác, vui lòng nhập lại']);
+        return back()->withErrors(['error' => 'Có lỗi trong quá trình đăng nhập']);
     }
-
-    return back()->withErrors(['error' => 'Có lỗi trong quá trình đăng nhập']);
-}
-
-
-
 }

@@ -96,66 +96,55 @@
 
 <div class="container">
     <h2>Đăng ký thành viên</h2>
-    <form id="formreg" class="formreg" name="formreg" role="form" method="POST">
-        <div class="mb-3">
-            <label for="Username">Tên tài khoản:</label>
-            <input id="Username" type="text" name="Username" class="form-control" placeholder="Nhập tên tài khoản">
-        </div>
+    <form method="POST" action="{{ route('register') }}">
+    @csrf
+    <div class="mb-3">
+        <label for="Username">Tên tài khoản:</label>
+        <input type="text" name="username" class="form-control" placeholder="Nhập tên tài khoản" required>
+    </div>
 
-        <div class="mb-3">
-            <label for="Password">Mật khẩu:</label>
-            <input id="Password" type="password" name="Password" class="form-control" placeholder="Nhập mật khẩu">
-        </div>
+    <div class="mb-3">
+        <label for="Password">Mật khẩu:</label>
+        <input type="password" name="password" class="form-control" placeholder="Nhập mật khẩu" required>
+    </div>
 
-        <div class="mb-3">
-            <label for="pwd2">Xác nhận mật khẩu:</label>
-            <input id="pwd2" type="password" name="pwd2" class="form-control" placeholder="Xác nhận mật khẩu">
-        </div>
+    <div class="mb-3">
+        <label for="pwd2">Xác nhận mật khẩu:</label>
+        <input type="password" name="password_confirmation" class="form-control" placeholder="Xác nhận mật khẩu" required>
+    </div>
 
-        <div class="mb-3">
-            <label for="GioiTinh">Giới tính:</label>
-            <div>
-                <div class="form-check form-check-inline">
-                    <input id="rMale" type="radio" name="GioiTinh" value="0" class="form-check-input">
-                    <label for="rMale" class="form-check-label">Nam</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input id="rFemale" type="radio" name="GioiTinh" value="1" class="form-check-input">
-                    <label for="rFemale" class="form-check-label">Nữ</label>
-                </div>
-            </div>
+    <div class="mb-3">
+        <label for="GioiTinh">Giới tính:</label>
+        <div>
+            <input type="radio" name="gender" value="0" required> Nam
+            <input type="radio" name="gender" value="1" required> Nữ
         </div>
+    </div>
 
-        <div class="mb-3">
-            <label for="SDT">Số điện thoại:</label>
-            <input id="SDT" type="number" name="SDT" class="form-control" placeholder="Nhập số điện thoại">
-        </div>
+    <div class="mb-3">
+        <label for="SDT">Số điện thoại:</label>
+        <input type="text" name="phone" class="form-control" placeholder="Nhập số điện thoại" required>
+    </div>
 
-        <div class="mb-3">
-            <label for="Email">Email:</label>
-            <input id="Email" type="email" name="Email" class="form-control" placeholder="Nhập email">
-        </div>
+    <div class="mb-3">
+        <label for="Email">Email:</label>
+        <input type="email" name="email" class="form-control" placeholder="Nhập email" required>
+    </div>
 
-        <div class="mb-3">
-            <label for="Ngaysinh">Ngày sinh:</label>
-            <input type="date" id="txtBirth" name="Ngaysinh" class="form-control">
-        </div>
+    <div class="mb-3">
+        <label for="Ngaysinh">Ngày sinh:</label>
+        <input type="date" name="birth_date" class="form-control" required>
+    </div>
 
-        <div class="mb-3">
-            <label for="Diachi">Nơi sinh sống:</label>
-            <select class="form-select" id="Diachi" name="Diachi" required>
-                <option selected value="">Chọn tỉnh</option>
-                <option value="ct">Can Tho</option>
-                <option value="cm">Ca Mau</option>
-                <option value="hg">An Giang</option>
-                <option value="st">Soc Trang</option>
-            </select>
-        </div>
+    <div class="mb-3">
+        <label for="Diachi">Nơi sinh sống:</label>
+        <input type="text" name="address" class="form-control" placeholder="Nhập nơi sinh sống" required>
+    </div>
 
-        <div class="d-grid">
-            <input type="submit" name="btnRegister" value="Đăng ký" class="btn btn-primary">
-        </div>
-    </form>
+    <button type="submit" class="btn btn-primary">Đăng ký</button>
+</form>
+
+
 </div>
 
 </body>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Account;  // Import mô hình Account
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -19,29 +19,33 @@ class RegisterController extends Controller
     // Xử lý đăng ký
     public function register(Request $request)
     {
-        // Kiểm tra dữ liệu nhập vào
-        $validated = $request->validate([
-            'username' => 'required|unique:users,username|max:255',
-            'password' => 'required|confirmed|min:8',
-            'phone' => 'required|numeric',
-            'email' => 'required|email',
-            'gender' => 'required|in:0,1', // 0 = Nam, 1 = Nữ
+        // Validate dữ liệu nhập vào
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|max:255|unique:accounts',  // Kiểm tra tài khoản đã tồn tại
+            'password' => 'required|confirmed|min:8',  // Kiểm tra mật khẩu và xác nhận
+            'gender' => 'required|in:0,1',
+            'phone' => 'nullable|numeric',
+            'email' => 'required|email|unique:accounts',  // Kiểm tra email đã tồn tại
+            'birth_date' => 'required|date',
             'address' => 'required|string',
-            'birthday' => 'required|date',
         ]);
 
-        // Lưu người dùng vào cơ sở dữ liệu
-        $user = new User();
-        $user->username = $request->input('username');
-        $user->password = Hash::make($request->input('password'));
-        $user->phone = $request->input('phone');
-        $user->email = $request->input('email');
-        $user->gender = $request->input('gender');
-        $user->address = $request->input('address');
-        $user->birthday = $request->input('birthday');
-        $user->save();
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-        // Quay lại trang đăng nhập với thông báo thành công
+        // Tạo tài khoản mới
+        $account = new Account();  // Sử dụng mô hình Account
+        $account->username = $request->username;
+        $account->password = Hash::make($request->password);  // Mã hóa mật khẩu trước khi lưu
+        $account->gender = $request->gender;
+        $account->phone = $request->phone;
+        $account->email = $request->email;
+        $account->birth_date = $request->birth_date;
+        $account->address = $request->address;
+        $account->save();  // Lưu người dùng vào cơ sở dữ liệu
+
+        // Chuyển hướng về trang đăng ký với thông báo thành công
         return redirect()->route('login')->with('success', 'Đăng ký thành công!');
     }
 }
