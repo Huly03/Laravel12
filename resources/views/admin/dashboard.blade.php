@@ -30,7 +30,7 @@
     color: black; /* Màu chữ đen */
     padding-top: 20px;
     overflow-y: auto; /* Thêm khả năng cuộn cho sidebar khi nội dung quá dài */
-    z-index: 999;
+    z-index: 0;
     transition: left 0.3s ease; /* Thêm hiệu ứng khi mở/đóng sidebar */
 }
 
@@ -72,6 +72,23 @@
         .open-btn {
             display: block;
         }
+        /* Style cho nút dấu ba chấm */
+.dropdown-toggle::after {
+    display: none;  /* Ẩn mũi tên dropdown mặc định */
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 999;
+}
+
+/* Style hover cho các lựa chọn dropdown */
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
     </style>
 </head>
 <body>
@@ -92,8 +109,8 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <h3 class="text-center">Architecture</h3>
-        <a href="#">Dashboard</a>
-        <a href="#">Users</a>
+        <a href="#">Home</a>
+        <a href="/accounts">Users</a>
         <a href="#">Settings</a>
         <a href="#">Reports</a>
         <a href="/login">Logout</a>
@@ -107,44 +124,46 @@
         <h2>Danh sách dự án</h2>
 
         <div class="row">
-    
+            <!-- Tổng các dự án -->
             <div class="col-md-4">
                 <div class="card text-white bg-primary">
                     <div class="card-header">
                         Tổng các dự án
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">1200</h5>
+                        <h5 class="card-title">{{ $totalProjects }}</h5>
                         <p class="card-text">Các dự án đã và đang hoàn thành</p>
                     </div>
                 </div>
             </div>
 
-       
+            <!-- Dự án đã hoàn thành -->
             <div class="col-md-4">
                 <div class="card text-white bg-success">
                     <div class="card-header">
                         Đã hoàn thành
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">800</h5>
+                        <h5 class="card-title">{{ $completedProjects }}</h5>
                         <p class="card-text">Các dự án đã được hoàn thành</p>
                     </div>
                 </div>
             </div>
 
+            <!-- Dự án đang thi công -->
             <div class="col-md-4">
                 <div class="card text-white bg-danger">
                     <div class="card-header">
                         Đang thi công
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">400</h5>
+                        <h5 class="card-title">{{ $inProgressProjects }}</h5>
                         <p class="card-text">Các dự án đang được thi công</p>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <div class="container mt-4">
         <h3>Phong cách kiến trúc</h3>
@@ -162,10 +181,48 @@
     @endforeach
 </div>
 
-    </div>
+    
+<div class="main-content" id="main-content">
+    <h2>Danh sách dự án</h2>
+    <div class="row">
+        @foreach($projects as $project)
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ asset('storage/' . $project->image_url) }}" class="card-img-top" alt="{{ $project->name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $project->name }}</h5>
+                        <p class="card-text"><strong>Loại dự án:</strong> {{ $project->project_type }}</p>
+                        <p class="card-text"><strong>Trạng thái:</strong> {{ $project->status }}</p>
+                        <p class="card-text"><strong>Giá:</strong> {{ number_format($project->price, 2) }} VNĐ</p>
+                        
+                        <!-- Dropdown button -->
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i> <!-- Icon 3 chấm -->
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <!-- Chỉnh sửa dự án -->
+                                <li><a class="dropdown-item" href="{{ route('project.edit', $project->id) }}">Chỉnh sửa</a></li>
+                                
+                                <!-- Xóa dự án -->
+                                <li>
+                                    <form action="{{ route('project.destroy', $project->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE') <!-- Chỉ định phương thức DELETE -->
+                                        <button type="submit" class="dropdown-item btn btn-danger">Xóa</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
 
+                    </div>
+                </div>
+            </div>
+        @endforeach
     </div>
-
+</div>
+</div>
+</div>
     <x-footer/>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

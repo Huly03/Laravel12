@@ -63,9 +63,59 @@ class ArchitectureController extends Controller
         // Trả về view chi tiết phong cách kiến trúc
         return view('architecture.show', compact('architecture', 'textContent'));
     }
-    
-    
-    
-    
-    
+    // Hiển thị form chỉnh sửa phong cách kiến trúc
+    public function edit($id)
+    {
+        $architecture = Architecture::findOrFail($id);
+        return view('architecture.edit', compact('architecture'));
+    }
+
+    // Xử lý cập nhật phong cách kiến trúc
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|max:255',
+            'image_url' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
+            'description' => 'required|string',
+            'text_file' => 'nullable|mimes:txt|max:2048',
+        ]);
+
+        $architecture = Architecture::findOrFail($id);
+        $architecture->name = $request->input('name');
+        $architecture->description = $request->input('description');
+
+        // Nếu có ảnh mới thì lưu ảnh và xóa ảnh cũ
+        if ($request->hasFile('image_url')) {
+            Storage::disk('public')->delete($architecture->image_url);  // Xóa ảnh cũ
+            $imagePath = $request->file('image_url')->store('images', 'public');
+            $architecture->image_url = $imagePath;
+        }
+
+        // Nếu có tệp mới thì lưu tệp và xóa tệp cũ
+        if ($request->hasFile('text_file')) {
+            Storage::disk('public')->delete($architecture->text_file);  // Xóa tệp cũ
+            $textFilePath = $request->file('text_file')->store('text_files', 'public');
+            $architecture->text_file = $textFilePath;
+        }
+
+        $architecture->save();
+
+        return redirect()->route('architecture')->with('success', 'Phong cách kiến trúc đã được cập nhật!');
+    }
+
+    // Xóa phong cách kiến trúc
+    public function destroy($id)
+    {
+        $architecture = Architecture::findOrFail($id);
+
+        // Xóa ảnh và tệp .txt
+        Storage::disk('public')->delete($architecture->image_url);
+        Storage::disk('public')->delete($architecture->text_file);
+
+        // Xóa bản ghi trong cơ sở dữ liệu
+        $architecture->delete();
+
+        return redirect()->route('architecture')->with('success', 'Phong cách kiến trúc đã được xóa!');
+    }
+
 }

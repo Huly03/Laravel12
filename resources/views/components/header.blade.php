@@ -88,7 +88,7 @@
   <div class="container-fluid">
     <!-- Logo placed as navbar brand -->
     <a class="navbar-brand" href="/admin">
-        <img src="images/Logo.jpg" alt="Logo" style="height: 60px; width: auto;">
+    <img src="{{ asset('images/logo.jpg') }}" alt="Logo" style="height: 60px; width: auto;">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -102,11 +102,12 @@
           <a class="nav-link" href="/upload">Nhận diện kiến trúc</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Phong cách kiến trúc</a>
+          <a class="nav-link" href="/architecture">Phong cách kiến trúc</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Cửa hàng</a>
+          <a class="nav-link" href="/project">Dự án</a>
         </li>
+        
 
         <!-- Search Form -->
         <li class="nav-item">

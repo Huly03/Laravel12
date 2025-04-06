@@ -69,31 +69,50 @@
             margin-top: 20px;
         }
 
-        /* Nút quay lại */
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
         .back-btn:hover {
             background-color: #0056b3;
         }
+        /* Nút 3 chấm */
+        .dropdown-toggle::after {
+            display: none;  /* Ẩn mũi tên dropdown mặc định */
+            
+        }
 
+        .dropdown-menu {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 999;
+        }
+
+        /* Style hover cho các lựa chọn dropdown */
+        .dropdown-item:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 <body>
 
+<x-header />
+
 <div class="container">
+<div class="dropdown" style="position: absolute; top: 75px; right: 0px;">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-ellipsis-v"></i> <!-- Icon 3 chấm -->
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <!-- Liên kết chỉnh sửa -->
+            <li><a class="dropdown-item" href="{{ route('architecture.edit', $architecture->id) }}">Chỉnh sửa</a></li>
+            <!-- Form xóa -->
+            <li>
+                <form action="{{ route('architecture.destroy', $architecture->id) }}" method="POST" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="dropdown-item text-danger">Xóa</button>
+                </form>
+            </li>
+        </ul>
+    </div>
     <h2>{{ $architecture->name }}</h2>
     <img src="{{ asset('storage/' . $architecture->image_url) }}" class="img-fluid" alt="{{ $architecture->name }}">
 
@@ -103,12 +122,7 @@
     <h4>Thông tin chi tiết từ tệp</h4>
     <pre>{{ $textContent ?? 'Không có thông tin chi tiết từ tệp' }}</pre>
 </div>
-
-<!-- Nút quay lại luôn hiển thị trên màn hình -->
-<button class="back-btn" onclick="window.location='{{ route('admin.dashboard') }}'">
-    Trang chủ
-</button>
-
+<x-footer/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Architecture Style Recognition & Chatbot</title>
+    <title>Architecture Style Recognition</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
        body {
@@ -196,7 +196,12 @@
             <button id="sendChatBtn" class="chat-btn">Gửi</button>
         </div>
     </div>
+    
+
     </div>
+    </div>
+    <x-footer/>
+
     <script>
         // Upload form AJAX request
         $('#uploadForm').on('submit', function(event) {

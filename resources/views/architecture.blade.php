@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm Phong Cách Kiến Trúc</title>
+    <title>Architecture Style</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <x-header/>
+    
     <div class="container">
         <h2 class="mt-5">Thêm Phong Cách Kiến Trúc</h2>
 
@@ -36,7 +38,7 @@
             <button type="submit" class="btn btn-primary">Lưu</button>
         </form>
     </div>
-
+<x-footer/>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
