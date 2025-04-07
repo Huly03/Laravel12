@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <!-- Liên kết CSS Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
@@ -78,7 +77,16 @@
         .navbar .form-inline {
             margin-left: auto; /* Align search form to the right */
         }
-        
+
+        /* Add CSS for displaying user ID at the top-right corner */
+        .user-id {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -112,7 +120,7 @@
         <!-- Search Form -->
         <li class="nav-item">
           <form class="form-inline d-inline" id="searchForm">
-            <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm...">
+            <input type="text" id="searchInput"  placeholder="Tìm kiếm...">
             <button type="submit"><i class="fas fa-search"></i></button>
           </form>
         </li>
@@ -120,6 +128,15 @@
     </div>
   </div>
 </nav>
+
+<!-- User ID Display -->
+<div class="user-id">
+    @if(Session::has('user_id'))
+        User ID: {{ Session::get('user_id') }}
+    @else
+        User ID: Not Logged In
+    @endif
+</div>
 
 <!-- Bootstrap JS bundle (includes Popper.js) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

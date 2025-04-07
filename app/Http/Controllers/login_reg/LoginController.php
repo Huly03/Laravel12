@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -16,7 +16,6 @@ class LoginController extends Controller
     {
         return view('login_reg.login');
     }
-
     // Xử lý đăng nhập
     public function login(Request $request)
     {
@@ -26,27 +25,34 @@ class LoginController extends Controller
                 'Username' => 'required|string',
                 'Password' => 'required|string',
             ]);
-
+    
             $username = $request->input('Username');
             $password = $request->input('Password');
-
-            // Truy vấn bảng accounts để lấy thông tin người dùng
-            $user = DB::table('accounts')->where('username', $username)->first(); 
-
+    
+            // Truy vấn bảng `accounts` để lấy thông tin người dùng
+            $user = DB::table('accounts')->where('username', $username)->first();
+    
             if ($user && Hash::check($password, $user->password)) {  // So sánh mật khẩu đã mã hóa
+                // Đăng nhập người dùng vào phiên làm việc của Laravel
+                Auth::loginUsingId($user->id); // Đăng nhập bằng user_id
+    
+                // Lưu thông tin người dùng vào session
+                Session::put('user_id', $user->id);
                 Session::put('cc_Username', $user->username);
-
-                // Kiểm tra quyền người dùng dựa trên username
+    
+                // Kiểm tra quyền người dùng
                 if ($user->username == 'admin') {  // Kiểm tra nếu tài khoản là admin
                     return redirect()->route('admin.dashboard')->with('message', 'Đăng nhập admin thành công!');
                 }
-
+    
                 return redirect()->route('user.dashboard')->with('message', 'Đăng nhập người dùng thành công!');
             }
-
+    
             return back()->withErrors(['error' => 'Tên đăng nhập hoặc mật khẩu không chính xác']);
         }
-
+    
         return back()->withErrors(['error' => 'Có lỗi trong quá trình đăng nhập']);
     }
+    
 }
+

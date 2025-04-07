@@ -12,6 +12,12 @@ use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\ArchitectureController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ApiCallController;
+
+Route::resource('apiCalls', ApiCallController::class);
+
+
+Route::get('/api-calls', [ApiCallController::class, 'index'])->name('api.calls.index');
 
 
 Route::resource('accounts', AccountController::class);

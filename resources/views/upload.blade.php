@@ -150,6 +150,36 @@
         #searchBtn:hover {
             background-color: #31b0d5;
         }
+/* Tin nhắn người dùng */
+.chat-message.user {
+    background-color: #d1e7dd;
+    color: #495057;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    max-width: 75%;
+    align-self: flex-end;  /* Đẩy tin nhắn người dùng sang bên phải */
+    text-align: right;
+}
+
+/* Tin nhắn của chatbot */
+.chat-message.bot {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    max-width: 75%;
+    align-self: flex-start;  /* Đẩy tin nhắn chatbot sang bên trái */
+    text-align: left;
+}
+
+/* Thêm các dấu chấm hoặc dấu hiệu phân biệt rõ ràng */
+.chat-message {
+    margin: 5px;
+    word-wrap: break-word;
+    display: inline-block;
+}
 
     </style>
 </head>
@@ -184,7 +214,8 @@
 
             <!-- Thanh tìm kiếm phía trên Chatbot -->
             <div id="searchContainer">
-                <input type="text" id="searchInput" placeholder="Tìm kiếm phong cách kiến trúc..." />
+
+                <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm phong cách kiến trúc..." />
                 <button id="searchBtn">Tìm kiếm</button>
             </div>
 
@@ -207,7 +238,7 @@
         $('#uploadForm').on('submit', function(event) {
             event.preventDefault();
             var formData = new FormData(this);
-
+            
             $.ajax({
                 url: '{{ route('uploadImage') }}',
                 type: 'POST',
@@ -253,64 +284,90 @@
                     }
                 }
             });
-        });
-
-        // Chatbot response handling
-        $('#sendChatBtn').on('click', function(event) {
-            event.preventDefault();
-            var userMessage = $('#chatInput').val();
-            if (userMessage.trim() === "") return;
-
-            $('#chatbox').append('<div class="chat-message user">' + userMessage + '</div>');
-            $('#chatInput').val('');
-
             $.ajax({
-                url: 'http://127.0.0.1:5000/api/chatbot',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ "user_input": userMessage }),
-                success: function(response) {
-                    const formattedResponse = '<div class="chat-message bot markdown-body">' + response.response + '</div>';
-                    $('#chatbox').append(formattedResponse);
-                    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error:", error);
-                    alert('An error occurred with the chatbot: ' + error);
-                }
-            });
+    url: '/your-api-endpoint',
+    method: 'POST',
+    headers: {
+        'user_id': user_id  // Gửi user_id trong header
+    },
+    data: formData,  // Dữ liệu gửi lên (ví dụ: ảnh)
+    success: function(response) {
+        console.log(response);
+    },
+    error: function(xhr, status, error) {
+        console.error('Error:', error);
+    }
+});
+
         });
 
-        // Search functionality
-        $('#searchBtn').on('click', function() {
-            var query = $('#searchInput').val();  // Lấy giá trị từ thanh tìm kiếm
+// Chatbot response handling
+$('#sendChatBtn').on('click', function(event) {
+    event.preventDefault();
+    var userMessage = $('#chatInput').val();
+    if (userMessage.trim() === "") return;
 
-            // Kiểm tra nếu từ khóa tìm kiếm không rỗng
-            if (query.trim() !== "") {
-                console.log("Sending query:", query);  // Log dữ liệu gửi đi
-                $.ajax({
-                    url: 'http://127.0.0.1:5000/search',  // Địa chỉ API của Laravel (gọi Flask API)
-                    method: 'POST',
-                    contentType: 'application/json',  // Đảm bảo gửi đúng kiểu dữ liệu JSON
-                    data: JSON.stringify({ query: query }),  // Chuyển dữ liệu thành JSON
-                    success: function(response) {
-                        console.log("Response from Flask API:", response);  // Log phản hồi từ Flask
-                        if (response.matched_articles && response.matched_articles.length > 0) {
-                            $('#chatbox').empty();  // Clear previous messages
-                            response.matched_articles.forEach(function(article) {
-                                $('#chatbox').append('<div class="chat-message bot">' + article.description + '</div>');
-                            });
-                        } else {
-                            $('#chatbox').append('<div class="chat-message bot">Không tìm thấy bài báo nào.</div>');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error sending request to Flask:', error);  // Log lỗi nếu có
-                        alert('Đã có lỗi xảy ra khi tìm kiếm: ' + error);
-                    }
-                });
+    // Thêm tin nhắn của người dùng vào chatbox
+    $('#chatbox').append('<div class="chat-message user">' + userMessage + '</div>');
+    $('#chatInput').val('');  // Xóa nội dung trong input
+
+    // Gửi yêu cầu tới chatbot
+    $.ajax({
+        url: 'http://127.0.0.1:5000/api/chatbot',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ "user_input": userMessage }),
+        success: function(response) {
+            const formattedResponse = '<div class="chat-message bot markdown-body">' + response.response + '</div>';
+            $('#chatbox').append(formattedResponse);
+            $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);  // Cuộn xuống cuối chatbox
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", error);
+            alert('An error occurred with the chatbot: ' + error);
+        }
+    });
+});
+
+// Search functionality
+$('#searchBtn').on('click', function() {
+    var query = $('#searchInput.form-control').val().trim();  // Get the value from the search input and remove any leading/trailing spaces
+
+    console.log("Query entered: " + query);  // Log the query entered by the user
+
+    // Check if the query is not empty
+    if (query !== "") {
+        console.log("Sending query:", query);  // Log the data being sent
+        $.ajax({
+            url: 'http://127.0.0.1:5000/search',  // Your search API endpoint
+            method: 'POST',
+            contentType: 'application/json',  // Ensure that the data is being sent as JSON
+            data: JSON.stringify({ query: query }),  // Send the query in JSON format
+            success: function(response) {
+                console.log("Response from Flask API:", response);  // Log the response from the backend
+                if (response.matched_articles && response.matched_articles.length > 0) {
+                    $('#chatbox').empty();  // Clear previous search results
+                    response.matched_articles.forEach(function(article) {
+                        $('#chatbox').append('<div class="chat-message bot">' + article.description + '</div>');
+                    });
+                } else {
+                    $('#chatbox').append('<div class="chat-message bot">Không tìm thấy bài báo nào phù hợp.</div>');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error sending request to Flask:', error);  // Log any errors
+                alert('Đã có lỗi xảy ra khi tìm kiếm: ' + error);  // Show an error message
             }
         });
+    } else {
+        // Log a message if the query is empty or contains only spaces
+        console.log("Query is empty or contains only spaces.");
+        alert('Vui lòng nhập từ khóa tìm kiếm.');
+    }
+});
+
+
+
     </script>
 </body>
 </html>
