@@ -234,100 +234,104 @@
     <x-footer/>
 
     <script>
-        // Upload form AJAX request
-        $('#uploadForm').on('submit', function(event) {
-            event.preventDefault();
-            var formData = new FormData(this);
-            
-            $.ajax({
-                url: '{{ route('uploadImage') }}',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    $('#uploadedImage').attr('src', '{{ asset('storage') }}/' + response.imagePath);
-                    $('#uploadedImageContainer').show();
-
-                    const results = response.result.top_5_labels;
-                    const probabilities = response.result.top_5_probs;
-
-                    $('#resultsList').empty();
-                    results.forEach(function(label, index) {
-                        $('#resultsList').append('<li>' + label + ' (' + (probabilities[index] * 100).toFixed(2) + '%)</li>');
-                    });
-
-                    // 🚀 LẤY PHONG CÁCH KIẾN TRÚC TOP 1
-                    const topStyle = results[0];
-                    if (topStyle) {
-                        const chatbotPrompt = "Thông tin về phong cách kiến trúc " + topStyle;
-
-                        // Hiển thị tin nhắn người dùng tự động
-                        $('#chatbox').append('<div class="chat-message user">' + chatbotPrompt + '</div>');
-
-                        // Gửi yêu cầu tới chatbot Flask
-                        $.ajax({
-                            url: 'http://127.0.0.1:5000/api/chatbot',
-                            type: 'POST',
-                            contentType: 'application/json',
-                            data: JSON.stringify({ "user_input": chatbotPrompt }),
-                            success: function(response) {
-                                const formattedResponse = '<div class="chat-message bot markdown-body">' + response.response + '</div>';
-                                $('#chatbox').append(formattedResponse);
-                                $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error("Error:", error);
-                                alert('Lỗi khi gửi sang chatbot: ' + error);
-                            }
-                        });
-                    }
-                }
-            });
-            $.ajax({
-    url: '/your-api-endpoint',
-    method: 'POST',
-    headers: {
-        'user_id': user_id  // Gửi user_id trong header
-    },
-    data: formData,  // Dữ liệu gửi lên (ví dụ: ảnh)
-    success: function(response) {
-        console.log(response);
-    },
-    error: function(xhr, status, error) {
-        console.error('Error:', error);
-    }
-});
-
-        });
-
-// Chatbot response handling
-$('#sendChatBtn').on('click', function(event) {
+// Upload form AJAX request
+$('#uploadForm').on('submit', function(event) {
     event.preventDefault();
-    var userMessage = $('#chatInput').val();
-    if (userMessage.trim() === "") return;
-
-    // Thêm tin nhắn của người dùng vào chatbox
-    $('#chatbox').append('<div class="chat-message user">' + userMessage + '</div>');
-    $('#chatInput').val('');  // Xóa nội dung trong input
-
-    // Gửi yêu cầu tới chatbot
+    var formData = new FormData(this);
+    
     $.ajax({
-        url: 'http://127.0.0.1:5000/api/chatbot',
+        url: '{{ route('uploadImage') }}', // Laravel route to handle image upload and recognition
         type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ "user_input": userMessage }),
+        data: formData,
+        processData: false,
+        contentType: false,
         success: function(response) {
-            const formattedResponse = '<div class="chat-message bot markdown-body">' + response.response + '</div>';
-            $('#chatbox').append(formattedResponse);
-            $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);  // Cuộn xuống cuối chatbox
-        },
-        error: function(xhr, status, error) {
-            console.error("Error:", error);
-            alert('An error occurred with the chatbot: ' + error);
+            $('#uploadedImage').attr('src', '{{ asset('storage') }}/' + response.imagePath);
+            $('#uploadedImageContainer').show();
+
+            const results = response.result.top_5_labels;
+            const probabilities = response.result.top_5_probs;
+
+            $('#resultsList').empty();
+            results.forEach(function(label, index) {
+                $('#resultsList').append('<li>' + label + ' (' + (probabilities[index] * 100).toFixed(2) + '%)</li>');
+            });
+
+            // 🚀 LẤY PHONG CÁCH KIẾN TRÚC TOP 1
+            const topStyle = results[0];
+            if (topStyle) {
+                const chatbotPrompt = "Thông tin về phong cách kiến trúc " + topStyle;
+
+                // Hiển thị tin nhắn người dùng tự động
+                $('#chatbox').append('<div class="chat-message user">' + chatbotPrompt + '</div>');
+
+                // Gửi yêu cầu tới chatbot Flask
+                $.ajax({
+                    url: 'http://127.0.0.1:5000/api/chatbot',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ "user_input": chatbotPrompt }),
+                    success: function(response) {
+                        const formattedResponse = '<div class="chat-message bot markdown-body">' + response.response + '</div>';
+                        $('#chatbox').append(formattedResponse);
+                        $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error:", error);
+                        alert('Lỗi khi gửi sang chatbot: ' + error);
+                    }
+                });
+
+                // Gửi kết quả nhận diện vào backend Laravel để lưu vào database
+                $.ajax({
+                    url: '{{ route('saveRecognitionResult') }}', // Laravel route to save result in database
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',  // CSRF token
+                        image: response.imagePath,  // Đường dẫn ảnh
+                        style: topStyle,  // Phong cách kiến trúc
+                        detection_time: response.result.timestamp,  // Thời gian nhận diện
+                        user_id: '{{ Auth::id() }}'  // ID người dùng đang đăng nhập
+                    },
+                    success: function(saveResponse) {
+                        console.log('Kết quả đã được lưu vào cơ sở dữ liệu!');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error saving to database:', error);
+                    }
+                });
+            }
         }
     });
 });
+
+        // Chatbot response handling
+        $('#sendChatBtn').on('click', function(event) {
+            event.preventDefault();
+            var userMessage = $('#chatInput').val();
+            if (userMessage.trim() === "") return;
+
+            // Thêm tin nhắn của người dùng vào chatbox
+            $('#chatbox').append('<div class="chat-message user">' + userMessage + '</div>');
+            $('#chatInput').val('');  // Xóa nội dung trong input
+
+            // Gửi yêu cầu tới chatbot
+            $.ajax({
+                url: 'http://127.0.0.1:5000/api/chatbot',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ "user_input": userMessage }),
+                success: function(response) {
+                    const formattedResponse = '<div class="chat-message bot markdown-body">' + response.response + '</div>';
+                    $('#chatbox').append(formattedResponse);
+                    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);  // Cuộn xuống cuối chatbox
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                    alert('An error occurred with the chatbot: ' + error);
+                }
+            });
+        });
 
 // Search functionality
 $('#searchBtn').on('click', function() {

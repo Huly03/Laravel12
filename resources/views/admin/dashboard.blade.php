@@ -108,9 +108,14 @@
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
+
+
         <h3 class="text-center">Architecture</h3>
         <a href="#">Home</a>
+        <a href="/result">Result</a>
+
         <a href="/accounts">Users</a>
+        <a href="/api-calls">API</a>
         <a href="#">Settings</a>
         <a href="#">Reports</a>
         <a href="/login">Logout</a>

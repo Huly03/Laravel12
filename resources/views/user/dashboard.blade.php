@@ -94,7 +94,7 @@
     Welcome, {{ $username }}  <!-- Hiển thị username của người dùng -->
 </h3>
         <a href="#">Home</a>
-        <a href="/accounts">Users</a>
+        <a href="{{ route('user.images', ['id' => Auth::id()]) }}">Result</a>
         <a href="#">Settings</a>
         <a href="#">Reports</a>
         <a href="/login">Logout</a>

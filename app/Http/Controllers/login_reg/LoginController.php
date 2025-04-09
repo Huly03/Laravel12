@@ -20,6 +20,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         if ($request->isMethod('post')) {
+            
             // Validate dữ liệu nhập vào
             $request->validate([
                 'Username' => 'required|string',
@@ -37,9 +38,9 @@ class LoginController extends Controller
                 Auth::loginUsingId($user->id); // Đăng nhập bằng user_id
     
                 // Lưu thông tin người dùng vào session
-                Session::put('user_id', $user->id);
-                Session::put('cc_Username', $user->username);
-    
+                session::put('user_id', $user->id);
+                session::put('cc_Username', $user->username);
+
                 // Kiểm tra quyền người dùng
                 if ($user->username == 'admin') {  // Kiểm tra nếu tài khoản là admin
                     return redirect()->route('admin.dashboard')->with('message', 'Đăng nhập admin thành công!');

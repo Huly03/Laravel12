@@ -13,6 +13,23 @@ use App\Http\Controllers\ArchitectureController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ApiCallController;
+use App\Http\Controllers\ArchitectureStyleController;
+// Xóa phần middleware(['auth'])
+// Xóa phần middleware(['auth']) khỏi các route
+Route::get('/result', [ArchitectureStyleController::class, 'showImages'])->name('images');
+
+// Route để hiển thị form chỉnh sửa
+Route::get('/result/edit/{id}', [ArchitectureStyleController::class, 'editImage'])->name('editImage');
+
+// Route để cập nhật ảnh
+Route::put('/result/{id}', [ArchitectureStyleController::class, 'updateImage'])->name('updateImage');
+
+Route::delete('/result/{id}', [ArchitectureStyleController::class, 'deleteImage'])->name('deleteImage');
+
+
+
+
+Route::post('/save-recognition-result', [ArchitectureStyleController::class, 'saveRecognitionResult'])->name('saveRecognitionResult');
 
 Route::resource('apiCalls', ApiCallController::class);
 

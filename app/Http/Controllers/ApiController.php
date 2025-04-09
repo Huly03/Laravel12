@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ApiCall;  // Import đúng model ApiCall
+use App\Models\ArchitectureStyle;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -13,6 +15,7 @@ class ApiController extends Controller
     // Hiển thị form tải ảnh lên
     public function showForm()
     {
+        
         return view('upload');
     }
 
@@ -22,7 +25,7 @@ class ApiController extends Controller
         if (!$request->hasFile('image')) {
             return response()->json(['error' => 'No image uploaded'], 400);
         }
-
+    
         // Lưu ảnh vào thư mục public/uploads
         $imagePath = $request->file('image')->store('uploads', 'public');
         
@@ -35,23 +38,23 @@ class ApiController extends Controller
         if ($response->failed()) {
             return response()->json(['error' => 'Failed to get result from Flask'], 500);
         }
-
+    
         // Lấy kết quả dự đoán từ Flask API
         $result = $response->json();
-
+    
         // Kiểm tra dữ liệu trả về từ Flask
         if (!isset($result['top_5_labels']) || count($result['top_5_labels']) == 0) {
             return response()->json(['error' => 'No result from Flask'], 400);
         }
-
+    
         // Lấy user_id từ session (hoặc header nếu muốn lấy từ header)
         $user_id = session('user_id');  // Lấy user_id từ session
-
+    
         if (!$user_id) {
             // Nếu không có user_id trong session, có thể trả về lỗi hoặc để null
             return response()->json(['error' => 'User not logged in'], 400);
         }
-
+    
         // Lưu log API vào bảng `api_calls` sau khi thực hiện xong
         ApiCall::create([
             'api_name' => 'predict_style',  // Tên API
@@ -59,14 +62,22 @@ class ApiController extends Controller
             'ip_address' => $request->ip(), // Lấy địa chỉ IP của người gọi API
             'timestamp' => now(),           // Lưu thời gian API được gọi
         ]);
-        
+    
+        // Lưu kết quả nhận diện vào bảng architecture_styles
+        ArchitectureStyle::create([
+            'image' => $imagePath,  // Lưu đường dẫn ảnh
+            'style' => $result['top_5_labels'][0],  // Lấy phong cách kiến trúc nhận diện được
+            'detection_time' => now(),  // Thời gian nhận diện
+            'id_user' => $user_id,  // ID người dùng
+        ]);
+    
         // Trả về imagePath và kết quả để hiển thị trong AJAX
         return response()->json([
             'imagePath' => $imagePath,  // Đường dẫn hình ảnh
             'result' => $result,        // Kết quả dự đoán
         ]);
     }
-
+    
         // Nhận câu hỏi từ form và gọi API chatbot
     public function chatWithBot(Request $request)
     {

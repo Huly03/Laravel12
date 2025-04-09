@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ApiCall extends Model
+class ArchitectureStyle extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'api_name',
-        'user_id',
-        'ip_address',
-        'timestamp',
+        'image',
+        'style',
+        'detection_time',
+        'id_user',
     ];
-
-    // Quan hệ với bảng User
     
+    
+
 }
 

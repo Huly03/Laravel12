@@ -130,13 +130,13 @@
 </nav>
 
 <!-- User ID Display -->
-<div class="user-id">
+<!-- <div class="user-id">
     @if(Session::has('user_id'))
         User ID: {{ Session::get('user_id') }}
     @else
         User ID: Not Logged In
     @endif
-</div>
+</div> -->
 
 <!-- Bootstrap JS bundle (includes Popper.js) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
