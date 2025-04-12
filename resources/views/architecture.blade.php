@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Architecture Style</title>
+    <title>Thêm phong cách kiến trúc</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* Header styling */
@@ -54,7 +54,6 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link active" href="/admin">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/upload">Nhận diện kiến trúc</a></li>
                     <li class="nav-item"><a class="nav-link" href="/architecture">Phong cách kiến trúc</a></li>
                     <li class="nav-item"><a class="nav-link" href="/project">Dự án</a></li>
                 </ul>

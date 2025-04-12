@@ -54,7 +54,6 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link active" href="/admin">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/upload">Nhận diện kiến trúc</a></li>
                     <li class="nav-item"><a class="nav-link" href="/architecture">Phong cách kiến trúc</a></li>
                     <li class="nav-item"><a class="nav-link" href="/project">Dự án</a></li>
                 </ul>
@@ -102,6 +101,7 @@
         <button type="submit" class="btn btn-primary">Lưu Dự Án</button>
     </form>
 </div>
+<x-footer />
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>ADMIN</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
@@ -136,6 +136,53 @@
             left: -30px;
             z-index: 1; /* Ensure the button is above content */
         }
+/* Header styling */
+.header {
+            background-color: #1f2a3f;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            height: 80px;
+        }
+
+        /* Logo in the header */
+        .header img {
+            height: 100%;
+            width: auto;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: #333;
+        }
+
+        .navbar .navbar-brand {
+            color: white;
+            padding: 0;
+        }
+
+        .navbar .navbar-nav .nav-link {
+            color: white;
+        }
+
+        .navbar .navbar-nav .nav-link:hover {
+            background-color: #1abc9c;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            position: fixed;
+            top: 95px;
+            left: -250px; /* Sidebar hidden by default */
+            width: 250px;
+            min-height: 100%;
+            background-color: #f5f5dc;
+            color: black;
+            padding-top: 20px;
+            overflow-y: auto;
+            z-index: 0;
+            transition: left 0.3s ease;
+        }
 
     </style>
 </head>
@@ -147,17 +194,11 @@
                 <a class="navbar-brand" href="/admin">
                     <img src="{{ asset('images/logo.jpg') }}" alt="Logo" style="height: 60px; width: auto;">
                 </a>
-                
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link active" href="/admin">Trang chủ</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/upload">Nhận diện kiến trúc</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/architecture">Phong cách kiến trúc</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/architecture"> Phong cách kiến trúc</a></li>
                         <li class="nav-item"><a class="nav-link" href="/project">Dự án</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/project">Người dùng</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/api-calls">API</a></li>
-
-                        
                     </ul>
                 </div>
             </div>
@@ -166,13 +207,11 @@
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-        <h3 class="text-center">Architecture</h3>
-        <a href="#">Home</a>
-        <a href="/result">Result</a>
+        <h3 class="text-center">Admin</h3>
+        <a href="/result"><i class="fas fa-search"></i> Kết quả</a>
         <a href="{{ route('users.index') }}"><i class="fas fa-users"></i> Danh sách tài khoản</a>
-        <a href="#">Settings</a>
-        <a href="#">Reports</a>
-        <a href="/login">Logout</a>
+        <a href="/api-calls"><i class="fas fa-cogs"></i> API</a>
+        <a href="/login"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
 
     <!-- Main Content -->

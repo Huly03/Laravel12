@@ -125,9 +125,9 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link active" href="/user">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/user/upload">Nhận diện kiến trúc</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/upload">Nhận diện kiến trúc</a></li>
                     <li class="nav-item"><a class="nav-link" href="/user/architectures/view">Phong cách kiến trúc</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/user/project">hahaha</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/projects">Dự án</a></li>
                     <li class="nav-item">
                         <form class="form-inline d-inline" id="searchForm">
                             <input type="text" id="searchInput" placeholder="Tìm kiếm...">

@@ -117,9 +117,9 @@
 </footer>
 
 <!-- Feedback Button -->
-<div class="feedback">
+<!-- <div class="feedback">
     <span>Feedback</span>
-</div>
+</div> -->
 
 <!-- Bootstrap JS (Optional) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

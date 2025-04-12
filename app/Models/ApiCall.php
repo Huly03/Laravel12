@@ -16,7 +16,9 @@ class ApiCall extends Model
         'timestamp',
     ];
 
-    // Quan hệ với bảng User
-    
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id'); // 'user_id' là cột khóa ngoại trong bảng api_calls
+    }    
 }
 

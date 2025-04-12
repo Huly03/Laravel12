@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>User</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
@@ -54,7 +55,8 @@
         .sidebar {
             position: fixed;
             top: 95px;
-            left: -250px; /* Sidebar hidden by default */
+            left: -250px;
+            /* Sidebar hidden by default */
             width: 250px;
             min-height: 100%;
             background-color: #f5f5dc;
@@ -124,19 +126,22 @@
 
         /* Container */
         .container {
-            position: relative; /* To position toggle buttons within it */
+            position: relative;
+            /* To position toggle buttons within it */
         }
 
         /* Position toggle buttons */
-        .open-btn, .close-btn {
+        .open-btn,
+        .close-btn {
             position: absolute;
             top: -15px;
             left: -30px;
-            z-index: 1; /* Ensure the button is above content */
+            z-index: 1;
+            /* Ensure the button is above content */
         }
-
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <div class="header">
@@ -145,12 +150,13 @@
                 <a class="navbar-brand" href="/user">
                     <img src="{{ asset('images/logo.jpg') }}" alt="Logo" style="height: 60px; width: auto;">
                 </a>
-                
+
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link active" href="/user">Trang chủ</a></li>
                         <li class="nav-item"><a class="nav-link" href="/upload">Nhận diện kiến trúc</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/user/architectures/view">Phong cách kiến trúc</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/architectures/view">Phong cách kiến
+                                trúc</a></li>
                         <li class="nav-item"><a class="nav-link" href="/user/projects">Dự án</a></li>
                         <li class="nav-item">
                             <form class="form-inline d-inline" id="searchForm">
@@ -164,24 +170,17 @@
         </nav>
     </div>
     <div class="sidebar" id="sidebar">
-    <h3 class="text-center">
-        <!-- Hiển thị username của người dùng đã đăng nhập -->
-        <a href="{{ Auth::check() ? route('account.profile') : route('login') }}">
-            <i class="fas fa-user-circle text-center"></i>{{ Auth::user()->username }}</a>
-    </h3>
-    <a href="{{ route('my.account') }}"><i class="fas fa-id-card-alt"></i> Thông tin của tôi</a>
-    <a href="{{ route('images.index') }}">Danh sách ảnh</a> <!-- Route tới trang ảnh -->
-    <a href="{{ route('my.account') }}">
-        <i class="fas fa-id-card-alt"></i> Thông tin của tôi
-    </a>
-    <a href="/result">Result</a>
-    <a href="#">Settings</a>
-    <a href="#">Reports</a>
-
-    <a href="/login">
-        <i class="fas fa-sign-out-alt"></i> Logout
-    </a>
-</div>
+        <h3 class="text-center">
+            <!-- Hiển thị username của người dùng đã đăng nhập -->
+            <a href="{{ Auth::check() ? route('account.profile') : route('login') }}">
+                <i class="fas fa-user-circle text-center"></i>{{ Auth::user()->username }}</a>
+        </h3>
+        <a href="{{ route('my.account') }}"><i class="fas fa-id-card-alt"></i> Thông tin của tôi</a>
+        <a href="{{ route('images.index') }}">Danh sách ảnh</a> <!-- Route tới trang ảnh -->
+        <a href="/login">
+            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+        </a>
+    </div>
 
 
     <!-- Main Content -->
@@ -194,7 +193,7 @@
             <button class="toggle-btn close-btn" id="close-btn" style="display: none;">
                 <i class="fas fa-times"></i>
             </button>
-<!-- Your main content here -->
+            <!-- Your main content here -->
             <div class="row">
                 <div class="col-md-4">
                     <div class="card text-white bg-primary">
@@ -232,8 +231,10 @@
                 <div class="row">
                     @foreach($architectures as $architecture)
                         <div class="col-md-4">
-                        <div class="card" onclick="window.location='{{ route('architecture.detail', $architecture->id) }}'">
-                        <img src="{{ asset('storage/' . $architecture->image_url) }}" class="card-img-top" alt="{{ $architecture->name }}">
+                            <div class="card"
+                                onclick="window.location='{{ route('architecture.detail', $architecture->id) }}'">
+                                <img src="{{ asset('storage/' . $architecture->image_url) }}" class="card-img-top"
+                                    alt="{{ $architecture->name }}">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $architecture->name }}</h5>
                                     <p class="card-text">{{ $architecture->description }}</p>
@@ -245,26 +246,26 @@
             </div>
         </div>
         <div class="main-content" id="main-content">
-    <h2>Danh sách dự án</h2>
-    <div class="row">
-        @foreach($projects as $project)
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="{{ asset('storage/' . $project->image_url) }}" class="card-img-top" alt="{{ $project->name }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $project->name }}</h5>
-                        <p class="card-text"><strong>Loại dự án:</strong> {{ $project->project_type }}</p>
-                        <p class="card-text"><strong>Trạng thái:</strong> {{ $project->status }}</p>
-                        <p class="card-text"><strong>Giá:</strong> {{ number_format($project->price, 2) }} VNĐ</p>
-            
+            <h2>Danh sách dự án</h2>
+            <div class="row">
+                @foreach($projects as $project)
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="{{ asset('storage/' . $project->image_url) }}" class="card-img-top"
+                                alt="{{ $project->name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $project->name }}</h5>
+                                <p class="card-text"><strong>Loại dự án:</strong> {{ $project->project_type }}</p>
+                                <p class="card-text"><strong>Trạng thái:</strong> {{ $project->status }}</p>
+                                <p class="card-text"><strong>Giá:</strong> {{ number_format($project->price, 2) }} VNĐ</p>
+
+                            </div>
+                        </div>
                     </div>
-                </div>
+                @endforeach
             </div>
-        @endforeach
+        </div>
     </div>
-</div>
-    </div>
-    
 
     <!-- Footer (you can create a footer component as needed) -->
     <x-footer />
@@ -275,7 +276,7 @@
         let sidebarOpen = false;
 
         // Mở sidebar khi click vào nút "open"
-        document.getElementById('open-btn').addEventListener('click', function() {
+        document.getElementById('open-btn').addEventListener('click', function () {
             sidebarOpen = true;
             document.getElementById('sidebar').style.left = '0'; // Mở sidebar
             document.getElementById('main-content').style.marginLeft = '250px'; // Dịch chuyển nội dung
@@ -284,7 +285,7 @@
         });
 
         // Đóng sidebar khi click vào nút "close"
-        document.getElementById('close-btn').addEventListener('click', function() {
+        document.getElementById('close-btn').addEventListener('click', function () {
             sidebarOpen = false;
             document.getElementById('sidebar').style.left = '-250px'; // Đóng sidebar
             document.getElementById('main-content').style.marginLeft = '0'; // Trả lại margin cho nội dung
@@ -293,4 +294,5 @@
         });
     </script>
 </body>
+
 </html>
