@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Login_reg\LoginController;
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\RegisterController;
@@ -14,28 +14,41 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ApiCallController;
 use App\Http\Controllers\ArchitectureStyleController;
-// Xóa phần middleware(['auth'])
-// Xóa phần middleware(['auth']) khỏi các route
+use App\Http\Controllers\UserAccountController;
+use App\Http\Controllers\ImageController;
+
+// Route để hiển thị ảnh của người dùng
+Route::get('/ketqua', [ImageController::class, 'index'])->name('images.index');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/users', [UserAccountController::class, 'index'])->name('users.index'); // Tất cả users
+    Route::get('/my-account', [UserAccountController::class, 'profile'])->name('my.account'); // Người dùng hiện tại
+    Route::post('/my-account/update', [UserAccountController::class, 'updateProfile'])->name('my.account.update');
+});
+
+// 📄 Hiển thị thông tin tài khoản
+Route::get('/user/account/profile', [AccountController::class, 'profile'])->name('account.profile')->middleware('auth');
+Route::resource('/user/account', AccountController::class)->only(['show', 'update']);
+
+// ✏️ Cập nhật thông tin tài khoản (chuẩn REST → dùng PUT)
+Route::put('/user/account/profile', [AccountController::class, 'updateAccount'])->name('account.update')->middleware('auth');
+
+Route::get('/user/projects', [ProjectController::class, 'index'])->name('project.index');
+
+Route::get('/user/architectures/view/{id}', [ArchitectureController::class, 'showDetail'])->name('architecture.detail');
+
+Route::get('/user/architectures/view', [ArchitectureController::class, 'viewOnly'])->name('architecture.viewOnly');
+
 Route::get('/result', [ArchitectureStyleController::class, 'showImages'])->name('images');
-
-// Route để hiển thị form chỉnh sửa
 Route::get('/result/edit/{id}', [ArchitectureStyleController::class, 'editImage'])->name('editImage');
-
-// Route để cập nhật ảnh
 Route::put('/result/{id}', [ArchitectureStyleController::class, 'updateImage'])->name('updateImage');
-
 Route::delete('/result/{id}', [ArchitectureStyleController::class, 'deleteImage'])->name('deleteImage');
-
-
-
 
 Route::post('/save-recognition-result', [ArchitectureStyleController::class, 'saveRecognitionResult'])->name('saveRecognitionResult');
 
 Route::resource('apiCalls', ApiCallController::class);
-
-
 Route::get('/api-calls', [ApiCallController::class, 'index'])->name('api.calls.index');
-
 
 Route::resource('accounts', AccountController::class);
 
@@ -44,58 +57,42 @@ Route::get('/project', [ProjectController::class, 'create'])->name('project.crea
 Route::get('/project/{id}/edit', [ProjectController::class, 'edit'])->name('project.edit');
 Route::put('/project/{id}', [ProjectController::class, 'update'])->name('project.update');
 Route::delete('/project/{id}', [ProjectController::class, 'destroy'])->name('project.destroy');
-// Lưu dự án vào cơ sở dữ liệu
 Route::post('/project', [ProjectController::class, 'store'])->name('projects.store');
-
-
-// Route hiển thị chi tiết phong cách kiến trúc
+// Lưu kiến trúc vào cơ sở dữ liệu
+Route::get('architecture', [ArchitectureController::class, 'create'])->name('architecture');
+Route::post('architecture', [ArchitectureController::class, 'store']);
 Route::get('architecture/{id}', [ArchitectureController::class, 'show'])->name('architecture.show');
-// Route chỉnh sửa phong cách kiến trúc
-// Route chỉnh sửa phong cách kiến trúc
 Route::get('architecture/{id}/edit', [ArchitectureController::class, 'edit'])->name('architecture.edit');
-Route::put('architecture/{id}', [ArchitectureController::class, 'update'])->name('architecture.update');
+Route::put('architecture/{id}', [ArchitectureController::class, 'update']);
+Route::delete('architecture/{id}', [ArchitectureController::class, 'destroy']);
 
-// Route xóa phong cách kiến trúc
-Route::delete('architecture/{id}', [ArchitectureController::class, 'destroy'])->name('architecture.destroy');
-
-
-// Route cho việc thêm và lưu phong cách kiến trúc
-Route::get('architecture', [ArchitectureController::class, 'create']); // Trang form thêm phong cách kiến trúc
-Route::post('architecture', [ArchitectureController::class, 'store'])->name('architecture'); // Lưu phong cách kiến trúc
-
+Route::get('/user/upload', [ApiController::class, 'showFormv2'])->name('uploadFormV2'); // Trang giao diện upload
+// Gửi ảnh -> nhận kết quả từ Flask
+Route::post('/user/upload', [ApiController::class, 'uploadImageV2'])->name('uploadImageV2');
 // Giao diện upload và chatbot
 Route::get('/upload', [ApiController::class, 'showForm'])->name('uploadForm'); // Trang giao diện upload
-
 // Gửi ảnh -> nhận kết quả từ Flask
 Route::post('/upload', [ApiController::class, 'uploadImage'])->name('uploadImage');
-
 // Gửi câu hỏi cho chatbot
 Route::post('/chatbot', [ApiController::class, 'chatWithBot'])->name('chatWithBot');
-
 // Tìm kiếm
 Route::post('/search', [ApiController::class, 'searchQuery'])->name('searchQuery');
 Route::post('/search', [HeaderController::class, 'searchQuery'])->name('searchQuery');
-
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
 // Route đăng ký
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register'])->name('registerPost');
-
+Route::get('/register', [RegisterController::class, 'showForm'])->name('register.show');
+Route::post('/register', [RegisterController::class, 'register'])->name('register.store');
 // Route đăng nhập
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('loginPost');
+Route::get('/login', [LoginController::class, 'showForm'])->name('login.show');
+Route::post('/login', [LoginController::class, 'login'])->name('login.store');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Route đăng xuất
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
+// Route phân quyền
 // Route dành cho trang admin
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('auth');
 
-// Route dành cho trang user
-Route::get('/user', [UserController::class, 'index'])->name('user.dashboard');
-
+Route::get('/user', [UserController::class, 'index'])->name('user.dashboard')->middleware('auth');
 // Route cho trang không tìm thấy (404)
 Route::fallback(function () {
     return view('404'); // Trang lỗi 404

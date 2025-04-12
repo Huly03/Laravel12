@@ -20,11 +20,21 @@
             align-items: center;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             padding: 30px;
+            position: relative; /* Added position relative */
         }
+
         h2, .img-fluid {
-        text-align: center;  /* Căn giữa text và ảnh */
-        width: 100%;
+            text-align: center;  /* Căn giữa text và ảnh */
+            width: auto;
         }
+
+        .img-fluid {
+            width: auto;       /* Để chiều rộng tự động */
+            height: 250px;     /* Đặt chiều cao cố định cho ảnh */
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
         /* Tiêu đề chính */
         h2 {
             font-size: 36px;
@@ -46,16 +56,6 @@
             line-height: 1.6;
         }
 
-        /* Ảnh */
-        .img-fluid {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-top: 20px;
-            
-            
-        }
-
         /* Phần thông tin chi tiết */
         pre {
             background-color: #f8f9fa;
@@ -72,10 +72,10 @@
         .back-btn:hover {
             background-color: #0056b3;
         }
+
         /* Nút 3 chấm */
         .dropdown-toggle::after {
             display: none;  /* Ẩn mũi tên dropdown mặc định */
-            
         }
 
         .dropdown-menu {
@@ -89,6 +89,7 @@
         .dropdown-item:hover {
             background-color: #f0f0f0;
         }
+
     </style>
 </head>
 <body>
@@ -96,7 +97,8 @@
 <x-header />
 
 <div class="container">
-<div class="dropdown" style="position: absolute; top: 75px; right: 0px;">
+    <!-- Đặt nút dropdown vào container -->
+    <div class="dropdown" style="position: absolute; top: 10px; right: 10px;">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-ellipsis-v"></i> <!-- Icon 3 chấm -->
         </button>
@@ -122,7 +124,9 @@
     <h4>Thông tin chi tiết từ tệp</h4>
     <pre>{{ $textContent ?? 'Không có thông tin chi tiết từ tệp' }}</pre>
 </div>
-<x-footer/>
+
+<x-footer />
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
+    <title>User Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
@@ -14,36 +14,78 @@
             padding: 0;
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* Đảm bảo body có đủ chiều cao */
+            min-height: 100vh;
         }
 
-        /* Sidebar */
+        /* Header styling */
+        .header {
+            background-color: #1f2a3f;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            height: 80px;
+        }
+
+        /* Logo in the header */
+        .header img {
+            height: 100%;
+            width: auto;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: #333;
+        }
+
+        .navbar .navbar-brand {
+            color: white;
+            padding: 0;
+        }
+
+        .navbar .navbar-nav .nav-link {
+            color: white;
+        }
+
+        .navbar .navbar-nav .nav-link:hover {
+            background-color: #1abc9c;
+        }
+
+        /* Sidebar styling */
         .sidebar {
             position: fixed;
-            top: 95px; /* Dịch xuống dưới header */
-            left: -250px; /* Sidebar ẩn khi mới tải trang */
+            top: 95px;
+            left: -250px; /* Sidebar hidden by default */
             width: 250px;
-            min-height: 100%; /* Đảm bảo sidebar kéo dài tới footer */
-            background-color: #f5f5dc; /* Nền be cho sidebar */
-            color: black; /* Màu chữ đen */
+            min-height: 100%;
+            background-color: #f5f5dc;
+            color: black;
             padding-top: 20px;
-            overflow-y: auto; /* Thêm khả năng cuộn cho sidebar khi nội dung quá dài */
+            overflow-y: auto;
             z-index: 0;
-            transition: left 0.3s ease; /* Thêm hiệu ứng khi mở/đóng sidebar */
+            transition: left 0.3s ease;
         }
 
         .sidebar a {
-            color: black; /* Màu chữ đen cho các liên kết */
+            color: black;
             padding: 12px 16px;
             text-decoration: none;
             display: block;
-            background-color: #f5f5dc; /* Nền be cho liên kết */
-            transition: background-color 0.3s ease; /* Thêm hiệu ứng khi hover */
+            background-color: #f5f5dc;
+            transition: background-color 0.3s ease;
         }
 
         .sidebar a:hover {
-            background-color: #d4e157; /* Màu nền khi hover (xanh sáng) */
-            color: white; /* Màu chữ trắng khi hover */
+            background-color: #d4e157;
+            color: white;
+        }
+
+        /* Sidebar toggle buttons */
+        .toggle-btn {
+            background-color: #1f2a3f;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
         }
 
         .main-content {
@@ -53,136 +95,201 @@
             flex: 1;
         }
 
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
         .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
             margin-bottom: 20px;
         }
 
-        .dropdown-toggle::after {
-            display: none;
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
         }
 
-        .dropdown-menu {
+        .card-body {
+            flex-grow: 1;
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+            }
+        }
+
+        /* Container */
+        .container {
+            position: relative; /* To position toggle buttons within it */
+        }
+
+        /* Position toggle buttons */
+        .open-btn, .close-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 999;
-        }
-
-        .dropdown-item:hover {
-            background-color: #f0f0f0;
+            top: -15px;
+            left: -30px;
+            z-index: 1; /* Ensure the button is above content */
         }
 
     </style>
 </head>
 <body>
-<div>
-    <!-- Gọi Component Header của Laravel -->
-    <x-header />
-
-    <!-- Hamburger button fixed in header -->
-    <button class="toggle-btn open-btn" id="open-btn">
-        <i class="fas fa-bars"></i>
-    </button>
-    <button class="toggle-btn close-btn" id="close-btn">
-        <i class="fas fa-times"></i>
-    </button>
-</div>
-    
-    <!-- Sidebar -->
+    <!-- Header -->
+    <div class="header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/user">
+                    <img src="{{ asset('images/logo.jpg') }}" alt="Logo" style="height: 60px; width: auto;">
+                </a>
+                
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link active" href="/user">Trang chủ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/upload">Nhận diện kiến trúc</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/architectures/view">Phong cách kiến trúc</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/projects">Dự án</a></li>
+                        <li class="nav-item">
+                            <form class="form-inline d-inline" id="searchForm">
+                                <input type="text" id="searchInput" placeholder="Tìm kiếm...">
+                                <button type="submit"><i class="fas fa-search"></i></button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
     <div class="sidebar" id="sidebar">
     <h3 class="text-center">
-    Welcome, {{ $username }}  <!-- Hiển thị username của người dùng -->
-</h3>
-        <a href="#">Home</a>
-        <a href="{{ route('user.images', ['id' => Auth::id()]) }}">Result</a>
-        <a href="#">Settings</a>
-        <a href="#">Reports</a>
-        <a href="/login">Logout</a>
-    </div>
+        <!-- Hiển thị username của người dùng đã đăng nhập -->
+        <a href="{{ Auth::check() ? route('account.profile') : route('login') }}">
+            <i class="fas fa-user-circle text-center"></i>{{ Auth::user()->username }}</a>
+    </h3>
+    <a href="{{ route('my.account') }}"><i class="fas fa-id-card-alt"></i> Thông tin của tôi</a>
+    <a href="{{ route('images.index') }}">Danh sách ảnh</a> <!-- Route tới trang ảnh -->
+    <a href="{{ route('my.account') }}">
+        <i class="fas fa-id-card-alt"></i> Thông tin của tôi
+    </a>
+    <a href="/result">Result</a>
+    <a href="#">Settings</a>
+    <a href="#">Reports</a>
+
+    <a href="/login">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+
 
     <!-- Main Content -->
     <div class="main-content" id="main-content">
-        <h2>Danh sách dự án</h2>
-
-        <div class="row">
-            <!-- Tổng các dự án -->
-            <div class="col-md-4">
-                <div class="card text-white bg-primary">
-                    <div class="card-header">
-                        Tổng các dự án
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $totalProjects }}</h5>
-                        <p class="card-text">Các dự án đã và đang hoàn thành</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Dự án đã hoàn thành -->
-            <div class="col-md-4">
-                <div class="card text-white bg-success">
-                    <div class="card-header">
-                        Đã hoàn thành
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $completedProjects }}</h5>
-                        <p class="card-text">Các dự án đã được hoàn thành</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Dự án đang thi công -->
-            <div class="col-md-4">
-                <div class="card text-white bg-danger">
-                    <div class="card-header">
-                        Đang thi công
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $inProgressProjects }}</h5>
-                        <p class="card-text">Các dự án đang được thi công</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container mt-4">
-            <h3>Phong cách kiến trúc</h3>
+        <div class="container">
+            <!-- Move toggle buttons here -->
+            <button class="toggle-btn open-btn" id="open-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <button class="toggle-btn close-btn" id="close-btn" style="display: none;">
+                <i class="fas fa-times"></i>
+            </button>
+<!-- Your main content here -->
             <div class="row">
-                @foreach($architectures as $architecture)
-                    <div class="col-md-4">
-                        <div class="card" onclick="window.location='{{ route('architecture.show', $architecture->id) }}'">
-                            <img src="{{ asset('storage/' . $architecture->image_url) }}" class="card-img-top" alt="{{ $architecture->name }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $architecture->name }}</h5>
-                                <p class="card-text">{{ $architecture->description }}</p>
-                            </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-primary">
+                        <div class="card-header">Tổng các dự án</div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $totalProjects }}</h5>
+                            <p class="card-text">Các dự án đã và đang hoàn thành</p>
                         </div>
                     </div>
-                @endforeach
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card text-white bg-success">
+                        <div class="card-header">Đã hoàn thành</div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $completedProjects }}</h5>
+                            <p class="card-text">Các dự án đã được hoàn thành</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card text-white bg-danger">
+                        <div class="card-header">Đang thi công</div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $inProgressProjects }}</h5>
+                            <p class="card-text">Các dự án đang được thi công</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mt-4">
+                <h3>Phong cách kiến trúc</h3>
+                <div class="row">
+                    @foreach($architectures as $architecture)
+                        <div class="col-md-4">
+                        <div class="card" onclick="window.location='{{ route('architecture.detail', $architecture->id) }}'">
+                        <img src="{{ asset('storage/' . $architecture->image_url) }}" class="card-img-top" alt="{{ $architecture->name }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $architecture->name }}</h5>
+                                    <p class="card-text">{{ $architecture->description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
+        <div class="main-content" id="main-content">
+    <h2>Danh sách dự án</h2>
+    <div class="row">
+        @foreach($projects as $project)
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ asset('storage/' . $project->image_url) }}" class="card-img-top" alt="{{ $project->name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $project->name }}</h5>
+                        <p class="card-text"><strong>Loại dự án:</strong> {{ $project->project_type }}</p>
+                        <p class="card-text"><strong>Trạng thái:</strong> {{ $project->status }}</p>
+                        <p class="card-text"><strong>Giá:</strong> {{ number_format($project->price, 2) }} VNĐ</p>
+            
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</div>
     </div>
     
+
+    <!-- Footer (you can create a footer component as needed) -->
     <x-footer />
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Mặc định sidebar đóng và hiển thị nút "open"
         let sidebarOpen = false;
 
+        // Mở sidebar khi click vào nút "open"
         document.getElementById('open-btn').addEventListener('click', function() {
             sidebarOpen = true;
-            document.getElementById('sidebar').style.left = '0';
-            document.getElementById('main-content').style.marginLeft = '250px';
-            document.getElementById('open-btn').style.display = 'none';
-            document.getElementById('close-btn').style.display = 'block';
+            document.getElementById('sidebar').style.left = '0'; // Mở sidebar
+            document.getElementById('main-content').style.marginLeft = '250px'; // Dịch chuyển nội dung
+            document.getElementById('open-btn').style.display = 'none'; // Ẩn nút "open"
+            document.getElementById('close-btn').style.display = 'block'; // Hiển thị nút "close"
         });
 
+        // Đóng sidebar khi click vào nút "close"
         document.getElementById('close-btn').addEventListener('click', function() {
             sidebarOpen = false;
-            document.getElementById('sidebar').style.left = '-250px';
-            document.getElementById('main-content').style.marginLeft = '0';
-            document.getElementById('open-btn').style.display = 'block';
-            document.getElementById('close-btn').style.display = 'none';
+            document.getElementById('sidebar').style.left = '-250px'; // Đóng sidebar
+            document.getElementById('main-content').style.marginLeft = '0'; // Trả lại margin cho nội dung
+            document.getElementById('open-btn').style.display = 'block'; // Hiển thị nút "open"
+            document.getElementById('close-btn').style.display = 'none'; // Ẩn nút "close"
         });
     </script>
 </body>

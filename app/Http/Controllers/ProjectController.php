@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
+    public function index()
+    {
+        $projects = Project::all(); // hoặc paginate nếu muốn
+        return view('user.project_list', compact('projects'));
+    }
 // Hiển thị form tạo mới dự án
 public function create()
 {

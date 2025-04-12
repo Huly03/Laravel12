@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tạo Dự Án Mới</title>
+    <title>Chỉnh Sửa Tài Khoản</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Header styling */
+        /* Header Styling */
         .header {
             background-color: #1f2a3f;
             color: white;
@@ -40,6 +40,37 @@
             background-color: #1abc9c;
             border-radius: 5px;
         }
+
+        /* Form Styling */
+        .container {
+            max-width: 800px;
+            margin-top: 40px;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        .form-control {
+            border-radius: 8px;
+        }
+
+        .btn-primary {
+            background-color: #1f2a3f;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .btn-primary:hover {
+            background-color: #15466e;
+        }
+
+        .alert-success {
+            margin-top: 20px;
+        }
+
     </style>
 </head>
 <body>
@@ -64,43 +95,47 @@
 </div>
 
 <!-- Main content -->
-<div class="container mt-4">
-    <h2>Tạo Dự Án Mới</h2>
+<div class="container">
+    <h2>Chỉnh Sửa Tài Khoản: {{ $account->username }}</h2>
 
+    <!-- Display success message if there is one -->
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('projects.store') }}" method="POST" enctype="multipart/form-data">
+    <!-- Edit form -->
+    <form action="{{ route('accounts.update', $account->id) }}" method="POST">
         @csrf
+        @method('PUT')  <!-- HTTP method spoofing for PUT request -->
 
         <div class="mb-3">
-            <label for="name" class="form-label">Tên Dự Án</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" value="{{ old('username', $account->username) }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="project_type" class="form-label">Loại Dự Án</label>
-            <input type="text" class="form-control" id="project_type" name="project_type">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $account->email) }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="status" class="form-label">Trạng Thái</label>
-            <input type="text" class="form-control" id="status" name="status">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone', $account->phone) }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="image_url" class="form-label">Ảnh Dự Án</label>
-            <input type="file" class="form-control" id="image_url" name="image_url" required>
+            <label for="gender" class="form-label">Gender</label>
+            <select class="form-select" id="gender" name="gender" required>
+                <option value="1" {{ $account->gender == 1 ? 'selected' : '' }}>Nam</option>
+                <option value="0" {{ $account->gender == 0 ? 'selected' : '' }}Nữ</option>
+            </select>
         </div>
 
         <div class="mb-3">
-            <label for="price" class="form-label">Giá Dự Án</label>
-            <input type="number" class="form-control" id="price" name="price" required>
+            <button type="submit" class="btn btn-primary">Cập Nhật Tài Khoản</button>
         </div>
-
-        <button type="submit" class="btn btn-primary">Lưu Dự Án</button>
     </form>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

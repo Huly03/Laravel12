@@ -12,6 +12,7 @@ class ArchitectureStyleController extends Controller
     /**
      * Hiển thị tất cả ảnh của người dùng.
      */
+    
     public function showImages()
     {
         // Lấy tất cả các ảnh từ bảng architecture_styles mà không cần kiểm tra người dùng
@@ -20,7 +21,16 @@ class ArchitectureStyleController extends Controller
         // Trả về view với các ảnh
         return view('result_recog.result', compact('images'));
     }
-    
+    public function index()
+    {
+        // Lấy người dùng đã đăng nhập
+        $user = auth()->users(); // Lấy người dùng đã đăng nhập
+
+        // Lọc các hình ảnh của người dùng hiện tại từ bảng architecture_styles theo id_user
+        $images = ArchitectureStyle::where('id_user', $user->id)->get();
+
+        return view('images.index', compact('images')); // Trả về view với danh sách hình ảnh của người dùng
+    }
     /**
      * Lưu kết quả nhận diện vào cơ sở dữ liệu.
      */

@@ -2,22 +2,48 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Account extends Model
+class Account extends Authenticatable
 {
-    use HasFactory;
+    use Notifiable;
 
-    // Định nghĩa bảng 'accounts' (Laravel mặc định là bảng 'accounts')
+    // Gắn với bảng `accounts`
     protected $table = 'accounts';
 
-    // Các trường có thể được gán hàng loạt
-    protected $fillable = [
-        'username', 'password', 'gender', 'phone', 'email', 'birth_date', 'address',
-    ];
-    // Tắt tính năng timestamps
+    // Tắt tự động timestamps
     public $timestamps = false;
 
+    // Cho phép gán các field này hàng loạt
+    protected $fillable = [
+        'username',
+        'password',
+        'gender',
+        'phone',
+        'email',
+        'birth_date',
+        'address',
+    ];
 
+    // Ẩn các field khi chuyển sang JSON (bảo mật)
+    protected $hidden = [
+        'password',
+    ];
+
+    /**
+     * Dùng username thay vì email để làm auth identifier.
+     */
+    public function getAuthIdentifierName()
+    {
+        return 'username';
+    }
+
+    /**
+     * Trả về mật khẩu để hệ thống Auth dùng khi xác thực.
+     */
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
 }

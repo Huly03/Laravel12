@@ -13,6 +13,25 @@ class ArchitectureController extends Controller
     {
         return view('architecture');
     }
+    public function viewOnly()
+    {
+        $architectures = \App\Models\Architecture::all();
+        return view('user.architecture_view', compact('architectures'));
+    }
+    public function showDetail($id)
+{
+    $architecture = \App\Models\Architecture::findOrFail($id);
+
+    // Nếu bạn có logic đọc file .txt hoặc nội dung thêm:
+    $textContent = null;
+
+    $filePath = storage_path('app/public/' . $architecture->text_file);
+    if (file_exists($filePath)) {
+        $textContent = file_get_contents($filePath);
+    }
+
+    return view('user.architecture_detail', compact('architecture', 'textContent'));
+}
 
     // Xử lý lưu dữ liệu vào cơ sở dữ liệu
     public function store(Request $request)
@@ -40,29 +59,23 @@ class ArchitectureController extends Controller
 
         return redirect()->route('architecture')->with('success', 'Phong cách kiến trúc đã được thêm thành công!');
     }
+
+    // Hiển thị chi tiết phong cách kiến trúc
     public function show($id)
     {
-        // Tìm phong cách kiến trúc theo ID
         $architecture = Architecture::findOrFail($id);
-    
-        // Đảm bảo đường dẫn tệp là chính xác
-        $textFilePath = $architecture->text_file; // text_files/Bb26PKnhO0uJNVhxiPbiJVKINuDJlXXTtFOk9SeO.txt
-    
-        // Kiểm tra xem tệp có tồn tại không
+
+        // Kiểm tra tệp .txt
+        $textFilePath = $architecture->text_file;
         if (!Storage::disk('public')->exists($textFilePath)) {
-            dd('Tệp không tồn tại: ' . $textFilePath);
+            return abort(404, 'Tệp không tồn tại');
         }
-    
-        // Đọc nội dung tệp .txt từ disk 'public'
-        try {
-            $textContent = Storage::disk('public')->get($textFilePath); // Đảm bảo chỉ sử dụng 'text_files/...'
-        } catch (\Exception $e) {
-            dd($e->getMessage());  // Nếu có lỗi, hiển thị thông báo lỗi
-        }
-    
-        // Trả về view chi tiết phong cách kiến trúc
+
+        $textContent = Storage::disk('public')->get($textFilePath); // Đọc nội dung tệp
+
         return view('architecture.show', compact('architecture', 'textContent'));
     }
+
     // Hiển thị form chỉnh sửa phong cách kiến trúc
     public function edit($id)
     {
@@ -84,23 +97,25 @@ class ArchitectureController extends Controller
         $architecture->name = $request->input('name');
         $architecture->description = $request->input('description');
 
-        // Nếu có ảnh mới thì lưu ảnh và xóa ảnh cũ
+        // Kiểm tra và cập nhật ảnh mới
         if ($request->hasFile('image_url')) {
-            Storage::disk('public')->delete($architecture->image_url);  // Xóa ảnh cũ
+            // Xóa ảnh cũ nếu có
+            Storage::disk('public')->delete($architecture->image_url);
             $imagePath = $request->file('image_url')->store('images', 'public');
             $architecture->image_url = $imagePath;
         }
 
-        // Nếu có tệp mới thì lưu tệp và xóa tệp cũ
+        // Kiểm tra và cập nhật tệp .txt mới
         if ($request->hasFile('text_file')) {
-            Storage::disk('public')->delete($architecture->text_file);  // Xóa tệp cũ
+            // Xóa tệp cũ nếu có
+            Storage::disk('public')->delete($architecture->text_file);
             $textFilePath = $request->file('text_file')->store('text_files', 'public');
             $architecture->text_file = $textFilePath;
         }
 
         $architecture->save();
 
-        return redirect()->route('architecture')->with('success', 'Phong cách kiến trúc đã được cập nhật!');
+        return redirect()->route('architecture.index')->with('success', 'Phong cách kiến trúc đã được cập nhật!');
     }
 
     // Xóa phong cách kiến trúc
@@ -112,10 +127,8 @@ class ArchitectureController extends Controller
         Storage::disk('public')->delete($architecture->image_url);
         Storage::disk('public')->delete($architecture->text_file);
 
-        // Xóa bản ghi trong cơ sở dữ liệu
         $architecture->delete();
 
-        return redirect()->route('architecture')->with('success', 'Phong cách kiến trúc đã được xóa!');
+        return redirect()->route('architecture.index')->with('success', 'Phong cách kiến trúc đã được xóa!');
     }
-
 }

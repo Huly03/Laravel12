@@ -144,37 +144,37 @@
 
 <script>
     // Xử lý sự kiện tìm kiếm
-    $('#searchForm').on('submit', function(e) {
-        e.preventDefault();  // Ngừng hành động mặc định của form (submit)
+    // $('#searchForm').on('submit', function(e) {
+    //     e.preventDefault();  // Ngừng hành động mặc định của form (submit)
 
-        var query = $('#searchInput').val();  // Lấy giá trị từ thanh tìm kiếm
+    //     var query = $('#searchInput').val();  // Lấy giá trị từ thanh tìm kiếm
 
-        // Kiểm tra nếu từ khóa tìm kiếm không rỗng
-        if (query.trim() !== "") {
-            console.log("Sending query:", query);  // Log dữ liệu gửi đi
-            $.ajax({
-                url: 'http://127.0.0.1:5000/search',  // Địa chỉ API của Laravel (gọi Flask API)
-                method: 'POST',
-                contentType: 'application/json',  // Đảm bảo gửi đúng kiểu dữ liệu JSON
-                data: JSON.stringify({ query: query }),  // Chuyển dữ liệu thành JSON
-                success: function(response) {
-                    console.log("Response from Flask API:", response);  // Log phản hồi từ Flask
-                    if (response.matched_articles && response.matched_articles.length > 0) {
-                        // Xử lý kết quả trả về từ API
-                        console.log(response.matched_articles);
-                    } else {
-                        console.log('Không tìm thấy bài báo nào');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error sending request to Flask:', error);  // Log lỗi nếu có
-                    alert('Đã có lỗi xảy ra khi tìm kiếm: ' + error);
-                }
-            });
-        } else {
-            alert("Vui lòng nhập từ khóa tìm kiếm");
-        }
-    });
+    //     // Kiểm tra nếu từ khóa tìm kiếm không rỗng
+    //     if (query.trim() !== "") {
+    //         console.log("Sending query:", query);  // Log dữ liệu gửi đi
+    //         $.ajax({
+    //             url: 'http://127.0.0.1:5000/search',  // Địa chỉ API của Laravel (gọi Flask API)
+    //             method: 'POST',
+    //             contentType: 'application/json',  // Đảm bảo gửi đúng kiểu dữ liệu JSON
+    //             data: JSON.stringify({ query: query }),  // Chuyển dữ liệu thành JSON
+    //             success: function(response) {
+    //                 console.log("Response from Flask API:", response);  // Log phản hồi từ Flask
+    //                 if (response.matched_articles && response.matched_articles.length > 0) {
+    //                     // Xử lý kết quả trả về từ API
+    //                     console.log(response.matched_articles);
+    //                 } else {
+    //                     console.log('Không tìm thấy bài báo nào');
+    //                 }
+    //             },
+    //             error: function(xhr, status, error) {
+    //                 console.error('Error sending request to Flask:', error);  // Log lỗi nếu có
+    //                 alert('Đã có lỗi xảy ra khi tìm kiếm: ' + error);
+    //             }
+    //         });
+    //     } else {
+    //         alert("Vui lòng nhập từ khóa tìm kiếm");
+    //     }
+    // });
 </script>
 
 </body>
