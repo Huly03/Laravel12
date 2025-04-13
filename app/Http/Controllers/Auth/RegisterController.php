@@ -37,6 +37,6 @@ class RegisterController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return redirect()->route('login')->with('success', 'Đăng ký thành công. Vui lòng đăng nhập.');
+        return redirect()->route('login.show')->with('success', 'Đăng ký thành công. Vui lòng đăng nhập.');
     }
 }

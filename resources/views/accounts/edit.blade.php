@@ -127,7 +127,7 @@
             <label for="gender" class="form-label">Gender</label>
             <select class="form-select" id="gender" name="gender" required>
                 <option value="1" {{ $account->gender == 1 ? 'selected' : '' }}>Nam</option>
-                <option value="0" {{ $account->gender == 0 ? 'selected' : '' }}Nữ</option>
+                <option value="0" {{ $account->gender == 0 ? 'selected' : '' }}>Nữ</option>
             </select>
         </div>
 

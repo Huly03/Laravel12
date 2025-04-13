@@ -154,7 +154,14 @@
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link active" href="/user">Trang chủ</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/upload">Nhận diện kiến trúc</a></li>
+                        @if(session('user_id'))
+                            <a class="nav-link" href="{{ route('uploadImage', ['id' => session('user_id')]) }}">Nhận diện
+                                kiến trúc</a>
+                        @else
+                            <a class="nav-link" href="#">Nhận diện kiến trúc (Chưa đăng nhập)</a>
+                        @endif
+
+
                         <li class="nav-item"><a class="nav-link" href="/user/architectures/view">Phong cách kiến
                                 trúc</a></li>
                         <li class="nav-item"><a class="nav-link" href="/user/projects">Dự án</a></li>
@@ -176,7 +183,7 @@
                 <i class="fas fa-user-circle text-center"></i>{{ Auth::user()->username }}</a>
         </h3>
         <a href="{{ route('my.account') }}"><i class="fas fa-id-card-alt"></i> Thông tin của tôi</a>
-        <a href="{{ route('images.index') }}">Danh sách ảnh</a> <!-- Route tới trang ảnh -->
+        <a href="{{ route('images.index') }}"><i class="fas fa-image"></i> Kết quả</a>
         <a href="/login">
             <i class="fas fa-sign-out-alt"></i> Đăng xuất
         </a>
@@ -292,6 +299,7 @@
             document.getElementById('open-btn').style.display = 'block'; // Hiển thị nút "open"
             document.getElementById('close-btn').style.display = 'none'; // Ẩn nút "close"
         });
+
     </script>
 </body>
 

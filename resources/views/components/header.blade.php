@@ -107,22 +107,10 @@
           <a class="nav-link active" aria-current="page" href="/admin">Trang chủ</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/upload">Nhận diện kiến trúc</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="/architecture">Phong cách kiến trúc</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/project">Dự án</a>
-        </li>
-        
-
-        <!-- Search Form -->
-        <li class="nav-item">
-          <form class="form-inline d-inline" id="searchForm">
-            <input type="text" id="searchInput"  placeholder="Tìm kiếm...">
-            <button type="submit"><i class="fas fa-search"></i></button>
-          </form>
         </li>
       </ul>
     </div>

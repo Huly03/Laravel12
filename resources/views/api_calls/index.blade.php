@@ -9,13 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
-<body>
-    <header>
-        <!-- Header của bạn -->
-        <nav>
-            <!-- Navigation bar của bạn, nếu có -->
-        </nav>
-    </header>
+    <x-header/>
 
     <div class="content">
         @extends('layouts.app')  <!-- Sử dụng layout chính của bạn -->
@@ -56,13 +50,11 @@
         </table>
 
         <!-- Hiển thị phân trang -->
-        <div class="pagination">
-            {{ $apiCalls->links() }}  <!-- Gọi links() để hiển thị phân trang -->
-        </div>
-
-        @endsection
+        
+       
     </div>
-
+    
+    
 
 </body>
 </html>

@@ -13,6 +13,18 @@ class ArchitectureStyle extends Model
     protected $table = 'architecture_styles';
 
     // Các trường bạn muốn cho phép truy cập
-    protected $fillable = ['name', 'description', 'image_url', 'id_user'];
+    protected $fillable = [
+        'image',          // Đường dẫn ảnh
+        'style',          // Phong cách nhận diện
+        'detection_time', // Thời gian nhận diện
+        'id_user',        // ID người dùng
+    ];
+
+    // Nếu bạn muốn có quan hệ giữa ArchitectureStyle và User
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user'); // Liên kết với User model
+    }
 }
+
 

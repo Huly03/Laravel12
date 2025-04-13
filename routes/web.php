@@ -17,6 +17,9 @@ use App\Http\Controllers\ArchitectureStyleController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\ImageController;
 
+Route::put('/users/{id}', [UserController::class, 'update'])->name('updateUser');
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('deleteUser');
+
 // Route để hiển thị ảnh của người dùng
 Route::get('/ketqua', [ImageController::class, 'index'])->name('images.index');
 
@@ -70,9 +73,9 @@ Route::get('/user/upload', [ApiController::class, 'showFormv2'])->name('uploadFo
 // Gửi ảnh -> nhận kết quả từ Flask
 Route::post('/user/upload', [ApiController::class, 'uploadImageV2'])->name('uploadImageV2');
 // Giao diện upload và chatbot
-Route::get('/upload', [ApiController::class, 'showForm'])->name('uploadForm'); // Trang giao diện upload
-// Gửi ảnh -> nhận kết quả từ Flask
-Route::post('/upload', [ApiController::class, 'uploadImage'])->name('uploadImage');
+Route::middleware('auth')->get('/upload/{id}', [ApiController::class, 'showForm'])->name('uploadForm');
+Route::middleware('auth')->post('/upload/{id}', [ApiController::class, 'uploadImage'])->name('uploadImage');
+
 // Gửi câu hỏi cho chatbot
 Route::post('/chatbot', [ApiController::class, 'chatWithBot'])->name('chatWithBot');
 // Tìm kiếm
@@ -81,7 +84,7 @@ Route::post('/search', [HeaderController::class, 'searchQuery'])->name('searchQu
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route đăng ký
-Route::get('/register', [RegisterController::class, 'showForm'])->name('register.show');
+Route::get('/register', [RegisterController::class, 'showForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register'])->name('register.store');
 // Route đăng nhập
 Route::get('/login', [LoginController::class, 'showForm'])->name('login.show');

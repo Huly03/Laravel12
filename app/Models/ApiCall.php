@@ -10,15 +10,17 @@ class ApiCall extends Model
     use HasFactory;
 
     protected $fillable = [
-        'api_name',
-        'user_id',
-        'ip_address',
-        'timestamp',
+        'api_name',   // Tên API
+        'user_id',    // ID người dùng
+        'ip_address', // Địa chỉ IP
+        'timestamp',  // Thời gian gọi API
     ];
 
+    // Quan hệ với model User (một ApiCall thuộc về một User)
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id'); // 'user_id' là cột khóa ngoại trong bảng api_calls
+        return $this->belongsTo(User::class, 'user_id'); // Liên kết với User model
     }    
 }
+
 

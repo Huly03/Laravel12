@@ -140,7 +140,7 @@
 
         .open-btn, .close-btn {
             position: absolute;
-            top: -15px;
+            top: -55px;
             left: -30px;
             z-index: 1;
         }
@@ -158,29 +158,34 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="/user">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/user/upload">Nhận diện kiến trúc</a></li>
+                    @if(session('user_id'))
+                            <a class="nav-link" href="{{ route('uploadImage', ['id' => session('user_id')]) }}">Nhận diện
+                                kiến trúc</a>
+                        @else
+                            <a class="nav-link" href="#">Nhận diện kiến trúc (Chưa đăng nhập)</a>
+                        @endif
+
                     <li class="nav-item"><a class="nav-link active" href="/user/architectures/view">Phong cách kiến trúc</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/user/project">hahaha</a></li>
-                    <li class="nav-item">
-                        <form class="form-inline d-inline" id="searchForm">
-                            <input type="text" id="searchInput" placeholder="Tìm kiếm...">
-                            <button type="submit"><i class="fas fa-search"></i></button>
-                        </form>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/user/projects">Dự án</a></li>
+                    
                 </ul>
             </div>
         </div>
     </nav>
 </div>
 
-<!-- Sidebar -->
 <div class="sidebar" id="sidebar">
-    <h3 class="text-center">Architecture</h3>
-    <a href="#">Accounts</a>
-    <a href="#">Settings</a>
-    <a href="#">Reports</a>
-    <a href="/login">Logout</a>
-</div>
+        <h3 class="text-center">
+            <!-- Hiển thị username của người dùng đã đăng nhập -->
+            <a href="{{ Auth::check() ? route('account.profile') : route('login') }}">
+                <i class="fas fa-user-circle text-center"></i>{{ Auth::user()->username }}</a>
+        </h3>
+        <a href="{{ route('my.account') }}"><i class="fas fa-id-card-alt"></i> Thông tin của tôi</a>
+        <a href="{{ route('images.index') }}"><i class="fas fa-image"></i> Kết quả</a>        
+        <a href="/login">
+            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+        </a>
+    </div>
 
 <!-- Content -->
 <div class="main-content" id="main-content">

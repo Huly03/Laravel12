@@ -125,13 +125,19 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link active" href="/user">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/upload">Nhận diện kiến trúc</a></li>
+                    @if(session('user_id'))
+                            <a class="nav-link" href="{{ route('uploadImage', ['id' => session('user_id')]) }}">Nhận diện
+                                kiến trúc</a>
+                        @else
+                            <a class="nav-link" href="#">Nhận diện kiến trúc (Chưa đăng nhập)</a>
+                        @endif
+
                     <li class="nav-item"><a class="nav-link" href="/user/architectures/view">Phong cách kiến trúc</a></li>
                     <li class="nav-item"><a class="nav-link" href="/user/projects">Dự án</a></li>
                     <li class="nav-item">
                         <form class="form-inline d-inline" id="searchForm">
                             <input type="text" id="searchInput" placeholder="Tìm kiếm...">
-                            <button type="submit"><i class="fas fa-search"></i></button>
+                            <button type="submit" id="search-btn"><i class="fas fa-search"></i></button>
                         </form>
                     </li>
                 </ul>
@@ -140,14 +146,18 @@
     </nav>
 </div>
 
-<!-- Sidebar -->
 <div class="sidebar" id="sidebar">
-    <h3 class="text-center">Architecture</h3>
-    <a href="#">Accounts</a>
-    <a href="#">Settings</a>
-    <a href="#">Reports</a>
-    <a href="/login">Logout</a>
-</div>
+        <h3 class="text-center">
+            <!-- Hiển thị username của người dùng đã đăng nhập -->
+            <a href="{{ Auth::check() ? route('account.profile') : route('login') }}">
+                <i class="fas fa-user-circle text-center"></i>{{ Auth::user()->username }}</a>
+        </h3>
+        <a href="{{ route('my.account') }}"><i class="fas fa-id-card-alt"></i> Thông tin của tôi</a>
+        <a href="{{ route('images.index') }}"><i class="fas fa-image"></i> Kết quả</a>        
+        <a href="/login">
+            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+        </a>
+    </div>
 
 <!-- Main Content -->
 <div class="main-content" id="main-content">
@@ -174,7 +184,27 @@
         </div>
     </div>
 </div>
+<script>
+    // Lắng nghe sự kiện 'submit' của form tìm kiếm
+    document.getElementById('searchForm').addEventListener('submit', function (event) {
+        event.preventDefault();  // Ngừng việc tải lại trang khi người dùng nhấn nút tìm kiếm
 
+        let searchInput = document.getElementById('searchInput').value.toLowerCase();  // Lấy giá trị nhập vào và chuyển thành chữ thường
+        let cards = document.querySelectorAll('.card');  // Lấy tất cả các card trong danh sách
+
+        cards.forEach(function (card) {
+            let title = card.querySelector('.card-title').innerText.toLowerCase();  // Lấy tiêu đề của từng card và chuyển thành chữ thường
+            let description = card.querySelector('.card-text').innerText.toLowerCase();  // Lấy mô tả của từng card và chuyển thành chữ thường
+
+            // Kiểm tra xem từ khóa tìm kiếm có xuất hiện trong tiêu đề hoặc mô tả không
+            if (title.includes(searchInput) || description.includes(searchInput)) {
+                card.style.display = 'block';  // Hiển thị card nếu tìm thấy
+            } else {
+                card.style.display = 'none';  // Ẩn card nếu không tìm thấy
+            }
+        });
+    });
+</script>
 <x-footer />
 
 <!-- Scripts -->

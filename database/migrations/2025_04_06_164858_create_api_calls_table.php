@@ -10,17 +10,16 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-{
-    Schema::create('api_calls', function (Blueprint $table) {
-        $table->id();
-        $table->string('api_name');
-        $table->foreignId('user_id')->nullable()->constrained('accounts')->onDelete('set null');
-        $table->string('ip_address');
-        $table->timestamp('timestamp')->useCurrent();
-        $table->timestamps();
-    });
-}
-
+    {
+        Schema::create('api_calls', function (Blueprint $table) {
+            $table->id();
+            $table->string('api_name');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null'); // Khóa ngoại liên kết với bảng users
+            $table->string('ip_address');
+            $table->timestamp('timestamp')->useCurrent();
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.
