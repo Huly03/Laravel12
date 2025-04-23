@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * @OA\Info(
+ *     title="API Architecture Recognition",
+ *     version="1.0.0",
+ *     description="API allows users to upload an image of a painting for prediction using an external Flask API."
+ * )
+ */
+
 class ApiController extends Controller
 {
     // Hiển thị form tải ảnh lên
@@ -23,6 +31,48 @@ class ApiController extends Controller
         // Trả về view upload và truyền user_id vào view
         return view('upload', ['user_id' => $id]);
     }
+
+    /**
+     * @OA\Post(
+     *     path="/upload/{id}",
+     *     summary="Upload image and detect architecture style",
+     *     tags={"Image Upload"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="User ID",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 @OA\Property(property="image", type="string", format="binary", description="Image to upload")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Image uploaded and style detected",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="imagePath", type="string", description="Path to the uploaded image"),
+     *             @OA\Property(property="result", type="object", description="Detection result"),
+     *             @OA\Property(property="message", type="string", description="Success message")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid input"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error"
+     *     )
+     * )
+     */
     public function uploadImage(Request $request, $id)
     {
         // Kiểm tra xem ảnh có được upload hay không
@@ -126,6 +176,35 @@ class ApiController extends Controller
         }
     }
 
+    /**
+     * @OA\Post(
+     *     path="/chatbot",
+     *     summary="Interact with chatbot",
+     *     tags={"Chatbot"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="user_input", type="string", description="User input for chatbot"),
+     *             @OA\Property(property="language", type="string", description="Language code (e.g., 'vi' for Vietnamese)")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Chatbot response",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="response", type="string", description="Chatbot's response")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid input"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error"
+     *     )
+     * )
+     */
     public function chatWithBot(Request $request)
     {
         if (!$request->has('user_input')) {
@@ -144,6 +223,34 @@ class ApiController extends Controller
         return response()->json($response->json());
     }
 
+    /**
+     * @OA\Post(
+     *     path="/search",
+     *     summary="Search architecture style",
+     *     tags={"Search"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="query", type="string", description="Search query")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Search results",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="results", type="array", description="Search results", @OA\Items(type="string"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid query"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Server error"
+     *     )
+     * )
+     */
     // Phương thức gọi API tìm kiếm với từ khóa
     public function searchQuery(Request $request)
     {

@@ -85,26 +85,25 @@
 <body>
 
 <!-- Footer -->
-<footer>
+<!-- <footer>
     <div class="container footer-container">
-        <!-- Company Information -->
+   
         <div class="footer-section">
             <h5>Công ty</h5>
             <a href="#">Công Ty TNHH Một Thành Viên Công Nghệ Kỹ Thuật Tiên Phong</a>
         </div>
 
-        <!-- News and Events -->
+       
         <div class="footer-section">
             <h5>Địa chỉ</h5>
             <a href="#">Số B16, đường số 08, khu dân cư Công Ty 8, Phường Phú Thứ, Quận Cái Răng, Thành phố Cần Thơ</a>
         </div>
 
-        <!-- Popular Links -->
         <div class="footer-section">
             <h5>Liên hệ</h5>
             <a href="#">0353220302</a>
 
-            <!-- Social Media Links under the phone number -->
+           
             <div class="social-icons">
                 <a href="https://www.facebook.com" target="_blank" class="fab fa-facebook-f"></a>
                 <a href="https://www.instagram.com/" target="_blank" class="fab fa-instagram"></a>
@@ -114,7 +113,7 @@
             </div>
         </div>
     </div>
-</footer>
+</footer> -->
 
 <!-- Feedback Button -->
 <!-- <div class="feedback">

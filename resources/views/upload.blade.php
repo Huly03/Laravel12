@@ -7,6 +7,7 @@
     <title>Architecture Style Recognition</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        /* General body and layout styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -15,9 +16,9 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            /* Đảm bảo body có đủ chiều cao */
         }
 
+        /* Main content area styling */
         .main-content {
             padding: 30px;
             margin-left: 0;
@@ -63,7 +64,6 @@
             position: fixed;
             top: 95px;
             left: -250px;
-            /* Sidebar hidden by default */
             width: 250px;
             min-height: 100%;
             background-color: #f5f5dc;
@@ -88,15 +88,7 @@
             color: white;
         }
 
-        /* Sidebar toggle buttons */
-        .toggle-btn {
-            background-color: #1f2a3f;
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-        }
-
+        /* Main container styling */
         .container {
             background-color: #ffffff;
             border-radius: 12px;
@@ -108,42 +100,19 @@
             justify-content: space-between;
         }
 
-        .left-panel,
+        /* Right panel (container for chatbox and form) */
         .right-panel {
-            width: 48%;
-            /* Chia đôi không gian */
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            margin: 0 auto;
         }
 
-        h1 {
-            font-size: 2rem;
-            color: #333;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        /* Giao diện Upload Ảnh */
-        .upload-form input[type="file"] {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-
-        #uploadedImage {
-            max-height: 400px;
-            width: auto;
-            object-fit: contain;
-            display: block;
-            margin: 20px auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
+        /* Chatbox styling */
         #chatbox {
+            box-sizing: border-box;
             height: 350px;
             overflow-y: auto;
             border: 1px solid #ddd;
@@ -153,90 +122,13 @@
             background-color: #f9f9f9;
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
             width: 100%;
-        }
-
-        #chatInput {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            font-size: 1rem;
-        }
-
-        #sendChatBtn {
-            width: 100%;
-            padding: 10px;
-            background-color: #5cb85c;
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        #sendChatBtn:hover {
-            background-color: #4cae4c;
-        }
-
-        .button-container {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
+            gap: 10px;
+            /* Giảm khoảng cách giữa các tin nhắn */
         }
 
-        .upload-btn,
-        .chat-btn {
-            padding: 12px 20px;
-            background-color: #007bff;
-            color: white;
-            border-radius: 8px;
-            border: none;
-            margin-top: 15px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .upload-btn:hover,
-        .chat-btn:hover {
-            background-color: #0056b3;
-        }
-
-        /* Thanh tìm kiếm */
-        #searchContainer {
-            margin-bottom: 20px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        #searchInput {
-            width: 70%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 1rem;
-            margin-right: 10px;
-        }
-
-        #searchBtn {
-            padding: 10px 15px;
-            background-color: #5bc0de;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        #searchBtn:hover {
-            background-color: #31b0d5;
-        }
-
-        /* Tin nhắn người dùng */
+        /* User message styling */
         .chat-message.user {
             background-color: #d1e7dd;
             color: #495057;
@@ -245,11 +137,14 @@
             margin-bottom: 10px;
             max-width: 75%;
             align-self: flex-end;
-            /* Đẩy tin nhắn người dùng sang bên phải */
+            /* Căn sang bên phải */
             text-align: right;
+            display: flex;
+            flex-direction: row-reverse;
+            /* Để hình ảnh hiển thị bên phải văn bản */
         }
 
-        /* Tin nhắn của chatbot */
+        /* Bot message styling */
         .chat-message.bot {
             background-color: #f8d7da;
             color: #721c24;
@@ -258,102 +153,66 @@
             margin-bottom: 10px;
             max-width: 75%;
             align-self: flex-start;
-            /* Đẩy tin nhắn chatbot sang bên trái */
+            /* Điều chỉnh căn trái */
             text-align: left;
+            /* Căn trái văn bản */
+            display: flex;
+            flex-direction: row;
         }
 
-        /* Thêm các dấu chấm hoặc dấu hiệu phân biệt rõ ràng */
-        .chat-message {
-            margin: 5px;
-            word-wrap: break-word;
-            display: inline-block;
+
+        /* Image inside messages */
+        .chat-message img {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: contain;
+            margin-left: 10px;
+            margin-right: 10px;
         }
 
-        .container {
-            position: relative;
-            /* To position toggle buttons within it */
+        /* Upload form styling */
+        #uploadForm {
+            display: flex;
+            /* Sử dụng flexbox để sắp xếp các phần tử theo hàng ngang */
+            justify-content: center;
+            /* Căn giữa các phần tử theo chiều ngang */
+            align-items: center;
+            /* Căn giữa các phần tử theo chiều dọc */
+            gap: 20px;
+            /* Khoảng cách giữa các phần tử */
+            width: 100%;
+            /* Đảm bảo chiều rộng đầy đủ */
         }
 
-        /* Position toggle buttons */
-        .open-btn,
-        .close-btn {
-            position: absolute;
-            top: -15px;
-            left: -30px;
-            z-index: 1;
-            /* Ensure the button is above content */
-        }
-
-        /* Header styling */
-        .header {
-            background-color: #1f2a3f;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            height: 80px;
-        }
-
-        /* Logo in the header */
-        .header img {
-            height: 100%;
-            width: auto;
-        }
-
-        /* Navbar styling */
-        .navbar {
-            background-color: #333;
-        }
-
-        .navbar .navbar-brand {
-            color: white;
-            padding: 0;
-        }
-
-        .navbar .navbar-nav .nav-link {
-            color: white;
-        }
-
-        .navbar .navbar-nav .nav-link:hover {
-            background-color: #1abc9c;
-        }
-
-        /* Sidebar styling */
-        .sidebar {
-            position: fixed;
-            top: 95px;
-            left: -250px;
-            /* Sidebar hidden by default */
-            width: 250px;
-            min-height: 100%;
-            background-color: #f5f5dc;
-            color: black;
-            padding-top: 20px;
-            overflow-y: auto;
-            z-index: 0;
-            transition: left 0.3s ease;
-        }
-
-        .sidebar a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            background-color: #f5f5dc;
-            transition: background-color 0.3s ease;
-        }
-
-        .sidebar a:hover {
-            background-color: #d4e157;
-            color: white;
-        }
-
-        /* Sidebar toggle buttons */
-        .toggle-btn {
-            background-color: #1f2a3f;
-            color: white;
+        /* Input and button styling */
+        #chatInput {
+            height: 40px;
             padding: 10px;
-            border: none;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            flex-grow: 1;
+            width: 80%;
+
+        }
+
+        /* Chỉnh kích thước icon cho Font Awesome */
+        .image-upload-label,
+        .camera-upload-label,
+        #sendChatBtn {
+            border-radius: 12px;
             cursor: pointer;
+            font-size: 24px;
+            color: #007bff;
+        }
+
+        #chatInput img {
+            max-width: 30px;
+            max-height: 30px;
+            object-fit: contain;
+            margin-left: -100px;
         }
     </style>
 </head>
@@ -380,7 +239,7 @@
                         <li class="nav-item"><a class="nav-link" href="/user/architectures/view">Phong cách kiến
                                 trúc</a></li>
                         <li class="nav-item"><a class="nav-link" href="/user/projects">Dự án</a></li>
-                        
+
                     </ul>
                 </div>
             </div>
@@ -399,55 +258,72 @@
         </a>
     </div>
     <div class="main-content" id="main-content">
+        <button class="toggle-btn open-btn" id="open-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <button class="toggle-btn close-btn" id="close-btn" style="display: none;">
+            <i class="fas fa-times"></i>
+        </button>
         <div class="container">
-            <button class="toggle-btn open-btn" id="open-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <button class="toggle-btn close-btn" id="close-btn" style="display: none;">
-                <i class="fas fa-times"></i>
-            </button>
-            <!-- Phần Nhận diện Kiến trúc -->
-            <div class="left-panel">
-                <h1>Nhận diện phong cách kiến trúc</h1>
+
+            <!-- Phần Chatbot -->
+            <div class="right-panel">
+
+
+                <!-- Thanh tìm kiếm phía trên Chatbot -->
+
+
+                <div id="chatbox">
+
+                </div>
+
+                <!-- Thay thế input bằng một div có contenteditable -->
                 <form id="uploadForm" action="{{ route('uploadImage', ['id' => $user_id]) }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
-                    <label for="image">Chọn ảnh cần nhận diện:</label><br>
-                    <input type="file" name="image" id="image" required><br><br>
-                    <button type="submit" class="upload-btn">Tiến hành nhận diện</button>
+                    <!-- Nút chọn ảnh cho nhận diện với icon -->
+                    <label for="image" class="image-upload-label">
+                        <i class="fas fa-image"></i> <!-- Icon hình ảnh -->
+                    </label>
+                    <input type="file" name="image" id="image" required style="display:none;"
+                        onchange="handleImageUpload()">
+
+                    <!-- Nút máy ảnh -->
+                    <label type="button" id="cameraBtn" class="camera-upload-label">
+                        <i class="fas fa-camera"></i> <!-- Icon máy ảnh -->
+                    </label>
+
+                    <!-- Textbox cho nhập liệu -->
+                    <div id="chatInput" contenteditable="true" class="form-control" placeholder="Nhập câu hỏi...">
+                    </div>
+
+                    <!-- Nút gửi tin nhắn cho chatbot với icon gửi -->
+                    <button id="sendChatBtn" class="chat-btn" onclick="handleSendChat()">
+                        <i class="fas fa-paper-plane"></i> Gửi
+                    </button>
+
                 </form>
 
+                <!-- Thẻ video và canvas ẩn để sử dụng cho camera -->
+                <video id="video" width="300" height="200" style="display:none;" autoplay></video>
+                <canvas id="canvas" style="display:none;"></canvas>
+
+
+
+
+
+
+                <!-- 
                 <div id="uploadedImageContainer" style="display:none;">
                     <h2>Nhận diện hoàn tất</h2>
                     <img id="uploadedImage" src="" alt="Uploaded Image">
                     <h3>Kết quả</h3>
                     <ul id="resultsList"></ul>
-                </div>
+                </div> -->
+
             </div>
 
-            <!-- Phần Chatbot -->
-            <div class="right-panel">
-                <h1>Mô tả</h1>
-
-                <!-- Thanh tìm kiếm phía trên Chatbot -->
-                <div id="searchContainer">
-
-                    <input type="text" id="searchInput" class="form-control"
-                        placeholder="Tìm kiếm phong cách kiến trúc..." />
-                    <button id="searchBtn">Tìm kiếm</button>
-                </div>
-
-                <div id="chatbox">
-                    <!-- Chat messages will appear here -->
-                </div>
-
-                <input type="text" id="chatInput" placeholder="Ask me anything..." />
-                <button id="sendChatBtn" class="chat-btn">Gửi</button>
-            </div>
         </div>
-
-
-    </div>
     </div>
 
     <x-footer />
@@ -474,57 +350,172 @@
             document.getElementById('open-btn').style.display = 'block'; // Hiển thị nút "open"
             document.getElementById('close-btn').style.display = 'none'; // Ẩn nút "close"
         });
+        // Sự kiện camera
+        document.getElementById('cameraBtn').addEventListener('click', function () {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function (stream) {
+                        document.getElementById('video').style.display = 'block';
+                        document.getElementById('video').srcObject = stream;
+
+                        // Lắng nghe sự kiện click vào video để chụp ảnh
+                        document.getElementById('video').addEventListener('click', function () {
+                            takeSnapshot();
+                        });
+                    })
+                    .catch(function (error) {
+                        console.error("Lỗi khi mở camera: ", error);
+                        alert("Không thể mở camera. Vui lòng cấp quyền truy cập!");
+                    });
+            } else {
+                alert("Trình duyệt của bạn không hỗ trợ camera.");
+            }
+        });
 
     </script>
 
     <script>
-$('#uploadForm').on('submit', function (event) {
-    event.preventDefault();  // Prevent default form submission
-    var formData = new FormData(this);  // Get form data
+        // Sự kiện gửi ảnh nhận diện
+        $('#uploadForm').on('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+            var formData = new FormData(this); // Get form data
 
-    // Send image to the controller via AJAX
-    $.ajax({
-        url: '{{ route("uploadImage", ["id" => $user_id]) }}', // POST request to controller
-        type: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-            console.log("Response from server: ", response);
-            if (response.result) {
-                // Hiển thị ảnh và kết quả nhận diện
-                $('#uploadedImage').attr('src', '/storage/' + response.imagePath);
-                $('#uploadedImageContainer').show();
-                $('#resultsList').empty();
+            $.ajax({
+                url: '{{ route("uploadImage", ["id" => $user_id]) }}', // POST request to controller
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log("Response from server: ", response);
+                    if (response.result) {
+                        const top1 = response.result.top_5_labels[0]; // Get top1 result
 
-                // Hiển thị top 5 kết quả nhận diện từ Flask
-                response.result.top_5_labels.forEach(function(label, index) {
-                    $('#resultsList').append('<li>' + label + ' (' + (response.result.top_5_probs[index] * 100).toFixed(2) + '%)</li>');
-                });
+                        // Gửi kết quả nhận diện top1 vào chatbot
+                        sendToChatbot(top1);
+                    } else {
+                        alert('Không có kết quả nhận diện hợp lệ');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Upload error:", error);
+                    alert('Lỗi khi nhận diện hình ảnh: ' + error);
+                }
+            });
+        });
 
-                // Gửi kết quả top1 vào chatbot
-                const top1 = response.result.top_5_labels[0];  // top1 là phong cách kiến trúc có xác suất cao nhất
-                sendToChatbot(top1);  // Gửi top1 vào chatbot
-            } else {
-                alert('Không có kết quả nhận diện hợp lệ từ Flask');
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error("Upload error:", error);
-            alert('Lỗi khi nhận diện hình ảnh: ' + error);
+        function sendToChatbot(top1) {
+            // Hiển thị kết quả top1 từ nhận diện ở bên trái, giống như tin nhắn chatbot
+            $('#chatbox').append('<div class="chat-message bot">Phong cách kiến trúc nhận diện: ' + top1 + '</div>');
+            $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight); // Cuộn xuống cuối chatbox để thấy tin nhắn
+
+            // Gửi yêu cầu đến chatbot API
+            $.ajax({
+                url: 'http://127.0.0.1:5000/api/chatbot', // API chatbot của bạn
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    "user_input": "Thông tin về phong cách kiến trúc " + top1,
+                    "language": "vi"
+                }),
+                success: function (chatbotResponse) {
+                    console.log("Chatbot response:", chatbotResponse);
+                    // Hiển thị phản hồi từ chatbot (gửi về bên trái)
+                    $('#chatbox').append('<div class="chat-message bot">' + chatbotResponse.response + '</div>');
+                    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);  // Cuộn xuống cuối chatbox
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                    alert('Lỗi khi gửi thông tin vào chatbot: ' + error);
+                }
+            });
         }
-    });
-});
 
-// Hàm gửi kết quả top1 vào chatbot
-function sendToChatbot(top1) {
-    // Hiển thị tin nhắn của người dùng trong chatbox
-    $('#chatbox').append('<div class="chat-message user">Thông tin về phong cách kiến trúc ' + top1 + '</div>');
-    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);  // Cuộn xuống cuối chatbox để thấy tin nhắn
+
+        $('#sendChatBtn').on('click', function (event) {
+            event.preventDefault(); // Ngừng hành động mặc định của nút submit
+
+            var userMessage = $('#chatInput').text().trim();
+            var hasImage = $('#chatInput img').length > 0; // Kiểm tra có ảnh trong chatInput không
+
+            // Nếu có văn bản, thêm vào chatbox và gửi tới chatbot
+            if (userMessage !== "") {
+                // Thêm tin nhắn người dùng vào chatbox (gửi đi bên phải)
+                $('#chatbox').append('<div class="chat-message user">' + userMessage + '</div>');
+                $('#chatInput').text(''); // Xóa nội dung trong input
+
+                // Gửi yêu cầu tới chatbot nếu có văn bản
+                $.ajax({
+                    url: 'http://127.0.0.1:5000/api/chatbot', // API chatbot của bạn
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ "user_input": userMessage, "language": "vi" }),
+                    success: function (response) {
+                        // Hiển thị phản hồi từ chatbot (gửi về bên trái)
+                        $('#chatbox').append('<div class="chat-message bot">' + response.response + '</div>');
+                        $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);  // Cuộn xuống cuối chatbox
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", error);
+                        alert('Lỗi khi gửi thông tin vào chatbot: ' + error);
+                    }
+                });
+            }
+
+            // Nếu có ảnh, gửi yêu cầu upload ảnh
+            if (hasImage) {
+                // Lấy ảnh từ chatInput và ẩn nó khỏi chatInput
+                var imageElement = $('#chatInput img');
+                var imageSrc = imageElement.attr('src');
+
+                // Xóa ảnh khỏi chatInput
+                imageElement.remove();
+
+                // Thêm ảnh vào chatbox như một tin nhắn của người dùng (gửi đi bên phải)
+                $('#chatbox').append('<div class="chat-message user"><img src="' + imageSrc + '" alt="User Image"></div>');
+
+                // Gửi ảnh qua form
+                var formData = new FormData($('#uploadForm')[0]); // Lấy dữ liệu từ form
+                $.ajax({
+                    url: '{{ route("uploadImage", ["id" => $user_id]) }}', // Địa chỉ xử lý ảnh
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        console.log("Response from server:", response);
+                        if (response.result) {
+                            $('#uploadedImage').attr('src', '/storage/' + response.imagePath);
+                            $('#uploadedImageContainer').show();
+                            $('#resultsList').empty();
+                            response.result.top_5_labels.forEach(function (label, index) {
+                                $('#resultsList').append('<li>' + label + ' (' + (response.result.top_5_probs[index] * 100).toFixed(2) + '%)</li>');
+                            });
+                            // Gửi kết quả vào chatbot nếu có ảnh (gửi về bên trái)
+                            const top1 = response.result.top_5_labels[0];
+                            sendToChatbot(top1);
+                        } else {
+                            alert('Không có kết quả nhận diện hợp lệ');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Upload error:", error);
+                        alert('Lỗi khi nhận diện hình ảnh: ' + error);
+                    }
+                });
+            } else if (!hasImage && userMessage === "") {
+                alert('Vui lòng nhập tin nhắn hoặc chọn ảnh.');
+            }
+        });
+
+        function sendToChatbot(top1) {
+    // Hiển thị kết quả nhận diện top1 từ hệ thống nhận diện ảnh ở bên trái (chatbot)
+    $('#chatbox').append('<div class="chat-message bot">Phong cách kiến trúc nhận diện: ' + top1 + '</div>');
+    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight); // Cuộn xuống cuối chatbox để thấy tin nhắn
 
     // Gửi yêu cầu đến chatbot API
     $.ajax({
-        url: 'http://127.0.0.1:5000/api/chatbot',  // API chatbot của bạn
+        url: 'http://127.0.0.1:5000/api/chatbot', // API chatbot của bạn
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({
@@ -533,8 +524,8 @@ function sendToChatbot(top1) {
         }),
         success: function (chatbotResponse) {
             console.log("Chatbot response:", chatbotResponse);
-            // Hiển thị phản hồi từ chatbot
-            $('#chatbox').append('<div class="chat-message bot markdown-body">' + chatbotResponse.response + '</div>');
+            // Hiển thị phản hồi từ chatbot (gửi về bên trái)
+            $('#chatbox').append('<div class="chat-message bot">' + chatbotResponse.response + '</div>');
             $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);  // Cuộn xuống cuối chatbox
         },
         error: function (xhr, status, error) {
@@ -543,35 +534,6 @@ function sendToChatbot(top1) {
         }
     });
 }
-
-
-        // Chatbot response handling
-        $('#sendChatBtn').on('click', function (event) {
-            event.preventDefault();
-            var userMessage = $('#chatInput').val();
-            if (userMessage.trim() === "") return;
-
-            // Thêm tin nhắn của người dùng vào chatbox
-            $('#chatbox').append('<div class="chat-message user">' + userMessage + '</div>');
-            $('#chatInput').val('');  // Xóa nội dung trong input
-
-            // Gửi yêu cầu tới chatbot
-            $.ajax({
-                url: 'http://127.0.0.1:5000/api/chatbot',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ "user_input": userMessage }),
-                success: function (response) {
-                    const formattedResponse = '<div class="chat-message bot markdown-body">' + response.response + '</div>';
-                    $('#chatbox').append(formattedResponse);
-                    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);  // Cuộn xuống cuối chatbox
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error:", error);
-                    alert('An error occurred with the chatbot: ' + error);
-                }
-            });
-        });
 
         // Search functionality
         $('#searchBtn').on('click', function () {
@@ -609,6 +571,74 @@ function sendToChatbot(top1) {
                 alert('Vui lòng nhập từ khóa tìm kiếm.');
             }
         });
+        $('#image').on('change', function (event) {
+            const file = event.target.files[0];  // Lấy file ảnh người dùng chọn
+            if (file) {
+                const reader = new FileReader();
+
+                // Sau khi file ảnh được đọc xong
+                reader.onload = function (e) {
+                    // Tạo một thẻ img để hiển thị ảnh
+                    const img = document.createElement('img');
+                    img.src = e.target.result;  // Gán nguồn ảnh
+                    img.alt = "Image Preview";  // Thêm alt text cho ảnh
+
+                    // Chèn ảnh vào trong div chatInput
+                    const chatInput = document.getElementById('chatInput');
+                    chatInput.appendChild(img);  // Thêm ảnh vào div
+
+                    // Cuộn đến cuối div để thấy ảnh ngay lập tức
+                    chatInput.scrollTop = chatInput.scrollHeight;
+                }
+
+                // Đọc file ảnh dưới dạng URL
+                reader.readAsDataURL(file);
+            }
+        });
+        function takeSnapshot() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+
+            // Đặt kích thước của canvas bằng kích thước video
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Vẽ video lên canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Chuyển canvas thành ảnh Data URL với định dạng JPEG
+            const imageDataUrl = canvas.toDataURL('image/jpeg'); // Chuyển ảnh thành JPEG
+
+            // Tạo Blob từ Data URL
+            fetch(imageDataUrl)
+                .then(res => res.blob())
+                .then(blob => {
+                    // Tạo URL tạm thời từ Blob
+                    const imgUrl = URL.createObjectURL(blob);
+
+                    // Ẩn video sau khi chụp
+                    video.style.display = 'none';
+
+                    // Dừng camera
+                    const stream = video.srcObject;
+                    const tracks = stream.getTracks();
+                    tracks.forEach(function (track) {
+                        track.stop();
+                    });
+
+                    // Hiển thị ảnh trong chatInput
+                    const chatInput = document.getElementById('chatInput');
+                    const img = document.createElement('img');
+                    img.src = imgUrl; // Gán URL của ảnh vào thẻ img
+
+                    // Clear nội dung cũ trong chatInput và thêm ảnh
+                    chatInput.innerHTML = ''; // Xóa tất cả nội dung trước
+                    chatInput.appendChild(img); // Thêm ảnh vào chatInput
+                })
+                .catch(error => console.error('Lỗi khi tạo Blob từ Data URL:', error));
+        }
+
     </script>
 </body>
 

@@ -1,0 +1,198 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Architecture Recognition",
+        "description": "API allows users to upload an image of a painting for prediction using an external Flask API.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/upload/{id}": {
+            "post": {
+                "tags": [
+                    "Image Upload"
+                ],
+                "summary": "Upload image and detect architecture style",
+                "operationId": "85742c452d987f13eee7447839b00aa9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "Image to upload",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Image uploaded and style detected",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "imagePath": {
+                                            "description": "Path to the uploaded image",
+                                            "type": "string"
+                                        },
+                                        "result": {
+                                            "description": "Detection result",
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "description": "Success message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/chatbot": {
+            "post": {
+                "tags": [
+                    "Chatbot"
+                ],
+                "summary": "Interact with chatbot",
+                "operationId": "63811d8937c6f08a1afb7c49ca846a1a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_input": {
+                                        "description": "User input for chatbot",
+                                        "type": "string"
+                                    },
+                                    "language": {
+                                        "description": "Language code (e.g., 'vi' for Vietnamese)",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Chatbot response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "response": {
+                                            "description": "Chatbot's response",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/search": {
+            "post": {
+                "tags": [
+                    "Search"
+                ],
+                "summary": "Search architecture style",
+                "operationId": "0b551e578ba206a8d8c34ab47379daa0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "query": {
+                                        "description": "Search query",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Search results",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "results": {
+                                            "description": "Search results",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Image Upload",
+            "description": "Image Upload"
+        },
+        {
+            "name": "Chatbot",
+            "description": "Chatbot"
+        },
+        {
+            "name": "Search",
+            "description": "Search"
+        }
+    ]
+}

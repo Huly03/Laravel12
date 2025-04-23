@@ -4,13 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User</title>
+    <meta name="description" content="Trang web về nhận diện kiến trúc, phong cách và các dự án xây dựng.">
+    <meta name="keywords" content="kiến trúc, nhận diện, dự án, phong cách kiến trúc">
+    <meta name="author" content="Tên của bạn">
+    <title>Trang Chủ - Nhận diện Kiến Trúc</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            background-color: whitesmoke;
             margin: 0;
             padding: 0;
             display: flex;
@@ -19,14 +22,25 @@
         }
 
         /* Header styling */
-        .header {
-            background-color: #1f2a3f;
-            color: white;
+        .header
+        {
+            background-color:whitesmoke ;
+            color: whitesmoke;
             padding: 20px 0;
             text-align: center;
             height: 80px;
+            z-index: 9999;
+            display: flex;
+            row-gap: 100px;
+            justify-content: center; /* căn giữa theo chiều ngang */
+            align-items: center;     /* căn giữa theo chiều dọc */
+            text-align: center; 
         }
-
+        .container-fluid
+        {
+            background-color:whitesmoke;
+            
+        }
         /* Logo in the header */
         .header img {
             height: 100%;
@@ -37,18 +51,22 @@
         .navbar {
             background-color: #333;
         }
+        .navbar-expand-lg{
+            background-color:whitesmoke;
+            text-align: center;
 
+        }
         .navbar .navbar-brand {
-            color: white;
             padding: 0;
+            background-color:whitesmoke;
         }
 
         .navbar .navbar-nav .nav-link {
-            color: white;
+            color: black;
         }
 
         .navbar .navbar-nav .nav-link:hover {
-            background-color: #1abc9c;
+            color: navy;
         }
 
         /* Sidebar styling */
@@ -56,10 +74,9 @@
             position: fixed;
             top: 95px;
             left: -250px;
-            /* Sidebar hidden by default */
             width: 250px;
             min-height: 100%;
-            background-color: #f5f5dc;
+            background-color:ghostwhite;
             color: black;
             padding-top: 20px;
             overflow-y: auto;
@@ -72,12 +89,12 @@
             padding: 12px 16px;
             text-decoration: none;
             display: block;
-            background-color: #f5f5dc;
+            background-color: ghostwhite;
             transition: background-color 0.3s ease;
         }
 
         .sidebar a:hover {
-            background-color: #d4e157;
+            background-color: navy;
             color: white;
         }
 
@@ -107,6 +124,11 @@
             flex-direction: column;
             height: 100%;
             margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
         }
 
         .card-img-top {
@@ -119,25 +141,45 @@
         }
 
         @media (max-width: 768px) {
+            .navbar-nav {
+                text-align: center;
+            }
+
+            .navbar-toggler {
+                border: none;
+            }
+
+            .navbar-collapse {
+                justify-content: center;
+            }
+
             .row {
                 flex-direction: column;
             }
+
+            .sidebar {
+                left: -250px; /* Sidebar đóng */
+            }
+
+            /* Các card sẽ chiếm toàn bộ chiều rộng */
+            .card {
+                width: 100%;
+            }
+
         }
 
         /* Container */
         .container {
             position: relative;
-            /* To position toggle buttons within it */
         }
 
         /* Position toggle buttons */
         .open-btn,
         .close-btn {
             position: absolute;
-            top: -15px;
+            top: -45px;
             left: -30px;
             z-index: 1;
-            /* Ensure the button is above content */
         }
     </style>
 </head>
@@ -151,34 +193,30 @@
                     <img src="{{ asset('images/logo.jpg') }}" alt="Logo" style="height: 60px; width: auto;">
                 </a>
 
+                <!-- Toggler for small screens -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link active" href="/user">Trang chủ</a></li>
+                        <li class="nav-item"><b class="nav-link active" href="/user">Home</b></li>
                         @if(session('user_id'))
-                            <a class="nav-link" href="{{ route('uploadImage', ['id' => session('user_id')]) }}">Nhận diện
-                                kiến trúc</a>
+                            <a class="nav-link" href="{{ route('uploadImage', ['id' => session('user_id')]) }}">Recogintion</a>
                         @else
                             <a class="nav-link" href="#">Nhận diện kiến trúc (Chưa đăng nhập)</a>
                         @endif
-
-
-                        <li class="nav-item"><a class="nav-link" href="/user/architectures/view">Phong cách kiến
-                                trúc</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/user/projects">Dự án</a></li>
-                        <li class="nav-item">
-                            <form class="form-inline d-inline" id="searchForm">
-                                <input type="text" id="searchInput" placeholder="Tìm kiếm...">
-                                <button type="submit"><i class="fas fa-search"></i></button>
-                            </form>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="/user/architectures/view">Architectures</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/projects">Projects</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
     </div>
+
+    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <h3 class="text-center">
-            <!-- Hiển thị username của người dùng đã đăng nhập -->
             <a href="{{ Auth::check() ? route('account.profile') : route('login') }}">
                 <i class="fas fa-user-circle text-center"></i>{{ Auth::user()->username }}</a>
         </h3>
@@ -188,7 +226,6 @@
             <i class="fas fa-sign-out-alt"></i> Đăng xuất
         </a>
     </div>
-
 
     <!-- Main Content -->
     <div class="main-content" id="main-content">
@@ -200,39 +237,8 @@
             <button class="toggle-btn close-btn" id="close-btn" style="display: none;">
                 <i class="fas fa-times"></i>
             </button>
-            <!-- Your main content here -->
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card text-white bg-primary">
-                        <div class="card-header">Tổng các dự án</div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $totalProjects }}</h5>
-                            <p class="card-text">Các dự án đã và đang hoàn thành</p>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-4">
-                    <div class="card text-white bg-success">
-                        <div class="card-header">Đã hoàn thành</div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $completedProjects }}</h5>
-                            <p class="card-text">Các dự án đã được hoàn thành</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card text-white bg-danger">
-                        <div class="card-header">Đang thi công</div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $inProgressProjects }}</h5>
-                            <p class="card-text">Các dự án đang được thi công</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <!-- Main Content Section -->
             <div class="container mt-4">
                 <h3>Phong cách kiến trúc</h3>
                 <div class="row">
@@ -252,30 +258,12 @@
                 </div>
             </div>
         </div>
-        <div class="main-content" id="main-content">
-            <h2>Danh sách dự án</h2>
-            <div class="row">
-                @foreach($projects as $project)
-                    <div class="col-md-4">
-                        <div class="card">
-                            <img src="{{ asset('storage/' . $project->image_url) }}" class="card-img-top"
-                                alt="{{ $project->name }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $project->name }}</h5>
-                                <p class="card-text"><strong>Loại dự án:</strong> {{ $project->project_type }}</p>
-                                <p class="card-text"><strong>Trạng thái:</strong> {{ $project->status }}</p>
-                                <p class="card-text"><strong>Giá:</strong> {{ number_format($project->price, 2) }} VNĐ</p>
-
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
     </div>
 
-    <!-- Footer (you can create a footer component as needed) -->
-    <x-footer />
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white text-center py-3 mt-4">
+        <p>&copy; 2025 Tất cả quyền được bảo vệ. Trang web của bạn.</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -299,7 +287,6 @@
             document.getElementById('open-btn').style.display = 'block'; // Hiển thị nút "open"
             document.getElementById('close-btn').style.display = 'none'; // Ẩn nút "close"
         });
-
     </script>
 </body>
 
