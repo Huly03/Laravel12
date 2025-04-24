@@ -35,6 +35,7 @@ class UserAccountController extends Controller
             'dia_chi'    => 'nullable|string|max:255',
             'fullname'   => 'required|string|max:255',
         ]);
+        $user->update($request->except('username')); // Không cập nhật trường username
 
         $user->update($request->only(['username', 'email', 'phone', 'dia_chi', 'fullname']));
 

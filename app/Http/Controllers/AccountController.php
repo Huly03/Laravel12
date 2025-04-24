@@ -31,6 +31,7 @@ class AccountController extends Controller
             'birth_date' => 'nullable|date',
             'address' => 'nullable|string|max:255',
         ]);
+        $account->update($request->except('username')); // Không cập nhật trường username
 
         $account->update($request->only([
             'username', 'gender', 'phone', 'email', 'birth_date', 'address'

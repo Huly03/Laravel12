@@ -26,7 +26,7 @@ class UserController extends Controller
         $user_id = session('user_id');  // Lấy user_id từ session
 
         // Truy vấn thông tin người dùng từ bảng accounts
-        $user = DB::table('accounts')->where('id', $user_id)->first();
+        $user = DB::table('users')->where('id', $user_id)->first();
 
         // Trả về view dashboard và truyền dữ liệu
         return view('user.dashboard', [

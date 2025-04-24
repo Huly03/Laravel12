@@ -16,12 +16,23 @@ use App\Http\Controllers\ApiCallController;
 use App\Http\Controllers\ArchitectureStyleController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ModelController;
+
+
+
+Route::get('/model-selection', [ModelController::class, 'showForm'])->name('model-selection');
+Route::post('/model-selection', [ModelController::class, 'submitSelection']);
+Route::get('/model-use/{id}', [ModelController::class, 'useModel'])->name('useModel');
+Route::get('/model-delete/{id}', [ModelController::class, 'deleteModel'])->name('deleteModel');
+
+
 
 Route::put('/users/{id}', [UserController::class, 'update'])->name('updateUser');
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('deleteUser');
 
 // Route để hiển thị ảnh của người dùng
 Route::get('/ketqua', [ImageController::class, 'index'])->name('images.index');
+Route::delete('/ketqua', [ArchitectureStyleController::class, 'deleteImage'])->name('deleteImage');
 
 
 Route::middleware(['auth'])->group(function () {

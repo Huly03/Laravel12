@@ -211,6 +211,7 @@
         <a href="/result"><i class="fas fa-search"></i> Kết quả</a>
         <a href="{{ route('users.index') }}"><i class="fas fa-users"></i> Danh sách tài khoản</a>
         <a href="/api-calls"><i class="fas fa-cogs"></i> API</a>
+        <a href="/model-selection"><i class="fas fa-cogs"></i> LLM</a>
         <a href="/login"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
 

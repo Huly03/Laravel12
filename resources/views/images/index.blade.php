@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách ảnh của bạn</title>
+    <title>Danh sách kết quả của bạn</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -250,8 +250,8 @@
 
     <div class="sidebar" id="sidebar">
         <h3 class="text-center">
-            <a href="{{ Auth::check() ? route('account.profile') : route('login') }}">
-                <i class="fas fa-user-circle text-center"></i>{{ Auth::user()->username }}</a>
+        <b href="{{ Auth::check() ? route('account.profile') : route('login') }}">
+        <i class="fas fa-user-circle text-center"></i>{{ Auth::user()->fullname }}</b>
         </h3>
         <a href="{{ route('my.account') }}"><i class="fas fa-id-card-alt"></i> Thông tin của tôi</a>
         <a href="{{ route('images.index') }}"><i class="fas fa-image"></i> Kết quả</a>
@@ -272,7 +272,7 @@
             <h2 class="text-center text-primary mb-4">Danh sách ảnh của bạn</h2>
 
             @if($images->isEmpty())
-                <p class="text-center">Bạn chưa tải lên bất kỳ ảnh nào.</p>
+                <p class="text-center">Bạn chưa sử dụng hệ thống nhận diện phong cách kiến trúc lần nào.</p>
             @else
                 <div class="row g-4">
                     @foreach($images as $image)

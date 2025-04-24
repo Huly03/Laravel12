@@ -16,8 +16,8 @@ class ArchitectureStyleController extends Controller
     public function showImages()
     {
         // Lấy tất cả các ảnh từ bảng architecture_styles mà không cần kiểm tra người dùng
-        $images = ArchitectureStyle::all();
-    
+        $images = ArchitectureStyle::orderByDesc('detection_time')->get();
+        
         // Trả về view với các ảnh
         return view('result_recog.result', compact('images'));
     }
@@ -112,7 +112,7 @@ class ArchitectureStyleController extends Controller
         // Xóa ảnh
         $image->delete();
     
-        return redirect()->route('images')->with('success', 'Ảnh đã được xóa thành công.');
+        return redirect()->route('images.index')->with('success', 'Ảnh đã được xóa thành công.');
     }
     
 }

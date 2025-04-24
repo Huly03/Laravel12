@@ -217,8 +217,8 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <h3 class="text-center">
-            <a href="{{ Auth::check() ? route('account.profile') : route('login') }}">
-                <i class="fas fa-user-circle text-center"></i>{{ Auth::user()->username }}</a>
+            <b href="{{ Auth::check() ? route('account.profile') : route('login') }}">
+                <i class="fas fa-user-circle text-center"></i>{{ Auth::user()->fullname }}</b>
         </h3>
         <a href="{{ route('my.account') }}"><i class="fas fa-id-card-alt"></i> Thông tin của tôi</a>
         <a href="{{ route('images.index') }}"><i class="fas fa-image"></i> Kết quả</a>

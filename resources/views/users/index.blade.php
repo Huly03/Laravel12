@@ -62,7 +62,7 @@ z-index: 1050; /* Đảm bảo modal ở trên tất cả các phần tử khác
 
         th {
             background-color: #007bff;
-            color: white;
+            color: black;
             font-weight: bold;
         }
 

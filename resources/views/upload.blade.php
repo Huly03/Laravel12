@@ -297,10 +297,10 @@
                     <div id="chatInput" contenteditable="true" class="form-control" placeholder="Nhập câu hỏi...">
                     </div>
 
-                    <!-- Nút gửi tin nhắn cho chatbot với icon gửi -->
-                    <button id="sendChatBtn" class="chat-btn" onclick="handleSendChat()">
-                        <i class="fas fa-paper-plane"></i> Gửi
-                    </button>
+<button id="sendChatBtn" class="chat-btn" onclick="handleSendChat()">
+    <i class="fas fa-paper-plane"></i> Gửi
+</button>
+
 
                 </form>
 
@@ -372,6 +372,7 @@
             }
         });
 
+
     </script>
 
     <script>
@@ -433,80 +434,89 @@
 
 
         $('#sendChatBtn').on('click', function (event) {
-            event.preventDefault(); // Ngừng hành động mặc định của nút submit
+    event.preventDefault(); // Ngừng hành động mặc định của nút submit
 
-            var userMessage = $('#chatInput').text().trim();
-            var hasImage = $('#chatInput img').length > 0; // Kiểm tra có ảnh trong chatInput không
+    var userMessage = $('#chatInput').text().trim();
+    var hasImage = $('#chatInput img').length > 0; // Kiểm tra có ảnh trong chatInput không
 
-            // Nếu có văn bản, thêm vào chatbox và gửi tới chatbot
-            if (userMessage !== "") {
-                // Thêm tin nhắn người dùng vào chatbox (gửi đi bên phải)
-                $('#chatbox').append('<div class="chat-message user">' + userMessage + '</div>');
-                $('#chatInput').text(''); // Xóa nội dung trong input
+    if (userMessage !== "" || hasImage) {
+        // Thêm tin nhắn người dùng vào chatbox và gửi tới chatbot nếu có văn bản
+        if (userMessage !== "") {
+            $('#chatbox').append('<div class="chat-message user">' + userMessage + '</div>');
+            $('#chatInput').text(''); // Xóa nội dung trong input
+        }
 
-                // Gửi yêu cầu tới chatbot nếu có văn bản
-                $.ajax({
-                    url: 'http://127.0.0.1:5000/api/chatbot', // API chatbot của bạn
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ "user_input": userMessage, "language": "vi" }),
-                    success: function (response) {
-                        // Hiển thị phản hồi từ chatbot (gửi về bên trái)
-                        $('#chatbox').append('<div class="chat-message bot">' + response.response + '</div>');
-                        $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);  // Cuộn xuống cuối chatbox
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error:", error);
-                        alert('Lỗi khi gửi thông tin vào chatbot: ' + error);
+        // Gửi yêu cầu tới chatbot nếu có văn bản
+        if (userMessage !== "") {
+            $.ajax({
+                url: 'http://127.0.0.1:5000/api/chatbot', // API chatbot của bạn
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ "user_input": userMessage, "language": "vi" }),
+                success: function (response) {
+                    $('#chatbox').append('<div class="chat-message bot">' + response.response + '</div>');
+                    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight); // Cuộn xuống cuối chatbox
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                    alert('Lỗi khi gửi thông tin vào chatbot: ' + error);
+                }
+            });
+        }
+
+        // Xử lý ảnh nếu có trong tin nhắn
+        if (hasImage) {
+            var imageElement = $('#chatInput img');
+            var imageSrc = imageElement.attr('src');
+
+            // Xóa ảnh khỏi chatInput
+            imageElement.remove();
+
+            // Thêm ảnh vào chatbox như một tin nhắn của người dùng
+            $('#chatbox').append('<div class="chat-message user"><img src="' + imageSrc + '" alt="User Image"></div>');
+
+            // Gửi ảnh qua form
+            var formData = new FormData($('#uploadForm')[0]); // Lấy dữ liệu từ form
+            $.ajax({
+                url: '{{ route("uploadImage", ["id" => $user_id]) }}', // Địa chỉ xử lý ảnh
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log("Response from server:", response);
+                    if (response.result) {
+                        $('#uploadedImage').attr('src', '/storage/' + response.imagePath);
+                        $('#uploadedImageContainer').show();
+                        $('#resultsList').empty();
+                        response.result.top_5_labels.forEach(function (label, index) {
+                            $('#resultsList').append('<li>' + label + ' (' + (response.result.top_5_probs[index] * 100).toFixed(2) + '%)</li>');
+                        });
+                        const top1 = response.result.top_5_labels[0];
+                        sendToChatbot(top1); // Gửi kết quả nhận diện vào chatbot
+                    } else {
+                        alert('Không có kết quả nhận diện hợp lệ');
                     }
-                });
-            }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Upload error:", error);
+                    alert('Lỗi khi nhận diện hình ảnh: ' + error);
+                }
+            });
+        }
+    } else {
+        alert('Vui lòng nhập tin nhắn hoặc chọn ảnh.');
+    }
+});
 
-            // Nếu có ảnh, gửi yêu cầu upload ảnh
-            if (hasImage) {
-                // Lấy ảnh từ chatInput và ẩn nó khỏi chatInput
-                var imageElement = $('#chatInput img');
-                var imageSrc = imageElement.attr('src');
+// Thêm sự kiện để gửi tin nhắn khi nhấn phím Enter
+$('#chatInput').on('keydown', function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Ngừng hành động mặc định của phím Enter
+        $('#sendChatBtn').click(); // Gọi sự kiện click của nút gửi
+    }
+});
 
-                // Xóa ảnh khỏi chatInput
-                imageElement.remove();
-
-                // Thêm ảnh vào chatbox như một tin nhắn của người dùng (gửi đi bên phải)
-                $('#chatbox').append('<div class="chat-message user"><img src="' + imageSrc + '" alt="User Image"></div>');
-
-                // Gửi ảnh qua form
-                var formData = new FormData($('#uploadForm')[0]); // Lấy dữ liệu từ form
-                $.ajax({
-                    url: '{{ route("uploadImage", ["id" => $user_id]) }}', // Địa chỉ xử lý ảnh
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        console.log("Response from server:", response);
-                        if (response.result) {
-                            $('#uploadedImage').attr('src', '/storage/' + response.imagePath);
-                            $('#uploadedImageContainer').show();
-                            $('#resultsList').empty();
-                            response.result.top_5_labels.forEach(function (label, index) {
-                                $('#resultsList').append('<li>' + label + ' (' + (response.result.top_5_probs[index] * 100).toFixed(2) + '%)</li>');
-                            });
-                            // Gửi kết quả vào chatbot nếu có ảnh (gửi về bên trái)
-                            const top1 = response.result.top_5_labels[0];
-                            sendToChatbot(top1);
-                        } else {
-                            alert('Không có kết quả nhận diện hợp lệ');
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Upload error:", error);
-                        alert('Lỗi khi nhận diện hình ảnh: ' + error);
-                    }
-                });
-            } else if (!hasImage && userMessage === "") {
-                alert('Vui lòng nhập tin nhắn hoặc chọn ảnh.');
-            }
-        });
 
         function sendToChatbot(top1) {
     // Hiển thị kết quả nhận diện top1 từ hệ thống nhận diện ảnh ở bên trái (chatbot)
