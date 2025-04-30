@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;  // Import model Project
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\WebsiteConfig;
 class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::all(); // hoặc paginate nếu muốn
-        return view('user.project_list', compact('projects'));
+        // Lấy cấu hình website
+        $config = WebsiteConfig::first();
+
+        // Lấy tất cả các dự án và nhóm theo tên ảnh (hoặc dựa trên `name` nếu cần thiết)
+        $projects = Project::all()->groupBy('name');  // Nhóm các dự án theo tên ảnh
+
+        return view('user.project_list', compact('projects', 'config'));
     }
 // Hiển thị form tạo mới dự án
 public function create()

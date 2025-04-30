@@ -1,0 +1,64 @@
+/* public/css/style.css */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.hero-section {
+    background-image: url('https://via.placeholder.com/1500x800'); /* Thay thế bằng hình ảnh đẹp */
+    background-size: cover;
+    color: white;
+    text-align: center;
+    padding: 100px 0;
+    height: 100vh;
+}
+
+.hero-section h1 {
+    font-size: 48px;
+    font-weight: 500;
+}
+
+.hero-section p {
+    font-size: 24px;
+    margin: 20px 0;
+}
+
+.hero-section .btn {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hero-section .btn:hover {
+    background-color: #0056b3;
+}
+
+.content-section {
+    text-align: center;
+    padding: 50px 0;
+    background-color: white;
+    margin-top: -20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content-section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.content-section p {
+    font-size: 18px;
+}

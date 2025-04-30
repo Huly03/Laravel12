@@ -1,8 +1,17 @@
-<!-- resources/views/model-selection-result.blade.php -->
-@if(isset($data['status']) && $data['status'] == 'success')
-    <h3>Mô hình đã được khởi tạo thành công!</h3>
-    <p>Thông báo: {{ $data['message'] }}</p>
-@else
-    <h3>Đã có lỗi xảy ra!</h3>
-    <p>Thông báo lỗi: {{ $data['error'] }}</p>
-@endif
+<!-- resources/views/home.blade.php -->
+@extends('layouts.app')
+
+@section('title', 'Trang Chủ')
+
+@section('content')
+    <div class="hero-section">
+        <h1>Chào mừng đến với Website của chúng tôi</h1>
+        <p>Khám phá các dự án kiến trúc độc đáo.</p>
+        <button class="btn">Tìm hiểu thêm</button>
+    </div>
+
+    <div class="content-section">
+        <h2>Dự án Nổi bật</h2>
+        <p>Chúng tôi luôn cố gắng tạo ra các thiết kế đẹp mắt và sáng tạo cho các dự án của mình.</p>
+    </div>
+@endsection

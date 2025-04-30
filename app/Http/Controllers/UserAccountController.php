@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use App\Models\WebsiteConfig;
 class UserAccountController extends Controller
 {
     // 🧾 Xem danh sách toàn bộ user
@@ -18,9 +18,11 @@ class UserAccountController extends Controller
 
     // 👤 Xem thông tin người dùng đang đăng nhập
     public function profile()
-    {
+    {           
+        $config = WebsiteConfig::first();
+
         $user = Auth::user();
-        return view('users.profile', compact('user'));
+        return view('users.profile', compact('user', 'config'));
     }
 
     // 🛠️ Cập nhật thông tin của người dùng hiện tại

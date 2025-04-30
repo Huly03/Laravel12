@@ -76,5 +76,10 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
+    // config/filesystems.php
+    'limits' => [
+        'max_upload_size' => 100 * 1024 * 1024,  // Đơn vị tính là bytes, 50MB
+    ],
+
 
 ];

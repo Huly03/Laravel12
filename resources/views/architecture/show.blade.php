@@ -23,16 +23,20 @@
             position: relative; /* Added position relative */
         }
 
-        h2, .img-fluid {
+        h2,.img-fluid{
             text-align: center;  /* Căn giữa text và ảnh */
-            width: auto;
+            width: 100%;
+            display: flex;
+            justify-content: center; /* Căn giữa theo chiều ngang */
+            align-items: center;
         }
 
         .img-fluid {
-            width: auto;       /* Để chiều rộng tự động */
-            height: 250px;     /* Đặt chiều cao cố định cho ảnh */
+            width: 100%;       /* Để chiều rộng tự động */
+            height: auto;     /* Đặt chiều cao cố định cho ảnh */
             margin-top: 20px;
             margin-bottom: 20px;
+            text-align: center;
         }
 
         /* Tiêu đề chính */
@@ -107,11 +111,12 @@
             <li><a class="dropdown-item" href="{{ route('architecture.edit', $architecture->id) }}">Chỉnh sửa</a></li>
             <!-- Form xóa -->
             <li>
-                <form action="{{ route('architecture.destroy', $architecture->id) }}" method="POST" style="display: inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="dropdown-item text-danger">Xóa</button>
-                </form>
+            <form action="{{ route('architecture.destroy', $architecture->id) }}" method="POST">
+    @csrf
+    @method('DELETE')
+    <button type="submit">Xóa</button>
+</form>
+
             </li>
         </ul>
     </div>

@@ -1,25 +1,17 @@
+<!-- resources/views/layouts/app.blade.php -->
 <!DOCTYPE html>
-<html lang="vi">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng</title>
-    <!-- Link đến CSS của bạn -->
+    <title>@yield('title', 'Trang Chủ')</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
-
 <body>
-    <header>
-        <!-- Header của bạn -->
-    </header>
-
-    <div class="content">
-        @yield('content') <!-- Đây là nơi chứa phần nội dung từ view đăng ký -->
+    <div class="container">
+        @yield('content')
     </div>
-
-    <footer>
-        <!-- Footer của bạn -->
-    </footer>
+    <script src="{{ asset('js/script.js') }}"></script>
 </body>
-
 </html>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Architecture;  // Đảm bảo bạn có mô hình Architecture
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\WebsiteConfig;  
 class ArchitectureController extends Controller
 {
     // Hiển thị form tạo mới
@@ -15,12 +15,15 @@ class ArchitectureController extends Controller
     }
     public function viewOnly()
     {
-        $architectures = \App\Models\Architecture::all();
-        return view('user.architecture_view', compact('architectures'));
+        $config = WebsiteConfig::first();
+        $architectures = Architecture::all(); // Now you can use it directly
+
+        return view('user.architecture_view', compact('architectures', 'config'));
     }
     public function showDetail($id)
 {
-    $architecture = \App\Models\Architecture::findOrFail($id);
+    $architecture = Architecture::findOrFail($id);
+    $config = WebsiteConfig::first();
 
     // Nếu bạn có logic đọc file .txt hoặc nội dung thêm:
     $textContent = null;
@@ -30,7 +33,7 @@ class ArchitectureController extends Controller
         $textContent = file_get_contents($filePath);
     }
 
-    return view('user.architecture_detail', compact('architecture', 'textContent'));
+    return view('user.architecture_detail', compact('architecture', 'textContent','config'));
 }
 
     // Xử lý lưu dữ liệu vào cơ sở dữ liệu
@@ -129,6 +132,6 @@ class ArchitectureController extends Controller
 
         $architecture->delete();
 
-        return redirect()->route('architecture.index')->with('success', 'Phong cách kiến trúc đã được xóa!');
+        return redirect()->route('architecture')->with('success', 'Phong cách kiến trúc đã được xóa!');
     }
 }

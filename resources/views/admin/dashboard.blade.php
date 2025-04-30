@@ -206,14 +206,24 @@
     </div>
 
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <h3 class="text-center">Admin</h3>
-        <a href="/result"><i class="fas fa-search"></i> Kết quả</a>
-        <a href="{{ route('users.index') }}"><i class="fas fa-users"></i> Danh sách tài khoản</a>
-        <a href="/api-calls"><i class="fas fa-cogs"></i> API</a>
-        <a href="/model-selection"><i class="fas fa-cogs"></i> LLM</a>
-        <a href="/login"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-    </div>
+<div class="sidebar" id="sidebar">
+    <h3 class="text-center">Admin</h3>
+
+    <a href="/result"><i class="fas fa-chart-bar"></i> Kết quả</a> <!-- Changed to 'chart-bar' for results -->
+
+    <a href="{{ route('users.index') }}"><i class="fas fa-user-friends"></i> Danh sách tài khoản</a> <!-- 'user-friends' fits better for user lists -->
+
+    <a href="/api-calls"><i class="fas fa-server"></i> API</a> <!-- 'server' for API backend connections -->
+
+    <a href="/model-selection"><i class="fas fa-brain"></i> LLM</a> <!-- 'brain' for AI models -->
+
+    <a href="{{ route('admin.website-config.index') }}"><i class="fas fa-tools"></i> Cấu hình Website</a> <!-- 'tools' better for settings -->
+
+    <a href="{{ route('admin.models.index') }}"><i class="fas fa-cubes"></i> Models</a> <!-- 'cubes' for multiple models/components -->
+
+    <a href="/login"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a> <!-- 'sign-out-alt' is perfect for logout -->
+</div>
+
 
     <!-- Main Content -->
     <div class="main-content" id="main-content">
@@ -232,7 +242,7 @@
                     <div class="card text-white bg-primary">
                         <div class="card-header">Tổng các dự án</div>
                         <div class="card-body">
-                            <h5 class="card-title">{{ $totalProjects }}</h5>
+                            <h5 class="card-title">{{ $name }}</h5>
                             <p class="card-text">Các dự án đã và đang hoàn thành</p>
                         </div>
                     </div>

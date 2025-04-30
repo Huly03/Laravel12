@@ -17,8 +17,24 @@ use App\Http\Controllers\ArchitectureStyleController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ModelController;
+use App\Http\Controllers\WebsiteConfigController;
+use App\Http\Controllers\Admin\ArchitectureModelController;
+// routes/web.php
 
+Route::prefix('admin')->middleware(['auth'])->group(function () {
+    Route::resource('models', ArchitectureModelController::class);
+    Route::post('models/{id}/use', [ArchitectureModelController::class, 'use'])->name('models.use');
 
+});
+// routes/web.php
+
+Route::get('admin/models', [ArchitectureModelController::class, 'index'])->name('admin.models.index');
+// routes/web.php
+
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('website-config', [WebsiteConfigController::class, 'index'])->name('admin.website-config.index');
+    Route::post('website-config', [WebsiteConfigController::class, 'update'])->name('admin.website-config.update');
+});
 
 Route::get('/model-selection', [ModelController::class, 'showForm'])->name('model-selection');
 Route::post('/model-selection', [ModelController::class, 'submitSelection']);
@@ -78,7 +94,7 @@ Route::post('architecture', [ArchitectureController::class, 'store']);
 Route::get('architecture/{id}', [ArchitectureController::class, 'show'])->name('architecture.show');
 Route::get('architecture/{id}/edit', [ArchitectureController::class, 'edit'])->name('architecture.edit');
 Route::put('architecture/{id}', [ArchitectureController::class, 'update']);
-Route::delete('architecture/{id}', [ArchitectureController::class, 'destroy']);
+Route::delete('architecture/{id}', [ArchitectureController::class, 'destroy'])->name('architecture.destroy');
 
 Route::get('/user/upload', [ApiController::class, 'showFormv2'])->name('uploadFormV2'); // Trang giao diện upload
 // Gửi ảnh -> nhận kết quả từ Flask
@@ -92,7 +108,7 @@ Route::post('/chatbot', [ApiController::class, 'chatWithBot'])->name('chatWithBo
 // Tìm kiếm
 Route::post('/search', [ApiController::class, 'searchQuery'])->name('searchQuery');
 Route::post('/search', [HeaderController::class, 'searchQuery'])->name('searchQuery');
-// Trang chủ
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route đăng ký
 Route::get('/register', [RegisterController::class, 'showForm'])->name('register');
@@ -102,8 +118,8 @@ Route::get('/login', [LoginController::class, 'showForm'])->name('login.show');
 Route::post('/login', [LoginController::class, 'login'])->name('login.store');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Route phân quyền
-// Route dành cho trang admin
+
+
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('auth');
 
 Route::get('/user', [UserController::class, 'index'])->name('user.dashboard')->middleware('auth');

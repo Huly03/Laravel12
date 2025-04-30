@@ -8,14 +8,14 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\WebsiteConfig;
 class UserController extends Controller
 {
     public function index()
     {
         // Lấy tất cả các phong cách kiến trúc từ bảng architectures
         $architectures = Architecture::all();
-
+        $website_configs = WebsiteConfig::first();
         // Lấy tất cả dự án từ cơ sở dữ liệu
         $projects = Project::all();
         $totalProjects = Project::count();
@@ -30,6 +30,7 @@ class UserController extends Controller
 
         // Trả về view dashboard và truyền dữ liệu
         return view('user.dashboard', [
+            'config' => $website_configs,
             'architectures' => $architectures,
             'projects' => $projects,
             'totalProjects' => $totalProjects,

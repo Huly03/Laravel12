@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class LoginController extends Controller
 {
@@ -46,6 +47,18 @@ class LoginController extends Controller
     }
         
 
+    public function someAction()
+    {
+        // Kiểm tra xem người dùng có quyền admin không
+        if (Gate::allows('admin')) {
+            // Người dùng là admin
+            return view('admin.dashboard');
+        } else {
+            // Người dùng không phải admin
+            return redirect()->route('home')->with('error', 'Bạn không có quyền truy cập!');
+        }
+    }
+    
     // Xử lý đăng xuất
     public function logout()
     {

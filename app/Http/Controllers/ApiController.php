@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use App\Models\ApiCall;// Import đúng model ApiCall
 use App\Models\ArchitectureStyle;
+use App\Models\WebsiteConfig;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,13 +24,16 @@ class ApiController extends Controller
     // Hiển thị form tải ảnh lên
     public function showForm($id)
     {
+        $website_configs = WebsiteConfig::first();
+
         // Kiểm tra nếu user_id từ session không khớp với id trong URL
         if (session('user_id') != $id) {
             return redirect()->route('login.show');  // Nếu không khớp, chuyển hướng người dùng đến trang login
         }
 
         // Trả về view upload và truyền user_id vào view
-        return view('upload', ['user_id' => $id]);
+        return view('upload', ['user_id' => $id,
+                                        'config' => $website_configs,]);
     }
 
     /**
