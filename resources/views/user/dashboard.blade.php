@@ -3,441 +3,398 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ArchStyAi</title>
 
-    <meta name="description" content="{{ $config->description }}">
-    <meta name="keywords" content="{{ $config->keywords  }}">
-    <title>{{ $config->website_name}}</title>
-
+    <!-- Favicon -->
     @if(!empty($config->favicon))
         <link rel="icon" href="{{ asset('storage/' . $config->favicon) }}" type="image/x-icon">
     @endif
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Style CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/classy-nav.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: ghostwhite;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            justify-content: flex-start;
-            /* Ensure the header stays at the top */
-        }
-
-        /* Header styling */
-        .header {
-            background-color: ghostwhite;
-            padding: 20px 0;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            margin-top: 20px;
-            /* Some space from the top */
-        }
-
-        /* Logo styling */
-        .header .logo {
-            height: 60px;
-            /* Adjust the height of the logo */
-            margin-bottom: 10px;
-            /* Reduced spacing between logo and navbar */
-        }
-
-        /* Navbar styling */
-        .navbar {
-            background-color: ghostwhite;
-            width: 100%;
-            margin-bottom: 0;
-            /* Remove margin from bottom of the navbar */
-        }
-
-        .navbar .navbar-nav .nav-item {
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        .navbar .navbar-nav .nav-link {
-            color: black;
-            font-size: 16px;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        .navbar .navbar-nav .nav-link:hover {
-            color: navy;
-        }
-
-        /* Archive button styling */
-        .navbar .navbar-nav .nav-link.archive-btn {
-            color: #1E3A8A;
-            /* Navy Blue */
-            font-size: 16px;
-            font-weight: bold;
-            border: 1px solid #1E3A8A;
-            border-radius: 5px;
-            padding: 8px 16px;
-            transition: all 0.3s ease;
-        }
-
-        .navbar .navbar-nav .nav-link.archive-btn:hover {
-            background-color: #1E3A8A;
+        footer.site-footer {
+            padding: 20px;
+            background: #222;
             color: white;
         }
 
-        /* Ensure the header content (logo + navbar) are centered both vertically and horizontally */
-        .header-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            /* Centers the content vertically */
-            align-items: center;
-            /* Centers the logo and navbar horizontally */
-            text-align: center;
-        }
-
-        /* Add space between the logo and navbar */
-        .navbar-wrapper {
-            margin-top: 20px;
-            /* Space between the logo and navbar */
-        }
-
-        /* Sidebar styling */
-        .sidebar {
-            position: fixed;
-            top: 95px;
-            left: -250px;
-            width: 250px;
-            min-height: 100%;
-            background-color: whitesmoke;
+        footer {
+            background-color: white;
             color: black;
-            padding-top: 20px;
-            overflow-y: auto;
-            transition: left 0.3s ease;
+            padding: 40px 0;
+            font-size: 14px;
+            z-index: 1000;
+            /* Giảm z-index */
         }
 
-        .sidebar a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            background-color: whitesmoke;
-            transition: background-color 0.3s ease;
-        }
-
-        .sidebar a:hover {
-            background-color: navy;
-            color: white;
-        }
-
-        /* Sidebar toggle buttons */
-        .toggle-btn {
-            background-color: ghostwhite;
-            color: navy;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .main-content {
-            padding: 30px;
-            margin-left: 0;
-            transition: margin-left 0.3s ease;
-            flex: 1;
-        }
-
-        .row {
+        .footer-container {
             display: flex;
+            justify-content: space-between;
             flex-wrap: wrap;
         }
 
-        .card {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
+        .footer-section {
+            width: 30%;
             margin-bottom: 20px;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-        }
-
-        .card-img-top {
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-body {
-            flex-grow: 1;
+            flex-basis: 30%;
         }
 
         @media (max-width: 768px) {
-            .navbar-nav {
-                text-align: center;
-            }
-
-            .navbar-toggler {
-                border: none;
-            }
-
-            .navbar-collapse {
-                justify-content: center;
-            }
-
-            .row {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                left: -250px;
-                /* Sidebar đóng */
-            }
-
-            /* Các card sẽ chiếm toàn bộ chiều rộng */
-            .card {
+            .footer-section {
                 width: 100%;
             }
-
         }
 
-        /* Container */
-        .container {
-            position: relative;
-        }
-        /* Position toggle buttons */
-        .open-btn,
-        .close-btn {
-            position: absolute;
-            top: -300px;
-            left: -30px;
-            z-index: 1;
-        }
-
-        .intro-section {
-            margin-bottom: 135px;
-            /* Giảm khoảng cách dưới cùng */
-            margin-top: 1px;
-            /* Tăng khoảng cách phía trên nếu cần */
-            text-align: center;
-            padding: 30px;
-            /* Điều chỉnh khoảng cách nội dung bên trong */
-            background-color: #1E3A8A;
-            color: white;
-            border-radius: 8px;
-        }
-
-
-        .intro-section h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .intro-section p {
-            font-size: 18px;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .intro-section .btn-primary {
-            background-color: #ffffff;
-            color: #1E3A8A;
-            border: 1px solid #ffffff;
-            transition: all 0.3s ease;
-        }
-
-        .intro-section .btn-primary:hover {
-            background-color: #cce0ff;
-            color: #143061;
-        }
-
-        .carousel-item img {
-
-            max-width: 50%;
-            /* Giới hạn chiều rộng của ảnh */
-            height: 500px;
-            /* Chiều cao của ảnh */
-            object-fit: cover;
-            /* Đảm bảo ảnh được hiển thị đầy đủ */
-            margin: 0 auto;
-            /* Căn giữa ảnh nếu cần */
-        }
-
-        .carousel-caption {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            /* Căn giữa caption theo chiều ngang */
-            width: 50%;
-            /* Đảm bảo caption không vượt quá bề ngang ảnh */
-            max-width: 100%;
-            /* Giới hạn chiều rộng của caption */
-            background-color: rgba(0, 0, 0, 0.5);
-            /* Nền mờ để làm nổi bật caption */
-
-            padding: 30px;
-            color: white;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-            text-align: center;
-            /* Căn giữa văn bản trong caption */
-        }
-
-        .carousel-caption h5 {
-            font-size: 2rem;
-            /* Font chữ lớn hơn cho tên */
+        .footer-section h5 {
             font-weight: bold;
-            /* Làm đậm cho tên */
             margin-bottom: 10px;
-            /* Khoảng cách giữa tên và mô tả */
         }
 
-        .carousel-caption p {
-            font-size: 1rem;
-            /* Font chữ nhỏ hơn cho mô tả */
+        .footer-section a {
+            color: navy;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .footer-section a:hover {
+            color: navy;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: start;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            font-size: 20px;
+            color: navy;
+            text-decoration: none;
+        }
+
+        .social-icons a:hover {
+            color: navy
+        }
+        /* Thêm vào phần style của bạn */
+        .architecture-caption {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            text-align: center;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .carousel-item {
+            margin-bottom: 50px; /* Tạo khoảng cách cho caption */
         }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="header-content">
-            <a class="navbar-brand" href="/user">
-                @if(!empty($config->logo))
-                    <img src="{{ asset('storage/' . $config->logo) }}" alt="Logo" style="height: 200px;">
-                @endif
-
-            </a>
-            <nav class="navbar navbar-expand-lg">
-                <div class="container-fluid">
-
-                    <!-- Toggler for small screens -->
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                        <ul class="navbar-nav">
-                            <li class="nav-item"><a class="nav-link active" href="/user">Home</a></li>
-                            @if(session('user_id'))
-                                <a class="nav-link"
-                                    href="{{ route('uploadImage', ['id' => session('user_id')]) }}">Recogintion</a>
-                            @else
-                                <a class="nav-link" href="#">Recogintion (login)</a>
-                            @endif
-                            <li class="nav-item"><a class="nav-link" href="/user/architectures/view">Architectures</a>
-                            </li>
-                            <li class="nav-item"><a class="nav-link" href="/user/projects">Projects</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="preload-content">
+            <div id="original-load"></div>
         </div>
     </div>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <h3 class="text-center">
-            <a href="{{ Auth::check() ? route('account.profile') : route('login') }}">
-                <i class="fas fa-user-circle text-center"></i>{{ Auth::user()->fullname }}</a>
-        </h3>
-        <a href="{{ route('my.account') }}"><i class="fas fa-id-card-alt"></i> Profile</a>
-        <a href="{{ route('images.index') }}"><i class="fas fa-image"></i> Results</a>
-        <a href="/login">
-            <i class="fas fa-sign-out-alt"></i> Logout
-        </a>
-    </div>
+    <!-- Header Area -->
+    <header class="header-area">
+        <!-- Top Header Area -->
+        <div class="top-header">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <!-- Breaking News Area -->
+                    <div class="col-12 col-sm-8">
+                        <div class="breaking-news-area">
+                            <div id="breakingNewsTicker" class="ticker">
+                                <ul>
+                                <li><a href="{{ Auth::check() ? route('my.account') : route('login') }}">
+                                Hello {{ Auth::check() ? Auth::user()->fullname : 'Guest' }}
+                                    </a></li>
+                                    <li><a href="#">Hello World!</a></li>
+                                    <li><a href="#">Hello Universe!</a></li>
+                                    <li><a href="#">Hello ArchStyAi!</a></li>
+                                    <li><a href="#">Hello Earth!</a></li>
+                                    <li><a href="#">Hello Architecture! </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Top Social Area -->
+                    <div class="col-12 col-sm-4">
+                        <div class="top-social-area">
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i
+                                    class="fab fa-pinterest"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i
+                                    class="fab fa-facebook-f"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i
+                                    class="fab fa-twitter"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Dribbble"><i
+                                    class="fab fa-dribbble"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Behance"><i
+                                    class="fab fa-behance"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Linkedin"><i
+                                    class="fab fa-linkedin-in"></i></a>
+                        </div>
 
-    <!-- Main Content -->
-    <div class="main-content" id="main-content">
-        <div class="container">
-            <!-- Move toggle buttons here -->
-            <button class="toggle-btn open-btn" id="open-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <button class="toggle-btn close-btn" id="close-btn" style="display: none;">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="intro-section">
-                <h2>Welcome to Architectural Styles Recognition</h2>
-                <p>Explore and discover various architectural styles from around the world. Our website offers tools to
-                    recognize and understand the unique features of each style, along with a detailed exploration of
-                    iconic architectures.</p>
-                <a href="/login" class="btn btn-primary">Explore Now</a>
+                    </div>
+                </div>
             </div>
-            <!-- Main Content Section -->
-            <div class="container mt-4">
-                <h1 class="text-center">Architectures</h1>
+        </div>
 
-                <!-- Carousel -->
-                <div id="architectureCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-                    <div class="carousel-inner">
-                        @foreach ($architectures as $index => $architecture)
-                            <div class="carousel-item @if($index == 0) active @endif">
-                                <!-- Hiển thị ảnh từ CSDL -->
-                                <img src="{{ asset('storage/' . $architecture->image_url) }}" class="d-block w-100"
-                                    alt="{{ $architecture->name }}">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>{{ $architecture->name }}</h5>
-                                    <p>{{ $architecture->description }}</p>
+        <!-- Logo Area -->
+        <div class="logo-area text-center">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-12">
+                        <a class="original-logo" href="/user">
+                            @if(!empty($config->logo))
+                                <img src="{{ asset('storage/' . $config->logo) }}" alt="Logo" style="height: 200px;">
+                            @endif
+
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nav Area -->
+        <div class="original-nav-area" id="stickyNav">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
+                    <!-- Classy Menu -->
+                    <nav class="classy-navbar justify-content-between">
+                        <!-- Subscribe btn -->
+                        <div class="subscribe-btn">
+
+                            <a href="#" class="btn subscribe-btn"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+
+                        <!-- Menu -->
+                        <div class="classy-menu" id="originalNav">
+                            <!-- close btn -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
+                            <!-- Nav Start -->
+                            <div class="classynav">
+                                <ul>
+                                    <li><a href="/user">Home</a></li>
+                                    
+                                    <li>
+                                        @if(session('user_id'))
+                                            <a
+                                                href="{{ route('uploadImage', parameters: ['id' => session('user_id')]) }}">Recogintion</a>
+                                        @else
+                                            <a href="#">Recogintion (login)</a>
+                                        @endif
+                                    </li>
+                                    <li><a href="{{ route('my.account') }}"> Profile</a></li>
+                                    <li><a href="{{ route('images.index') }}">Results</a></li>
+                                </ul>
+
+
+                            </div>
+                            <!-- Nav End -->
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Single Blog Area -->
+    <div class="single-blog-wrapper section-padding-0-100">
+        <!-- Single Blog Area -->
+        <div class="single-blog-area blog-style-2 mb-50">
+            <div class="single-blog-thumbnail">
+                <img src="img/bg-img/76.jpg" alt="Post Image">
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <!-- Post Content Area -->
+                <div class="col-12 col-lg-9">
+                    <!-- Single Blog Area -->
+                    <div class="single-blog-area blog-style-2 mb-50">
+                        <!-- Blog Content -->
+                        <div class="single-blog-content">
+                            <div class="line"></div>
+                            <a href="#" class="post-tag">ArchStyAi</a>
+                            <h4><a href="#" class="post-headline mb-0">Architecture Style Recogintion</a></h4>
+                            <div class="post-meta mb-50">
+                                <p>By <a href="#">Huy Ly</a></p>
+                                <p>2025</p>
+                            </div>
+                            <p>Welcome to our AI-based architecture style recognition website! We offer a powerful tool that accurately and quickly identifies and classifies architectural styles from images. With advanced AI technology, you can easily explore unique architectural styles from around the world with just a few clicks.</p> <p>Our website is not just a tool for recognizing architectural styles; it also features a friendly virtual assistant (chatbot). The chatbot answers all your questions about architectural styles, explains the details of each style, and helps you dive deeper into the history and characteristics of various architectural designs.</p> 
+                            <p>With our easy-to-use platform, all you need to do is upload an image of an architectural structure, and let the AI do the rest. The system will analyze the image and identify the architectural style the building belongs to. You can also interact directly with the chatbot to learn more about each style, from classic to modern, and many other unique styles.</p> 
+                            <p>Explore and experience our intelligent architectural style recognition technology today. We are committed to providing you with accurate and easy-to-understand information, making it easier for you to appreciate and explore architectural styles from around the world.</p>
+                        </div>
+                    </div>
+                    <!-- Leave a Reply Form -->
+                    <div class="post-a-comment-area mt-70">
+                        <h5>Feedback!</h5>
+                        <form action="#" method="post">
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="group">
+                                        <input type="text" name="name" id="name" required>
+                                        <span class="highlight"></span>
+                                        <span class="bar"></span>
+                                        <label>Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="group">
+                                        <input type="email" name="email" id="email" required>
+                                        <span class="highlight"></span>
+                                        <span class="bar"></span>
+                                        <label>Email</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="group">
+                                        <textarea name="message" id="message" required></textarea>
+                                        <span class="highlight"></span>
+                                        <span class="bar"></span>
+                                        <label>Comment</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn original-btn">Send</button>
                                 </div>
                             </div>
-                        @endforeach
+                        </form>
                     </div>
+                </div>
 
-                    <!-- Các nút điều khiển -->
-                    <button class="carousel-control-prev" type="button" data-bs-target="#architectureCarousel"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#architectureCarousel"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+                <!-- Sidebar Area -->
+                <div class="col-12 col-md-4 col-lg-3">
+                    <div class="post-sidebar-area">
+
+
+                        <!-- Advertisement Widget -->
+                        <div class="sidebar-widget-area">
+                            <h5 class="title">Architectures</h5>
+                            <div id="architectureCarousel" class="carousel slide" data-bs-ride="carousel"
+                                data-bs-interval="3000">
+                                <div class="carousel-inner">
+                                    @foreach ($architectures as $index => $architecture)
+                                        <div class="carousel-item @if($index == 0) active @endif">
+                                            <!-- Hiển thị ảnh từ CSDL -->
+                                            <img src="{{ asset('storage/' . $architecture->image_url) }}"
+                                                class="d-block w-100" alt="{{ $architecture->name }}">
+                                                <div class="architecture-caption">
+                                                    <h5>{{ $architecture->name }}</h5>
+                                                    <p>{{ $architecture->description }}</p>
+                                                </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                                <!-- Các nút điều khiển -->
+                                <button class="carousel-control-prev" type="button"
+                                    data-bs-target="#architectureCarousel" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                    data-bs-target="#architectureCarousel" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        
+                    
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="footer bg-dark text-white text-center py-3 mt-4">
-        <p>&copy; 2025 Tất cả quyền được bảo vệ. Trang web của bạn.</p>
+    <!-- Footer Area -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h5>Company</h5>
+                <a href="#">{{ $config->business_info }}</a>
+            </div>
+            <div class="footer-section">
+                <h5>Address</h5>
+                <a href="#">{{ $config->address }}</a>
+            </div>
+            <div class="footer-section">
+                <h5>Contact</h5>
+                <a href="tel:{{ $config->contact_phone }}">{{ $config->contact_phone }}</a>
+                <a href="mailto:{{ $config->contact_email }}">{{ $config->contact_email }}</a>
+                <div class="social-icons">
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i
+                            class="fab fa-pinterest"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i
+                            class="fab fa-twitter"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Dribbble"><i
+                            class="fab fa-dribbble"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Behance"><i
+                            class="fab fa-behance"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Linkedin"><i
+                            class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
     </footer>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Owl Carousel CSS -->
+    <!-- Owl Carousel CSS -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Mặc định sidebar đóng và hiển thị nút "open"
-        let sidebarOpen = false;
 
-        // Mở sidebar khi click vào nút "open"
-        document.getElementById('open-btn').addEventListener('click', function () {
-            sidebarOpen = true;
-            document.getElementById('sidebar').style.left = '0'; // Mở sidebar
-            document.getElementById('main-content').style.marginLeft = '250px'; // Dịch chuyển nội dung
-            document.getElementById('open-btn').style.display = 'none'; // Ẩn nút "open"
-            document.getElementById('close-btn').style.display = 'block'; // Hiển thị nút "close"
-        });
-
-        // Đóng sidebar khi click vào nút "close"
-        document.getElementById('close-btn').addEventListener('click', function () {
-            sidebarOpen = false;
-            document.getElementById('sidebar').style.left = '-250px'; // Đóng sidebar
-            document.getElementById('main-content').style.marginLeft = '0'; // Trả lại margin cho nội dung
-            document.getElementById('open-btn').style.display = 'block'; // Hiển thị nút "open"
-            document.getElementById('close-btn').style.display = 'none'; // Ẩn nút "close"
-        });
-    </script>
+    <!-- Owl Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="{{ asset('js/jquery/jquery-2.2.4.min.js') }}"></script>
+    <!-- Popper js -->
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <!-- Bootstrap js -->
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <!-- Plugins js -->
+    <script src="{{ asset('js/plugins.js') }}"></script>
+    <!-- Active js -->
+    <script src="{{ asset('js/active.js') }}"></script>
 </body>
 
 </html>

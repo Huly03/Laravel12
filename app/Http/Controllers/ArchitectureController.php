@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\WebsiteConfig;  
 class ArchitectureController extends Controller
 {
+
     // Hiển thị form tạo mới
     public function create()
     {
@@ -17,9 +18,10 @@ class ArchitectureController extends Controller
     {
         $config = WebsiteConfig::first();
         $architectures = Architecture::all(); // Now you can use it directly
-
+    
         return view('user.architecture_view', compact('architectures', 'config'));
     }
+    
     public function showDetail($id)
 {
     $architecture = Architecture::findOrFail($id);
@@ -134,4 +136,5 @@ class ArchitectureController extends Controller
 
         return redirect()->route('architecture')->with('success', 'Phong cách kiến trúc đã được xóa!');
     }
+    
 }

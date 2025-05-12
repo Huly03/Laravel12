@@ -19,8 +19,49 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ModelController;
 use App\Http\Controllers\WebsiteConfigController;
 use App\Http\Controllers\Admin\ArchitectureModelController;
-// routes/web.php
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Models\Post;
+Route::get('/check-upload-limit', [ApiController::class, 'checkUploadLimit']);
+Route::post('/upgrade-account', [UserController::class, 'upgradeAccount'])->middleware('auth');
+Route::post('/users/{user}/upgrade', [UserController::class, 'upgrade'])->name('upgradeUser');
+Route::get('/api/question-count', [ApiController::class, 'getQuestionCount']);
+// Route::get('/posts/{post}', function ($postId) {
+//     $post = App\Models\Post::findOrFail($postId);  // Giả sử bạn có một model Post
+//     return view('posts.show', compact('post'));
+// })->name('posts.show');
+// Đảm bảo rằng route này đã được định nghĩa
+Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+    ->name('password.request');
 
+Route::get('/load-more-architectures', [ArchitectureController::class, 'loadMore'])
+     ->name('load.more.architectures');
+Route::get('/about-us', function () {
+    return view('about-us');
+})->name('about-us');
+
+Route::get('/coming-soon', function () {
+    return view('coming-soon');
+})->name('coming-soon');
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
+Route::get('/single-post', function () {
+    return view('single-post');
+})->name('single-post');
+
+Route::get('/test', function () {
+    return view('test');
+})->name('test');
+
+Route::get('/search', function () {
+    return redirect()->route('home'); // Placeholder cho tìm kiếm
+})->name('search');
+
+Route::post('/subscribe', function () {
+    return redirect()->route('home'); // Placeholder cho đăng ký
+})->name('subscribe');
 Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('models', ArchitectureModelController::class);
     Route::post('models/{id}/use', [ArchitectureModelController::class, 'use'])->name('models.use');
@@ -47,13 +88,13 @@ Route::put('/users/{id}', [UserController::class, 'update'])->name('updateUser')
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('deleteUser');
 
 // Route để hiển thị ảnh của người dùng
-Route::get('/ketqua', [ImageController::class, 'index'])->name('images.index');
+Route::get('/user/result', [ImageController::class, 'index'])->name('images.index');
 Route::delete('/ketqua', [ArchitectureStyleController::class, 'deleteImage'])->name('deleteImage');
 
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/users', [UserAccountController::class, 'index'])->name('users.index'); // Tất cả users
-    Route::get('/my-account', [UserAccountController::class, 'profile'])->name('my.account'); // Người dùng hiện tại
+    Route::get('/user/profile', [UserAccountController::class, 'profile'])->name('my.account'); // Người dùng hiện tại
     Route::post('/my-account/update', [UserAccountController::class, 'updateProfile'])->name('my.account.update');
 });
 
@@ -64,11 +105,11 @@ Route::resource('/user/account', AccountController::class)->only(['show', 'updat
 // ✏️ Cập nhật thông tin tài khoản (chuẩn REST → dùng PUT)
 Route::put('/user/account/profile', [AccountController::class, 'updateAccount'])->name('account.update')->middleware('auth');
 
-Route::get('/user/projects', [ProjectController::class, 'index'])->name('project.index');
+Route::get('/projects', [ProjectController::class, 'index'])->name('project.index');
 
-Route::get('/user/architectures/view/{id}', [ArchitectureController::class, 'showDetail'])->name('architecture.detail');
+Route::get('/architectures/view/{id}', [ArchitectureController::class, 'showDetail'])->name('architecture.detail');
 
-Route::get('/user/architectures/view', [ArchitectureController::class, 'viewOnly'])->name('architecture.viewOnly');
+Route::get('/architectures/view', [ArchitectureController::class, 'viewOnly'])->name('architecture.viewOnly');
 
 Route::get('/result', [ArchitectureStyleController::class, 'showImages'])->name('images');
 Route::get('/result/edit/{id}', [ArchitectureStyleController::class, 'editImage'])->name('editImage');
@@ -108,22 +149,20 @@ Route::post('/chatbot', [ApiController::class, 'chatWithBot'])->name('chatWithBo
 // Tìm kiếm
 Route::post('/search', [ApiController::class, 'searchQuery'])->name('searchQuery');
 Route::post('/search', [HeaderController::class, 'searchQuery'])->name('searchQuery');
-
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', action: [HomeController::class, 'index'])->name('home');
 // Route đăng ký
 Route::get('/register', [RegisterController::class, 'showForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register'])->name('register.store');
 // Route đăng nhập
 Route::get('/login', [LoginController::class, 'showForm'])->name('login.show');
 Route::post('/login', [LoginController::class, 'login'])->name('login.store');
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+// Thay đổi từ GET sang POST
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard')->middleware('auth');
 
-
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard')->middleware('auth');
-
-Route::get('/user', [UserController::class, 'index'])->name('user.dashboard')->middleware('auth');
-// Route cho trang không tìm thấy (404)
-Route::fallback(function () {
-    return view('404'); // Trang lỗi 404
-});
+Route::get('/user', [UserController::class, 'dashboard'])->name('user.dashboard')->middleware('auth');
+// // Route cho trang không tìm thấy (404)
+// Route::fallback(function () {
+//     return view('404'); // Trang lỗi 404
+// });

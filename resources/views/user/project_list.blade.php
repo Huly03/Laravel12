@@ -14,153 +14,46 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/classy-nav.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Main content area styling */
-        .main-content {
-            padding: 30px;
-            background-color: ghostwhite;
-            margin-left: 0;
-            transition: margin-left 0.3s ease;
-            flex: 1;
-        }
-
-        /* Header styling */
-        .header {
-            background-color: ghostwhite;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            height: 80px;
-        }
-
-        /* Logo in the header */
-        .header img {
-            height: 100%;
-            width: auto;
-        }
-
-        /* Navbar styling */
-        .navbar {
-            background-color: ghostwhite;
-            width: 100%;
-            margin-bottom: 0;
-        }
-
-        .navbar .navbar-nav .nav-item {
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        .navbar .navbar-nav .nav-link {
-            color: black;
-            font-size: 16px;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        .navbar .navbar-nav .nav-link:hover {
-            color: navy;
-        }
-
-        /* Archive button styling */
-        .navbar .navbar-nav .nav-link.archive-btn {
-            color: #1E3A8A;
-            font-size: 16px;
-            font-weight: bold;
-            border: 1px solid #1E3A8A;
-            border-radius: 5px;
-            padding: 8px 16px;
-            transition: all 0.3s ease;
-        }
-
-        .navbar .navbar-nav .nav-link.archive-btn:hover {
-            background-color: #1E3 стихA8A;
-            color: white;
-        }
-
-        /* Sidebar styling */
-        .sidebar {
-            position: fixed;
-            top: 100px;
-            left: -250px;
-            width: 250px;
-            min-height: 100%;
-            background-color: whitesmoke;
-            color: black;
-            padding-top: 20px;
-            overflow-y: auto;
-            z-index: 0;
-            transition: left 0.3s ease;
-        }
-
-        .sidebar a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            background-color: whitesmoke;
-            transition: background-color 0.3s ease;
-        }
-
-        .sidebar a:hover {
-            background-color: navy;
-            color: white;
-        }
-
-        /* Sidebar toggle buttons */
-        .toggle-btn {
-            background-color: ghostwhite;
-            color: navy;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .open-btn,
-        .close-btn {
-            position: absolute;
-            top: -20px;
-            left: -280px;
-            z-index: 1;
-        }
-
-        .container {
-            padding: 30px;
-            max-width: 700px;
-            margin: 0 auto;
-            position: relative;
-        }
-
         .card {
-            border: none;
-            margin-bottom: 40px;
-            background: ghostwhite;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            /* Giảm khoảng cách giữa các card */
         }
 
         .card-img-top {
-            width: 100%;
-            height: 400px; /* Giữ chiều cao cố định cho ảnh chính */
-            object-fit: cover;
+            height: 320px;
+            /* Giảm từ 400px */
         }
 
         .card-body {
-            padding: 25px;
+            padding: 20px;
+            /* Giảm padding */
+        }
+
+        h2 {
+            font-size: 2rem;
+            /* Giảm từ 2.5rem */
+            margin-bottom: 30px;
         }
 
         .card-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 15px;
+            font-size: 1.5rem;
+            /* Giảm từ 1.8rem */
         }
 
         .card-text {
@@ -185,13 +78,26 @@
             flex: 0 0 23%;
             max-width: 23%;
             box-sizing: border-box;
-            position: relative; /* Để chứa ảnh với tỷ lệ 1:1 */
+            position: relative;
+            /* Để chứa ảnh với tỷ lệ 1:1 */
         }
 
         .gallery .col-3 .image-container {
             position: relative;
             width: 100%;
-            padding-bottom: 100%; /* Tạo tỷ lệ 1:1 dựa trên chiều rộng */
+            padding-bottom: 100%;
+            /* Tạo tỷ lệ 1:1 dựa trên chiều rộng */
+        }
+
+        .gallery .col-3 {
+            flex: 0 0 calc(25% - 10px);
+            /* Điều chỉnh khoảng cách */
+            max-width: calc(25% - 10px);
+        }
+
+        .gallery .image-container {
+            padding-bottom: 90%;
+            /* Thay đổi tỷ lệ khung hình */
         }
 
         .gallery .col-3 img {
@@ -210,6 +116,21 @@
             transform: scale(1.05);
         }
 
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .card-img-top {
+                height: 250px;
+            }
+
+            .gallery .col-3 {
+                flex: 0 0 calc(50% - 5px);
+                max-width: calc(50% - 5px);
+            }
+        }
+
         /* More overlay */
         .more-images {
             position: relative;
@@ -219,7 +140,8 @@
         .more-images .image-container {
             position: relative;
             width: 100%;
-            padding-bottom: 100%; /* Tỷ lệ 1:1 */
+            padding-bottom: 100%;
+            /* Tỷ lệ 1:1 */
         }
 
         .more-images img {
@@ -327,13 +249,7 @@
             opacity: 0.8;
         }
 
-        h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 40px;
-            color: #333;
-        }
+
 
         /* Error message styling */
         .error-message {
@@ -348,62 +264,262 @@
             border-radius: 5px;
             z-index: 10001;
         }
+
+        footer.site-footer {
+            padding: 20px;
+            background: #222;
+            color: white;
+        }
+
+        footer {
+            background-color: white;
+            color: black;
+            padding: 40px 0;
+            font-size: 14px;
+            z-index: 1000;
+            /* Giảm z-index */
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer-section {
+            width: 30%;
+            margin-bottom: 20px;
+            flex-basis: 30%;
+        }
+
+        @media (max-width: 768px) {
+            .footer-section {
+                width: 100%;
+            }
+        }
+
+        .footer-section h5 {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: navy;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .footer-section a:hover {
+            color: navy;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: start;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            font-size: 20px;
+            color: navy;
+            text-decoration: none;
+        }
+
+        .social-icons a:hover {
+            color: navy
+        }
+
+        .project {
+    max-width: 650px;
+    padding: 0 20px;
+    margin: 0 auto; /* Căn giữa theo chiều ngang */
+    width: 100%; /* Đảm bảo chiều rộng tối đa là 650px */
+}
+
+        .auth-btn {
+            padding: 8px 20px;
+            border-radius: 3px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .login-btn {
+            background: transparent;
+            color: #555;
+            border: 1px solid #ddd;
+        }
+
+        .login-btn:hover {
+            border-color: #007bff;
+            color: #007bff;
+        }
+
+        .register-btn {
+            background: #4a6fa5;
+            color: white;
+            border: 1px solid #4a6fa5;
+        }
+
+        .register-btn:hover {
+            background: #3a5a8f;
+        }
     </style>
 </head>
 
 <body>
-    <!-- Header mới đầy đủ navbar -->
-    <div class="header">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/user">
-                    @if(!empty($config->logo))
-                        <img src="{{ asset('storage/' . $config->logo) }}" alt="Logo" style="height: 80px;">
-                    @endif
-                </a>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="/user">Home</a></li>
-                        @if(session('user_id'))
-                            <a class="nav-link" href="{{ route('uploadImage', ['id' => session('user_id')]) }}">Recognition</a>
-                        @else
-                            <a class="nav-link" href="#">Recognition (login)</a>
-                        @endif
-                        <li class="nav-item"><a class="nav-link active" href="/user/architectures/view">Architectures</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/user/projects">Projects</a></li>
-                        <li class="nav-item">
-                            <form class="form-inline d-inline" id="searchForm">
-                                <input type="text" id="searchInput" placeholder="Search ...">
-                                <button type="submit" id="search-btn"><i class="fas fa-search"></i></button>
-                            </form>
-                        </li>
-                    </ul>
+    <div id="preloader">
+        <div class="preload-content">
+            <div id="original-load"></div>
+        </div>
+    </div>
+    <!-- Header Area -->
+    <header class="header-area">
+        <!-- Top Header Area -->
+        <div class="top-header">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <!-- Breaking News Area -->
+                    <div class="col-12 col-sm-8">
+                        <div class="breaking-news-area">
+                            <div id="breakingNewsTicker" class="ticker">
+                                <ul>
+                                    <li><a href="{{ Auth::check() ? route('my.account') : route('login') }}">
+                                            Hello {{ Auth::check() ? Auth::user()->fullname : 'Guest' }}
+                                        </a></li>
+                                    <li><a href="#">Hello World!</a></li>
+                                    <li><a href="#">Hello Universe!</a></li>
+                                    <li><a href="#">Hello ArchStyAi!</a></li>
+                                    <li><a href="#">Hello Earth!</a></li>
+                                    <li><a href="#">Hello Architecture! </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Top Social Area -->
+                    <div class="col-12 col-sm-4">
+                        <div class="top-social-area">
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i
+                                    class="fab fa-pinterest"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i
+                                    class="fab fa-facebook-f"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i
+                                    class="fab fa-twitter"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Dribbble"><i
+                                    class="fab fa-dribbble"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Behance"><i
+                                    class="fab fa-behance"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Linkedin"><i
+                                    class="fab fa-linkedin-in"></i></a>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </nav>
-    </div>
+        </div>
 
-    <div class="sidebar" id="sidebar">
-        <h3 class="text-center">
-            <a href="{{ Auth::check() ? route('account.profile') : route('login') }}">
-                <i class="fas fa-user-circle text-center"></i> {{ Auth::user()->username }}
-            </a>
-        </h3>
-        <a href="{{ route('my.account') }}"><i class="fas fa-id-card-alt"></i> Profile</a>
-        <a href="{{ route('images.index') }}"><i class="fas fa-image"></i> Results</a>
-        <a href="/login"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </div>
+        <!-- Logo Area -->
+        <div class="logo-area text-center">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-12">
+                        <a class="original-logo" href="/">
+                            @if(!empty($config->logo))
+                                <img src="{{ asset('storage/' . $config->logo) }}" alt="Logo" style="height: 200px;">
+                            @endif
+
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nav Area -->
+        <div class="original-nav-area" id="stickyNav">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
+                    <!-- Classy Menu -->
+                    <nav class="classy-navbar justify-content-between">
+                        <!-- Subscribe btn -->
+                        <div class="auth-buttons">
+                            <a href="/login" class="btn auth-btn login-btn">Login</a>
+                            <a href="/register" class="btn auth-btn register-btn">Register</a>
+                        </div>
+
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+
+                        <!-- Menu -->
+                        <div class="classy-menu" id="originalNav">
+                            <!-- close btn -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
+                            <!-- Nav Start -->
+                            <div class="classynav">
+                                <ul>
+                                    <li><a href="{{ route('home') }}">Home</a></li>
+                                    <li><a href="#">Pages</a>
+                                        <ul class="dropdown">
+                                            <li><a href="{{ route('home') }}">Home</a></li>
+                                            <li><a href="{{ route('about-us') }}">About Us</a></li>
+                                            <li><a href="{{ route('single-post') }}">Single Post</a></li>
+                                            <li><a href="{{ route('contact') }}">Contact</a></li>
+                                            <li><a href="{{ route('coming-soon') }}">Coming Soon</a></li>
+                                            <li><a href="{{ route('architecture.viewOnly') }}">Architectures</a></li>
+                                            <li><a href="{{ route('project.index') }}">Projects</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li><a href="{{ route('about-us') }}">About Us</a></li>
+                                    <!-- <li><a href="#">Megamenu</a>
+                                        <div class="dropdown">
+                                            <ul class="single-mega cn-col-4">
+                                                <li class="title">Headline 1</li>
+                                                <li><a href="#">Mega Menu Item 1</a></li>
+                                                <li><a href="#">Mega Menu Item 2</a></li>
+                                                <li><a href="#">Mega Menu Item 3</a></li>
+                                                <li><a href="#">Mega Menu Item 4</a></li>
+                                                <li><a href="#">Mega Menu Item 5</a></li>
+                                            </ul>
+                                        </div>
+                                    </li> -->
+                                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                                    <li><a href="https://drive.google.com/drive/folders/1mnsvfSjxPI2hM_KxWLmWZZaYdLKO1_C-?usp=drive_link">Download</a>
+
+                                        <!-- <ul class="dropdown">
+                                            <li><a href="#">Category 1</a></li>
+                                            <li><a href="#">Category 1</a></li>
+                                            <li><a href="#">Category 1</a></li>
+                                            <li><a href="#">Category 1</a></li>
+                                            <li><a href="#">Category 1</a></li>
+                                        </ul> -->
+                                    </li>
+                                </ul>
+<div id="search-wrapper">
+                                    <form action="{{ route('search') }}" method="get">
+                                        <input type="text" id="search" name="query" placeholder="Search something...">
+                                        <div id="close-icon"></div>
+                                        <input class="d-none" type="submit" value="">
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Nav End -->
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
 
     <div class="main-content" id="main-content">
-        <div class="container">
-            <!-- Sidebar Toggle -->
-            <button class="toggle-btn open-btn" id="open-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <button class="toggle-btn close-btn" id="close-btn" style="display: none;">
-                <i class="fas fa-times"></i>
-            </button>
-            <h2 class="mb-4">Danh sách các dự án</h2>
+        <div class="project">
+            <h2 class="mb-4">Projects</h2>
             <div class="row">
                 @if(isset($projects) && $projects->isNotEmpty())
                     @foreach($projects as $projectGroup)
@@ -414,15 +530,16 @@
 
                         <div class="col-md-12">
                             <div class="card">
-                                <img src="{{ asset('storage/' . $firstImage) }}" class="card-img-top" alt="{{ $firstProject->name }}">
+                                <img src="{{ asset('storage/' . $firstImage) }}" class="card-img-top"
+                                    alt="{{ $firstProject->name }}">
                                 <div class="gallery">
                                     <div class="row">
                                         @foreach($projectGroup->slice(1, 3) as $project)
                                             <div class="col-3">
                                                 <div class="image-container">
                                                     <img src="{{ asset('storage/' . $project->image_url) }}" class="img-thumbnail"
-                                                         alt="{{ $project->name }}"
-                                                         onclick="openModal({{ json_encode($firstProject->name) }})">
+                                                        alt="{{ $project->name }}"
+                                                        onclick="openModal({{ json_encode($firstProject->name) }})">
                                                 </div>
                                             </div>
                                         @endforeach
@@ -430,9 +547,9 @@
                                         @if($projectGroup->count() > 4)
                                             <div class="col-3 more-images">
                                                 <div class="image-container">
-                                                    <img src="{{ asset('storage/' . $projectGroup[4]->image_url) }}" class="img-thumbnail"
-                                                         alt="More images"
-                                                         onclick="openModal({{ json_encode($firstProject->name) }})">
+                                                    <img src="{{ asset('storage/' . $projectGroup[4]->image_url) }}"
+                                                        class="img-thumbnail" alt="More images"
+                                                        onclick="openModal({{ json_encode($firstProject->name) }})">
                                                     <div class="more-overlay">
                                                         <span>+ {{ $projectGroup->count() - 4 }}</span>
                                                     </div>
@@ -474,7 +591,58 @@
 
     <!-- Error message -->
     <div class="error-message" id="errorMessage"></div>
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h5>Company</h5>
+                <a href="#">{{ $config->business_info }}</a>
+            </div>
+            <div class="footer-section">
+                <h5>Address</h5>
+                <a href="#">{{ $config->address }}</a>
+            </div>
+            <div class="footer-section">
+                <h5>Contact</h5>
+                <a href="tel:{{ $config->contact_phone }}">{{ $config->contact_phone }}</a>
+                <a href="mailto:{{ $config->contact_email }}">{{ $config->contact_email }}</a>
+                <div class="social-icons">
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i
+                            class="fab fa-pinterest"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i
+                            class="fab fa-twitter"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Dribbble"><i
+                            class="fab fa-dribbble"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Behance"><i
+                            class="fab fa-behance"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Linkedin"><i
+                            class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Owl Carousel CSS -->
+    <!-- Owl Carousel CSS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Owl Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="{{ asset('js/jquery/jquery-2.2.4.min.js') }}"></script>
+    <!-- Popper js -->
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <!-- Bootstrap js -->
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <!-- Plugins js -->
+    <script src="{{ asset('js/plugins.js') }}"></script>
+    <!-- Active js -->
+    <script src="{{ asset('js/active.js') }}"></script>
     <script>
         let currentImageIndex = 0;
         let imageUrls = [];
@@ -582,20 +750,6 @@
             }
         });
 
-        // Sidebar toggle functionality
-        document.getElementById('open-btn').addEventListener('click', function () {
-            document.getElementById('sidebar').style.left = '0';
-            document.getElementById('main-content').style.marginLeft = '250px';
-            document.getElementById('open-btn').style.display = 'none';
-            document.getElementById('close-btn').style.display = 'block';
-        });
-
-        document.getElementById('close-btn').addEventListener('click', function () {
-            document.getElementById('sidebar').style.left = '-250px';
-            document.getElementById('main-content').style.marginLeft = '0';
-            document.getElementById('open-btn').style.display = 'block';
-            document.getElementById('close-btn').style.display = 'none';
-        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

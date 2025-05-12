@@ -45,22 +45,7 @@
 <body>
 
 <!-- Header -->
-<div class="header">
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/admin">
-                <img src="{{ asset('images/logo.jpg') }}" alt="Logo">
-            </a>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link active" href="/admin">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/architecture">Phong cách kiến trúc</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/project">Dự án</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
+<x-header />
 
 <!-- Main content -->
 <div class="container">

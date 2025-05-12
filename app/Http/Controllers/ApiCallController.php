@@ -11,7 +11,7 @@ class ApiCallController extends Controller
     public function index()
     {
         // Lấy danh sách API đã gọi, phân trang nếu cần
-        $apiCalls = ApiCall::with('user')->latest()->paginate(10);  // Hiển thị mới nhất, phân trang
+        $apiCalls = ApiCall::with('user')->latest()->paginate(1000);  // Hiển thị mới nhất, phân trang
 
         // Trả về view api_calls.index và truyền dữ liệu apiCalls
         return view('api_calls.index', compact('apiCalls'));  // Truyền $apiCalls vào view

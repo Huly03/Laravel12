@@ -136,6 +136,7 @@
     </style>
 </head>
 <body>
+<x-header/>
 
     <!-- Form nhập thông tin -->
     <form action="/model-selection" method="POST">

@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ApiCall;// Import đúng model ApiCall
 use App\Models\ArchitectureStyle;
 use App\Models\WebsiteConfig;
-
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -28,12 +28,19 @@ class ApiController extends Controller
 
         // Kiểm tra nếu user_id từ session không khớp với id trong URL
         if (session('user_id') != $id) {
-            return redirect()->route('login.show');  // Nếu không khớp, chuyển hướng người dùng đến trang login
+            return redirect()->route('login.show');
         }
 
-        // Trả về view upload và truyền user_id vào view
-        return view('upload', ['user_id' => $id,
-                                        'config' => $website_configs,]);
+        // Lấy thông tin user và level
+        $user = User::find($id);
+        $currentLevel = $user ? $user->level : 2; // Mặc định là level 2 nếu không tìm thấy user
+
+        // Trả về view upload và truyền các biến cần thiết
+        return view('upload', [
+            'user_id' => $id,
+            'config' => $website_configs,
+            'currentLevel' => $currentLevel // Truyền currentLevel sang view
+        ]);
     }
 
     /**
@@ -79,6 +86,36 @@ class ApiController extends Controller
      */
     public function uploadImage(Request $request, $id)
     {
+        $user = User::find($id);
+
+        // Kiểm tra giới hạn cho level 2 (5 lần duy nhất)
+        if ($user->level == 2) {
+            $uploadCount = ApiCall::where('user_id', $id)
+                ->where('api_name', '/api/detect')
+                ->count();
+
+            if ($uploadCount >= 5) {
+                return response()->json([
+                    'error' => 'limit_reached',
+                    'message' => 'You have used all 5 free uploads. Upgrade to Basic to get 50 uploads per month!'
+                ], 403);
+            }
+        }
+
+        // Kiểm tra giới hạn cho level 3 (50 lần/tháng) - Giữ nguyên
+        if ($user->level == 3) {
+            $uploadCount = ApiCall::where('user_id', $id)
+                ->where('api_name', '/api/detect')
+                ->whereMonth('created_at', now()->month)
+                ->count();
+
+            if ($uploadCount >= 50) {
+                return response()->json([
+                    'error' => 'limit_reached',
+                    'message' => 'You have reached your monthly limit of 50 uploads. Upgrade to Pro for unlimited access!'
+                ], 403);
+            }
+        }
         // Kiểm tra xem ảnh có được upload hay không
         if (!$request->hasFile('image')) {
             return response()->json(['error' => 'No image uploaded'], 400);
@@ -209,11 +246,35 @@ class ApiController extends Controller
      *     )
      * )
      */
-    public function chatWithBot(Request $request)
+    // Thêm vào đầu ApiController
+    private $MAX_FREE_QUESTIONS = 5;
+
+    // Sửa phương thức chatWithBot
+    public function chatWithBot(Request $request, $id)
     {
+        // Kiểm tra số lượt đã dùng
+        $usedQuestions = ApiCall::where('user_id', $id)
+            ->where('api_name', '/api/chatbot')
+            ->count();
+
+        if ($usedQuestions >= $this->MAX_FREE_QUESTIONS) {
+            return response()->json([
+                'error' => 'limit_reached',
+                'message' => 'Bạn đã dùng hết 5 lượt miễn phí'
+            ], 403);
+        }
+
         if (!$request->has('user_input')) {
             return response()->json(['error' => 'No input provided'], 400);
         }
+
+        // Lưu log API call
+        ApiCall::create([
+            'api_name' => '/api/chatbot',
+            'user_id' => $id,
+            'ip_address' => $request->ip(),
+            'timestamp' => now()
+        ]);
 
         $response = Http::post('http://127.0.0.1:5000/api/chatbot', [
             'user_input' => $request->input('user_input'),
@@ -276,6 +337,13 @@ class ApiController extends Controller
         // Trả về kết quả cho frontend
         return response()->json($response->json());
     }
+    //     public function getQuestionCount(Request $request)
+// {
+//     $userId = $request->input('user_id');
+//     $count = ApiCall::where('user_id', $userId)
+//                    ->where('api_name', '/api/chatbot')
+//                    ->count();
 
-
+    //     return response()->json(['used_questions' => $count]);
+// }
 }

@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 
 class LoginController extends Controller
@@ -19,51 +17,48 @@ class LoginController extends Controller
     // Xử lý đăng nhập
     public function login(Request $request)
     {
-        // Validate dữ liệu đầu vào
         $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
-    
-        // Attempt login sử dụng Auth::attempt()
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            // Lưu user_id vào session sau khi đăng nhập
+
+        if (Auth::attempt($request->only('username', 'password'))) {
+            $request->session()->regenerate();
             session(['user_id' => Auth::id()]);
-    
-            // Kiểm tra cấp độ người dùng và chuyển hướng
             $user = Auth::user();
+            
+            // Kiểm tra level và chuyển hướng
             if ($user->level == 1) {
                 return redirect()->route('admin.dashboard');
             } elseif ($user->level == 2) {
                 return redirect()->route('user.dashboard');
+            } elseif ($user->level == 3) {
+                return redirect()->route('user.dashboard');
+            } elseif ($user->level == 4) {
+                return redirect()->route('user.dashboard');
             } else {
-                Auth::logout(); // Đăng xuất nếu không có quyền
-                return redirect()->route('login.show')->with('error', 'Không có quyền truy cập.');
+                Auth::logout();
+                return back()->with('error', 'Tài khoản không có quyền truy cập!');
             }
         }
-    
-        // Nếu đăng nhập thất bại
-        return back()->with('error', 'Sai tên đăng nhập hoặc mật khẩu.');
-    }
-        
 
-    public function someAction()
-    {
-        // Kiểm tra xem người dùng có quyền admin không
-        if (Gate::allows('admin')) {
-            // Người dùng là admin
-            return view('admin.dashboard');
-        } else {
-            // Người dùng không phải admin
-            return redirect()->route('home')->with('error', 'Bạn không có quyền truy cập!');
-        }
+        return back()->with('error', 'Sai tên đăng nhập hoặc mật khẩu!');
     }
-    
+
     // Xử lý đăng xuất
-    public function logout()
+    public function logout(Request $request)
     {
-        Auth::logout(); // Đăng xuất người dùng
+        // 1. Đăng xuất khỏi hệ thống (xóa thông tin user đã xác thực)
+        Auth::logout();
+    
+        // 2. Xóa toàn bộ session hiện tại (bao gồm mọi session đã lưu)
+        $request->session()->flush();
+    
+        // 3. Hủy phiên làm việc (session) và tạo lại CSRF token mới (bảo mật)
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+    
+        // 4. Chuyển hướng về trang đăng nhập
         return redirect()->route('login.show');
     }
 }
-

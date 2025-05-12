@@ -23,13 +23,12 @@ class ArchitectureStyleController extends Controller
     }
     public function index()
     {
-        // Lấy người dùng đã đăng nhập
-        $user = auth()->users(); // Lấy người dùng đã đăng nhập
+        $user = auth()->user();
+        $images = ArchitectureStyle::where('id_user', $user->id)
+                    ->orderBy('created_at', 'asc') // Sắp xếp từ cũ đến mới
+                    ->get();
 
-        // Lọc các hình ảnh của người dùng hiện tại từ bảng architecture_styles theo id_user
-        $images = ArchitectureStyle::where('id_user', $user->id)->get();
-
-        return view('images.index', compact('images')); // Trả về view với danh sách hình ảnh của người dùng
+        return view('images.index', compact('images'));
     }
     /**
      * Lưu kết quả nhận diện vào cơ sở dữ liệu.

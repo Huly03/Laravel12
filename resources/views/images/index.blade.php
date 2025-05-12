@@ -2,7 +2,7 @@
 <html lang="vi">
 
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="description" content="{{ $config->description }}">
@@ -15,441 +15,599 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/classy-nav.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-
-
-        .container {
-            max-width: 1200px;
-            margin-top: 30px;
-        }
-
-
-
-        .card {
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.3s ease-in-out;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            height: 100%;
-            position: relative;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-title {
-            font-weight: bold;
-            color: #333;
-            font-size: 1.2rem;
-        }
-
-        .card-text {
-            font-size: 1rem;
-            color: #666;
-        }
-
-        .btn {
-            font-size: 0.9rem;
-        }
-
-        .btn-warning {
-            background-color: #ffc107;
-            border-color: #ffc107;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
-
-        .col-md-4 {
-            width: 100%;
-        }
-
-        .col-lg-3 {
-            width: 25%;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .g-4 {
-            gap: 20px;
-        }
-
-        .card-img-top {
-            height: 250px;
-            object-fit: cover;
-            border-bottom: 1px solid #ddd;
-            transition: transform 0.3s ease;
-        }
-
-        .card-img-top:hover {
-            transform: scale(1.1);
-        }
-/* Card container */
-.card.shadow-sm {
-    background: #ffffff;
-    border: none;
-    border-radius: 16px;
-    overflow: hidden;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    box-shadow: 0 8px 20px rgba(30, 58, 138, 0.1); /* Navy tone bóng */
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Card hover */
-.card.shadow-sm:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 16px 32px rgba(30, 58, 138, 0.2);
-}
-
-/* Card image */
-.card-img-top {
-    height: 220px;
-    object-fit: cover;
-    transition: transform 0.3s ease-in-out;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.card-img-top:hover {
-    transform: scale(1.05);
-}
-
-/* Card body */
-.card-body {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-/* Card title */
-.card-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1E3A8A;
-    margin-bottom: 12px;
-    text-align: center;
-}
-
-/* Card text */
-.card-text {
-    font-size: 14px;
-    color: #6b7280;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* Delete button */
-.btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-    border-radius: 8px;
-    font-size: 14px;
-    padding: 8px 16px;
-    width: 100%;
-    transition: all 0.3s ease;
-}
-
-.btn-danger:hover {
-    background-color: #b02a37;
-    border-color: #b02a37;
-}
-
-/* Flex for delete button */
-.d-flex.justify-content-between {
-    margin-top: auto;
-}
-
-/* Responsive grid fix */
-.row.g-4 {
-    margin-top: 30px;
-}
-
-        .card-body {
+        footer.site-footer {
             padding: 20px;
-            flex-grow: 1;
+            background: #222;
+            color: white;
         }
 
-        .alert {
-            background-color: #e2e3e5;
-            color: #6c757d;
-            border-radius: 10px;
-            padding: 10px;
+        footer {
+            background-color: white;
+            color: black;
+            padding: 40px 0;
+            font-size: 14px;
+            z-index: 1000;
+            /* Giảm z-index */
         }
 
-        /* Flexbox adjustments for centering cards */
-        .row {
+        .footer-container {
             display: flex;
+            justify-content: space-between;
             flex-wrap: wrap;
-            justify-content: center; /* Centers the cards horizontally */
-            gap: 20px; /* Adds gap between the cards */
         }
 
-        /* Ensures that cards take up 25% width on large screens, 33% on medium, and 50% on smaller screens */
-        .col-md-4 {
-            flex: 1 0 33%;
-            max-width: 33%;
-        }
-
-        .col-lg-3 {
-            flex: 1 0 25%;
-            max-width: 25%;
-        }
-
-        @media (max-width: 1200px) {
-            .col-lg-3 {
-                flex: 1 0 33%;
-                max-width: 33%;
-            }
+        .footer-section {
+            width: 30%;
+            margin-bottom: 20px;
+            flex-basis: 30%;
         }
 
         @media (max-width: 768px) {
-            .col-md-4 {
-                flex: 1 0 50%;
-                max-width: 50%;
+            .footer-section {
+                width: 100%;
             }
         }
 
-        @media (max-width: 576px) {
-            .col-md-4 {
-                flex: 1 0 100%;
-                max-width: 100%;
-            }
+        .footer-section h5 {
+            font-weight: bold;
+            margin-bottom: 10px;
         }
 
-        .container {
+        .footer-section a {
+            color: navy;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .footer-section a:hover {
+            color: navy;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: start;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            font-size: 20px;
+            color: navy;
+            text-decoration: none;
+        }
+
+        .social-icons a:hover {
+            color: navy
+        }
+
+        /* Main container */
+        .main-content {
+            padding: 40px 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Title styling */
+        .results-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1E3A8A;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .results-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #10B981;
+            border-radius: 2px;
+        }
+
+        /* Card grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 0 15px;
+        }
+
+        /* Card styling */
+        .result-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
             position: relative;
         }
 
-/* General body and layout styling */
-body {
-            font-family: Arial, sans-serif;
-            background-color: ghostwhite;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
-        /* Main content area styling */
-        .main-content {
-            padding: 30px;
-            background-color: ghostwhite;
-
-            margin-left: 0;
-            transition: margin-left 0.3s ease;
-            flex: 1;
+        /* Card image */
+        .card-img-container {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
         }
 
-        /* Header styling */
-        .header {
-            background-color: ghostwhite;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            height: 80px;
-        }
-
-        /* Logo in the header */
-        .header img {
-            height: 100%;
-            width: auto;
-        }
-
-
-        /* Navbar styling */
-        .navbar {
-            background-color: ghostwhite;
+        .card-img-top {
             width: 100%;
-            margin-bottom: 0;
-            /* Remove margin from bottom of the navbar */
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
         }
 
-        .navbar .navbar-nav .nav-item {
-            padding-left: 20px;
-            padding-right: 20px;
+        .result-card:hover .card-img-top {
+            transform: scale(1.05);
         }
 
-        .navbar .navbar-nav .nav-link {
-            color: black;
-            font-size: 16px;
-            font-weight: bold;
-            transition: color 0.3s ease;
+        /* Style badge */
+        .style-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(30, 58, 138, 0.9);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
         }
 
-        .navbar .navbar-nav .nav-link:hover {
-            color: navy;
+        /* Card body */
+        .card-body {
+            padding: 20px;
         }
 
-        /* Archive button styling */
-        .navbar .navbar-nav .nav-link.archive-btn {
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
             color: #1E3A8A;
-            /* Navy Blue */
-            font-size: 16px;
-            font-weight: bold;
-            border: 1px solid #1E3A8A;
-            border-radius: 5px;
-            padding: 8px 16px;
+            margin-bottom: 10px;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #6B7280;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .card-date {
+            display: flex;
+            align-items: center;
+        }
+
+        .card-date i {
+            margin-right: 5px;
+        }
+
+        /* Card actions */
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-view {
+            flex: 1;
+            background: #1E3A8A;
+            color: white;
+            border: none;
+            padding: 8px 0;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-view:hover {
+            background: #3B82F6;
+            color: white;
+        }
+
+        .btn-delete {
+            flex: 1;
+            background: #EF4444;
+            color: white;
+            border: none;
+            padding: 8px 0;
+            border-radius: 8px;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
 
-        .navbar .navbar-nav .nav-link.archive-btn:hover {
-            background-color: #1E3A8A;
+        .btn-delete:hover {
+            background: #DC2626;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .empty-icon {
+            font-size: 5rem;
+            color: #9CA3AF;
+            margin-bottom: 20px;
+        }
+
+        .empty-text {
+            font-size: 1.2rem;
+            color: #6B7280;
+            margin-bottom: 30px;
+        }
+
+        .btn-try {
+            background: #1E3A8A;
             color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
-        /* Sidebar styling */
-        .sidebar {
-            position: fixed;
-            top: 100px;
-            left: -250px;
-            width: 250px;
-            min-height: 100%;
-            background-color: whitesmoke;
-            color: black;
-            padding-top: 20px;
-            overflow-y: auto;
-            z-index: 0;
-            transition: left 0.3s ease;
-        }
-
-        .sidebar a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            background-color: whitesmoke;
-            transition: background-color 0.3s ease;
-        }
-
-        .sidebar a:hover {
-            background-color: navy;
+        .btn-try:hover {
+            background: #3B82F6;
             color: white;
+            transform: translateY(-2px);
         }
 
-        /* Sidebar toggle buttons */
-        .toggle-btn {
-            background-color: ghostwhite;
-            color: navy;
-            padding: 10px;
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .results-title {
+                font-size: 2rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+        }
+
+        /* Modal styling */
+        .modal-content {
+            border-radius: 12px;
+            overflow: hidden;
             border: none;
-            cursor: pointer;
-
         }
 
+        .modal-header {
+            background: #1E3A8A;
+            color: white;
+            border-bottom: none;
+        }
 
+        .modal-title {
+            font-weight: 600;
+        }
 
+        .modal-body {
+            padding: 0;
+            background: #f8f9fa;
+        }
+
+        .btn-close {
+            filter: invert(1);
+        }
+
+        #downloadBtn {
+            background: #10B981;
+            border: none;
+        }
+
+        #downloadBtn:hover {
+            background: #0D9F6E;
+        }
     </style>
 </head>
 
 <body>
-    <div class="header">
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/user">
-                @if(!empty($config->logo))
-                        <img src="{{ asset('storage/' . $config->logo) }}" alt="Logo" style="height: 80px;">
-                    @endif               
-                 </a>
+    <div id="preloader">
+        <div class="preload-content">
+            <div id="original-load"></div>
+        </div>
+    </div>
+    <!-- Header Area -->
+    <header class="header-area">
+        <!-- Top Header Area -->
+        <div class="top-header">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <!-- Breaking News Area -->
+                    <div class="col-12 col-sm-8">
+                        <div class="breaking-news-area">
+                            <div id="breakingNewsTicker" class="ticker">
+                                <ul>
+                                    <li><a href="{{ Auth::check() ? route('my.account') : route('login') }}">
+                                            Hello {{ Auth::check() ? Auth::user()->fullname : 'Guest' }}
+                                        </a></li>
+                                    <li><a href="#">Hello World!</a></li>
+                                    <li><a href="#">Hello Universe!</a></li>
+                                    <li><a href="#">Hello ArchStyAi!</a></li>
+                                    <li><a href="#">Hello Earth!</a></li>
+                                    <li><a href="#">Hello Architecture! </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Top Social Area -->
+                    <div class="col-12 col-sm-4">
+                        <div class="top-social-area">
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i
+                                    class="fab fa-pinterest"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i
+                                    class="fab fa-facebook-f"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i
+                                    class="fab fa-twitter"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Dribbble"><i
+                                    class="fab fa-dribbble"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Behance"><i
+                                    class="fab fa-behance"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="bottom" title="Linkedin"><i
+                                    class="fab fa-linkedin-in"></i></a>
+                        </div>
 
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link active" href="/user">Home</a></li>
-                        @if(session('user_id'))
-                            <a class="nav-link" href="{{ route('uploadImage', ['id' => session('user_id')]) }}">Recogintion</a>
-                        @else
-                            <a class="nav-link" href="#">Recogintion</a> (login)</a>
-                        @endif
-                        <li class="nav-item"><a class="nav-link" href="/user/architectures/view">Architectures</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/user/projects">Projects</a></li>
-                    </ul>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </div>
+        </div>
 
-    <div class="sidebar" id="sidebar">
-        <h3 class="text-center">
-        <b href="{{ Auth::check() ? route('account.profile') : route('login') }}">
-        <i class="fas fa-user-circle text-center"></i>{{ Auth::user()->fullname }}</b>
-        </h3>
-        <a href="{{ route('my.account') }}"><i class="fas fa-id-card-alt"></i> Profile</a>
-        <a href="{{ route('images.index') }}"><i class="fas fa-image"></i> Result</a>
-        <a href="/login">
-            <i class="fas fa-sign-out-alt"></i> Logout
-        </a>
-    </div>
+        <!-- Logo Area -->
+        <div class="logo-area text-center">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-12">
+                        <a class="original-logo" href="/user">
+                            @if(!empty($config->logo))
+                                <img src="{{ asset('storage/' . $config->logo) }}" alt="Logo" style="height: 200px;">
+                            @endif
+
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nav Area -->
+        <div class="original-nav-area" id="stickyNav">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
+                    <!-- Classy Menu -->
+                    <nav class="classy-navbar justify-content-between">
+                        <!-- Subscribe btn -->
+                        <div class="subscribe-btn">
+
+                            <a href="#" class="btn subscribe-btn"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+
+                        <!-- Menu -->
+                        <div class="classy-menu" id="originalNav">
+                            <!-- close btn -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+
+                            <!-- Nav Start -->
+                            <div class="classynav">
+                                <ul>
+                                    <li><a href="/user">Home</a></li>
+                                    
+                                    <li>
+                                        @if(session('user_id'))
+                                            <a
+                                                href="{{ route('uploadImage', parameters: ['id' => session('user_id')]) }}">Recogintion</a>
+                                        @else
+                                            <a href="#">Recogintion (login)</a>
+                                        @endif
+                                    </li>
+                                    <li><a href="{{ route('my.account') }}"> Profile</a></li>
+                                    <li><a href="{{ route('images.index') }}">Results</a></li>
+                                </ul>
+
+
+                            </div>
+                            <!-- Nav End -->
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
 
     <div class="main-content" id="main-content">
         <div class="container">
-            <button class="toggle-btn open-btn" id="open-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <button class="toggle-btn close-btn" id="close-btn" style="display: none;">
-                <i class="fas fa-times"></i>
-            </button>
-
-            <h2 class="text-center text-primary mb-4">Architectural Style Recognition Results</h2>
+            <h1 class="results-title">Architectural Style Recognition Results</h1>
 
             @if($images->isEmpty())
-                <p class="text-center">Bạn chưa sử dụng hệ thống nhận diện phong cách kiến trúc lần nào.</p>
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <p class="empty-text">You haven't used our architectural style recognition system yet.</p>
+                    @if(session('user_id'))
+                        <a href="{{ route('uploadImage', ['id' => session('user_id')]) }}" class="btn btn-try">
+                            <i class="fas fa-camera mr-2"></i> Try Recognition
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-try">
+                            <i class="fas fa-sign-in-alt mr-2"></i> Login to Try
+                        </a>
+                    @endif
+                </div>
             @else
-                <div class="row g-4">
+                <div class="results-grid">
                     @foreach($images as $image)
-                    <div class="col-md-4 col-lg-3">
-    <div class="card shadow-sm">
-        <img src="{{ asset('storage/' . $image->image) }}" class="card-img-top" alt="{{ $image->style }}">
-        <div class="card-body d-flex flex-column">
-            <h5 class="card-title">{{ $image->style }}</h5>
-
-            <div class="d-flex justify-content-between">
-                <form action="{{ route('deleteImage', $image->id) }}" method="POST" style="width: 100%;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc muốn xóa ảnh này?')">
-                        Delete
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
+                        <div class="result-card">
+                            <div class="card-img-container">
+                                <span class="style-badge">{{ $image->style }}</span>
+                                <img src="{{ asset('storage/' . $image->image) }}" class="card-img-top"
+                                    alt="{{ $image->style }}">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $image->style }}</h5>
+                                <div class="card-meta">
+                                    <span class="card-date">
+                                        <i class="far fa-calendar-alt"></i> {{ $image->created_at->format('M d, Y') }}
+                                    </span>
+                                    <span class="card-date">
+                                        <i class="far fa-clock"></i> {{ $image->created_at->format('h:i A') }}
+                                    </span>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="btn-view"
+                                        onclick="openImageModal('{{ asset('storage/' . $image->image) }}', '{{ $image->style }}')">
+                                        <i class="fas fa-eye mr-1"></i> View
+                                    </button>
+                                    <form action="{{ route('deleteImage', $image->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-delete"
+                                            onclick="return confirm('Are you sure you want to delete this result?')">
+                                            <i class="fas fa-trash mr-1"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
                 </div>
             @endif
         </div>
     </div>
+    <!-- Image View Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Kiến trúc <span id="styleName"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="modalImage" src="" class="img-fluid" alt="" style="max-height: 70vh;">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <a id="downloadBtn" href="#" class="btn btn-primary" download>
+                        <i class="fas fa-download me-2"></i>Tải xuống
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h5>Company</h5>
+                <a href="#">{{ $config->business_info }}</a>
+            </div>
+            <div class="footer-section">
+                <h5>Address</h5>
+                <a href="#">{{ $config->address }}</a>
+            </div>
+            <div class="footer-section">
+                <h5>Contact</h5>
+                <a href="tel:{{ $config->contact_phone }}">{{ $config->contact_phone }}</a>
+                <a href="mailto:{{ $config->contact_email }}">{{ $config->contact_email }}</a>
+                <div class="social-icons">
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Pinterest"><i
+                            class="fab fa-pinterest"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Twitter"><i
+                            class="fab fa-twitter"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Dribbble"><i
+                            class="fab fa-dribbble"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Behance"><i
+                            class="fab fa-behance"></i></a>
+                    <a href="#" data-toggle="tooltip" data-placement="bottom" title="Linkedin"><i
+                            class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-    <x-footer />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Owl Carousel CSS -->
+    <!-- Owl Carousel CSS -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Owl Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="{{ asset('js/jquery/jquery-2.2.4.min.js') }}"></script>
+    <!-- Popper js -->
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <!-- Bootstrap js -->
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <!-- Plugins js -->
+    <script src="{{ asset('js/plugins.js') }}"></script>
+    <!-- Active js -->
+    <script src="{{ asset('js/active.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        // Sidebar toggle functionality
-        let sidebarOpen = false;
+        // Initialize modal
+        const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
 
-        document.getElementById('open-btn').addEventListener('click', function () {
-            sidebarOpen = true;
-            document.getElementById('sidebar').style.left = '0';
-            document.getElementById('main-content').style.marginLeft = '250px';
-            document.getElementById('open-btn').style.display = 'none';
-            document.getElementById('close-btn').style.display = 'block';
-        });
+        // Function to open modal with image
+        function openImageModal(imageSrc, styleName) {
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('styleName').textContent = styleName;
+            document.getElementById('downloadBtn').href = imageSrc;
+            imageModal.show();
+        }
 
-        document.getElementById('close-btn').addEventListener('click', function () {
-            sidebarOpen = false;
-            document.getElementById('sidebar').style.left = '-250px';
-            document.getElementById('main-content').style.marginLeft = '0';
-            document.getElementById('open-btn').style.display = 'block';
-            document.getElementById('close-btn').style.display = 'none';
+        // Attach click event to all view buttons
+        document.querySelectorAll('.btn-view').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const card = this.closest('.result-card');
+                const imgSrc = card.querySelector('img').src;
+                const styleName = card.querySelector('.card-title').textContent;
+                openImageModal(imgSrc, styleName);
+            });
         });
     </script>
 </body>

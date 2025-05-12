@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <x-header />
     <div class="container mt-4">
         <h2>Chỉnh sửa dự án: {{ $project->name }}</h2>
         <form action="{{ route('project.update', $project->id) }}" method="POST" enctype="multipart/form-data">

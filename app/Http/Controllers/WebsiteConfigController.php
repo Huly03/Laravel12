@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\WebsiteConfig;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\View;
 class WebsiteConfigController extends Controller
 {
     public function index()
@@ -62,5 +62,17 @@ class WebsiteConfigController extends Controller
     
         return redirect()->back()->with('success', 'Cập nhật cấu hình thành công!');
     }
-    
+    public function boot()
+    {
+        $config = WebsiteConfig::first();
+        if (!$config) {
+            $config = WebsiteConfig::create([
+                'contact_email' => 'contact@example.com',
+                'contact_phone' => '0123456789',
+                'address' => 'Địa chỉ mặc định',
+                'business_info' => 'Thông tin doanh nghiệp mặc định',
+            ]);
+        }
+        View::share('config', $config);
+    }
 }

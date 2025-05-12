@@ -56,7 +56,7 @@
     </style>
 </head>
 <body>
-
+<x-header/>
     <div class="container">
         <h2 class="mb-4">Cấu hình Website</h2>
 

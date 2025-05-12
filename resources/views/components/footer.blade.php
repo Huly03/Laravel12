@@ -85,7 +85,7 @@
 <body>
 
 <!-- Footer -->
-<!-- <footer>
+<footer>
     <div class="container footer-container">
    
         <div class="footer-section">
@@ -113,7 +113,7 @@
             </div>
         </div>
     </div>
-</footer> -->
+</footer>
 
 <!-- Feedback Button -->
 <!-- <div class="feedback">

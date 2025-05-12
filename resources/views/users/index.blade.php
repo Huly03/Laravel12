@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh Sách Tài Khoản</title>
 
+    @if(!empty($config->favicon))
+        <link rel="icon" href="{{ asset('storage/' . $config->favicon) }}" type="image/x-icon">
+    @endif
     <!-- Link đến CSS của bạn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KyZXEJwL7cQj23Q6cJ75n0lq8NB06K+9ATQhlX9tDoWi5bhpI7lPOuXZmVfxv52l" crossorigin="anonymous">
@@ -110,6 +113,22 @@ z-index: 1050; /* Đảm bảo modal ở trên tất cả các phần tử khác
         .btn-delete {
             font-size: 0.9rem;
         }
+            /* Thêm vào phần style */
+        .btn-upgrade {
+            background-color: #28a745 !important;
+            color: white !important;
+            padding: 6px 10px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 4px;
+        }
+        .btn-upgrade:hover {
+            background-color: #218838 !important;
+            color: white !important;
+        }
+        .btn-upgrade i {
+            margin-right: 3px;
+        }
     </style>
 </head>
 
@@ -142,6 +161,9 @@ z-index: 1050; /* Đảm bảo modal ở trên tất cả các phần tử khác
                                 <td>{{ $u->level }}</td>
                                 <td>{{ $u->status == '1' ? 'Hoạt động' : 'Khóa' }}</td>
                                 <td>
+                                    <button class="btn btn-upgrade btn-sm" onclick="upgradeLevel({{ $u->id }})">
+                                        <i class="fas fa-arrow-up"></i>
+                                    </button>
                                     <!-- Thêm nút Chỉnh sửa và Xóa -->
                                     <button class="btn btn-warning btn-edit" data-bs-toggle="modal"
                                         data-bs-target="#editModal{{ $u->id }}">Chỉnh sửa</button>
@@ -211,7 +233,33 @@ z-index: 1050; /* Đảm bảo modal ở trên tất cả các phần tử khác
         </div>
     </div>
 
-
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+    function upgradeLevel(userId) {
+        if (confirm('Bạn có chắc muốn nâng cấp level cho tài khoản này?')) {
+            fetch(`/users/${userId}/upgrade`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Nâng cấp level thành công!');
+                    location.reload(); // Tải lại trang để cập nhật dữ liệu
+                } else {
+                    alert('Có lỗi xảy ra: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi nâng cấp');
+            });
+        }
+    }
+</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FQhCsm6BcXmQ8jdxErKrRDN4JbtaJFeIq0m5pHnxVg2Q3nz6aVr0D2XfK6ktDoKN"
